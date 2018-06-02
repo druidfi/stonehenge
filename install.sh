@@ -4,7 +4,7 @@ main () {
     if [ "$(uname)" == "Darwin" ]; then
         echo "$(uname) detected..."
     else
-        exit 1
+        echo "$(uname) detected..."
     fi
 
     exit 0
