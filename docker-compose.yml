@@ -1,0 +1,59 @@
+version: '2'
+
+services:
+  dnsmasq:
+    image: andyshinn/dnsmasq:2.75
+    container_name: "druidfi-dnsmasq"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    cap_add:
+      - NET_ADMIN
+    command: "--address=/.docker.druid.fi/127.0.0.1"
+
+  proxy:
+    image: traefik # The official Traefik docker image
+    container_name: "druidfi-traefik"
+    restart: always
+    #restart: unless-stopped
+    command: |-
+      --docker
+      --api
+      --docker.domain=docker.druid.fi
+      --logLevel=DEBUG
+    networks:
+      - druidfi-network
+    ports:
+      - "80:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+
+  portainer:
+    image: portainer/portainer
+    container_name: "druidfi-portainer"
+    command: |-
+      --no-auth -H unix:///var/run/docker.sock
+      --logo "https://www.druid.fi/themes/custom/druid/logo.svg"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - druidfi-network
+    labels:
+      - 'traefik.backend=portainer'
+      - 'traefik.port=9000'
+      - 'traefik.frontend.rule=Host:portainer.docker.druid.fi'
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: "druidfi-mailhog"
+    networks:
+      - druidfi-network
+    labels:
+      - 'traefik.backend=mailhog'
+      - 'traefik.port=8025'
+      - 'traefik.frontend.rule=Host:mailhog.docker.druid.fi'
+
+networks:
+  druidfi-network:
+    external: true
