@@ -1,12 +1,12 @@
 #!/bin/bash
 
 main () {
-    echo "$(whoami) and $(pwd)"
+    echo "$(whoami):$(HOME) and $(pwd)"
 
     if [ "$(uname)" == "Darwin" ]; then
         echo "$(uname) detected..."
     else
-        echo "$(uname) detected..."
+        echo "Something else detected: $(uname)"
     fi
 
     exit 0
