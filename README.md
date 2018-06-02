@@ -5,7 +5,7 @@
 ### Oneliner
 
 ```
-$ sh -c "$(curl -fsSL https://github.com/druidfi/stonehenge/raw/master/install.sh)"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/master/install.sh)"
 ```
 
 ### Git
