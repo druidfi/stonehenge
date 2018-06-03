@@ -1,12 +1,23 @@
 sudo: required
 
-language: ruby
+os: osx
+#osx_image: xcode9.2
+language: bash
 
 services: docker
 
-os: osx
+env:
+  - DOCKER_COMPOSE_VERSION=1.21.0
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 
 install: true
 
 script:
+  - docker --version
+  - docker-compose --version
   - make up
