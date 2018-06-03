@@ -1,7 +1,7 @@
 #!/bin/bash
 
 main () {
-    echo "$(whoami):$(HOME) and $(pwd)"
+    echo "$(whoami):$(~) and $(pwd)"
 
     if [ "$(uname)" == "Darwin" ]; then
         echo "$(uname) detected..."
