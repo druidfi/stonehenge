@@ -6,10 +6,10 @@ DNSMASQ_DOMAIN := docker.druid.fi
 NETWORK_NAME := druidfi-network
 
 down: ## Tear down Druid Stonehenge
-	$(call colorecho, "\nTear down Druid Stonehenge\n")
-	$(call colorecho, "\nStop the containers...\n")
+	$(call colorecho, "\nTear down Druid Stonehenge")
+	$(call colorecho, "\n- Stop the containers...\n")
 	@docker-compose down
-	$(call colorecho, "\nRemove resolver file...\n")
+	$(call colorecho, "\n- Remove resolver file...\n")
 	@sudo rm /etc/resolver/$(DNSMASQ_DOMAIN)
 
 help: ## Print this help
@@ -21,12 +21,12 @@ install: ## Install Druid Stonehenge
 	$(call colorecho, "\nInstall Druid Stonehenge\n")
 
 up: ## Launch Druid Stonehenge
-	$(call colorecho, "\nStart Druid Stonehenge\n")
-	$(call colorecho, "\nSet $(DNSMASQ_NAME) and resolver file...\n")
+	$(call colorecho, "\nStart Druid Stonehenge")
+	$(call colorecho, "\n- Set $(DNSMASQ_NAME) and resolver file...\n")
 	@sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$(DNSMASQ_DOMAIN)"
-	$(call colorecho, "\nCreate network $(NETWORK_NAME)...\n")
+	$(call colorecho, "\n- Create network $(NETWORK_NAME)...\n")
 	@docker network inspect $(NETWORK_NAME) > /dev/null || docker network create $(NETWORK_NAME)
-	$(call colorecho, "\nStart the containers...\n")
+	$(call colorecho, "\n- Start the containers...\n")
 	@docker-compose up -d
 
 define colorecho

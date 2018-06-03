@@ -1,0 +1,8 @@
+---
+services: docker
+os: osx
+
+install: true
+
+script:
+  - make up
