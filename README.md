@@ -2,6 +2,10 @@
 
 Local development environment toolset on Docker.
 
+## Requirements
+
+- Docker for Mac 18.03+
+
 ## Included containers
 
 - andyshinn/dnsmasq to route *.docker.druid.fi to 127.0.0.1
@@ -11,16 +15,22 @@ Local development environment toolset on Docker.
 
 ## Setup
 
+Setup will prompt once for your password as it creates resolver file in /etc/resolver/ folder.
+
 ### Oneliner
 
 ```
 $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/master/install.sh)"
 ```
 
-### Manually with Git
+### Or manually with Git
 
 ```
-$ git clone git@github.com:druidfi/stonehenge.git ~/druid-stonehenge
-$ cd ~/druid-stonehenge
+$ git clone git@github.com:druidfi/stonehenge.git ~/druidfi-stonehenge
+$ cd ~/druidfi-stonehenge
 $ make up
 ```
+
+## TODO
+
+- Linux support

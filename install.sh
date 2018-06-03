@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_FOLDER=~/druid-stonehange
+REPO_FOLDER=~/druidfi-stonehange
 REPO_URL=git@github.com:druidfi/stonehenge.git
 
 main () {
