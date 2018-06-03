@@ -5,21 +5,28 @@ DNSMASQ_NAME := druidfi-dnsmasq
 DNSMASQ_DOMAIN := docker.druid.fi
 NETWORK_NAME := druidfi-network
 
-down: ## Tear down the environment
-	$(call colorecho, "\nTear down the environment\n")
-	$(call colorecho, "\nTear down the $(DNSMASQ_NAME) and remove resolver file\n")
+down: ## Tear down Druid Stonehenge
+	$(call colorecho, "\nTear down Druid Stonehenge\n")
+	$(call colorecho, "\nStop the containers...\n")
 	@docker-compose down
+	$(call colorecho, "\nRemove resolver file...\n")
 	@sudo rm /etc/resolver/$(DNSMASQ_DOMAIN)
 
 help: ## Print this help
-	$(call colorecho, "\nAvailable make commands:\n")
+	$(call colorecho, "\nAvailable commands for Druid Stonehenge:\n")
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
-up: ## Launch the environment
-	$(call colorecho, "\nSet $(DNSMASQ_NAME) and resolver file\n")
+install: ## Install Druid Stonehenge
+	$(call colorecho, "\nInstall Druid Stonehenge\n")
+
+up: ## Launch Druid Stonehenge
+	$(call colorecho, "\nStart Druid Stonehenge\n")
+	$(call colorecho, "\nSet $(DNSMASQ_NAME) and resolver file...\n")
 	@sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$(DNSMASQ_DOMAIN)"
+	$(call colorecho, "\nCreate network $(NETWORK_NAME)...\n")
 	@docker network inspect $(NETWORK_NAME) > /dev/null || docker network create $(NETWORK_NAME)
+	$(call colorecho, "\nStart the containers...\n")
 	@docker-compose up -d
 
 define colorecho
