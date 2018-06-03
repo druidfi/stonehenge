@@ -1,5 +1,9 @@
----
+sudo: required
+
+language: ruby
+
 services: docker
+
 os: osx
 
 install: true
