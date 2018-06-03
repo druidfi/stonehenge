@@ -23,6 +23,10 @@ services:
       --logLevel=DEBUG
     networks:
       - druidfi-network
+    labels:
+      - 'traefik.backend=proxy'
+      - 'traefik.port=8080'
+      - 'traefik.frontend.rule=Host:traefik.docker.druid.fi'
     ports:
       - "80:80"     # The HTTP port
       - "8080:8080" # The Web UI (enabled by --api)
