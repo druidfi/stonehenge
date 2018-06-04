@@ -47,6 +47,10 @@ Portainer
 
 ![alt text](portainer_screenshot.png "Portainer screenshot")
 
+Traefik
+
+![alt text](traefik_screenshot.png "Traefik screenshot")
+
 ## References
 
 - [https://github.com/andyshinn/docker-dnsmasq](https://github.com/andyshinn/docker-dnsmasq)

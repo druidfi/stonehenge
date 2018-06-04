@@ -11,6 +11,7 @@ down: ## Tear down Druid Stonehenge
 	@docker-compose down
 	$(call colorecho, "\n- Remove resolver file...\n")
 	@sudo rm /etc/resolver/$(DNSMASQ_DOMAIN)
+	$(call colorecho, "\n- DONE!\n")
 
 help: ## Print this help
 	$(call colorecho, "\nAvailable commands for Druid Stonehenge:\n")
@@ -28,6 +29,7 @@ up: ## Launch Druid Stonehenge
 	@docker network inspect $(NETWORK_NAME) > /dev/null || docker network create $(NETWORK_NAME)
 	$(call colorecho, "\n- Start the containers...\n")
 	@docker-compose up -d
+	$(call colorecho, "\n- DONE! Check http://portainer.docker.druid.fi...\n")
 
 define colorecho
     @tput -T xterm setaf 3
