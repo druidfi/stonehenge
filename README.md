@@ -15,7 +15,7 @@ Local development environment toolset on Docker supporting multiple projects.
 
 ## Setup
 
-Setup will prompt once for your password as it creates resolver file in /etc/resolver/ folder.
+Note: setup will prompt once for your password as it creates resolver file in `/etc/resolver` folder.
 
 ### Oneliner
 
@@ -31,9 +31,13 @@ $ cd ~/druidfi-stonehenge
 $ make up
 ```
 
+## Project implementation
+
+- See https://github.com/druidfi/otava-amisreformi/tree/PROF-X-traefik
+
 ## TODO
 
-- Project implementation (see https://github.com/druidfi/otava-amisreformi/tree/PROF-X-traefik)
+- Project implementation
 - Linux support
 
 ## Screenshots
@@ -41,3 +45,10 @@ $ make up
 Portainer
 
 ![alt text](portainer_screenshot.png "Portainer screenshot")
+
+## References
+
+- [https://github.com/andyshinn/docker-dnsmasq](https://github.com/andyshinn/docker-dnsmasq)
+- [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
+- [https://portainer.io/](https://portainer.io/)
+- [https://traefik.io/](https://traefik.io/)
