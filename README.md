@@ -1,6 +1,6 @@
 # druidfi/stonehenge
 
-Local development environment toolset on Docker.
+Local development environment toolset on Docker supporting multiple projects.
 
 ## Requirements
 
@@ -8,10 +8,10 @@ Local development environment toolset on Docker.
 
 ## Included containers
 
-- andyshinn/dnsmasq to route *.docker.druid.fi to 127.0.0.1
-- mailhog/mailhog in [mailhog.docker.druid.fi](http://mailhog.docker.druid.fi) to catch emails
-- portainer/portainer in [portainer.docker.druid.fi](http://portainer.docker.druid.fi) to manage your Docker
-- traefik in [traefik.docker.druid.fi](http://traefik.docker.druid.fi) to handle all our reverse proxy needs
+- `andyshinn/dnsmasq` to route `*.docker.druid.fi` to `127.0.0.1`
+- `mailhog/mailhog` in [mailhog.docker.druid.fi](http://mailhog.docker.druid.fi) to catch emails
+- `portainer/portainer` in [portainer.docker.druid.fi](http://portainer.docker.druid.fi) to manage your Docker
+- `traefik` in [traefik.docker.druid.fi](http://traefik.docker.druid.fi) to handle all our reverse proxy needs
 
 ## Setup
 
@@ -33,6 +33,7 @@ $ make up
 
 ## TODO
 
+- Project implementation (see https://github.com/druidfi/otava-amisreformi/tree/PROF-X-traefik)
 - Linux support
 
 ## Screenshots
