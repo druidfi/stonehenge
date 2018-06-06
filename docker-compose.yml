@@ -16,7 +16,7 @@ services:
       - druidfi-network
 
   proxy:
-    image: traefik # The official Traefik docker image
+    image: traefik
     container_name: "druidfi-traefik"
     restart: always
     #restart: unless-stopped
@@ -32,7 +32,7 @@ services:
       - 'traefik.port=8080'
       - 'traefik.frontend.rule=Host:traefik.docker.druid.fi'
     ports:
-      - "80:80"     # The HTTP port
+      - "80:80"
       - "8080:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
