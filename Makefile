@@ -21,6 +21,10 @@ help: ## Print this help
 install: ## Install Druid Stonehenge
 	$(call colorecho, "\nInstall Druid Stonehenge\n")
 
+stop: ## Stop Druid Stonehenge containers
+	$(call colorecho, "\nStop Druid Stonehenge containers\n")
+	@docker-compose stop
+
 up: ## Launch Druid Stonehenge
 	$(call colorecho, "\nStart Druid Stonehenge")
 	$(call colorecho, "\n- Set $(DNSMASQ_NAME) and resolver file...\n")
