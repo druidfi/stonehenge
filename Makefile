@@ -35,6 +35,14 @@ up: ## Launch Druid Stonehenge
 	@docker-compose up -d
 	$(call colorecho, "\n- DONE! Check http://portainer.docker.druid.fi...\n")
 
+--pre-update:
+	$(call colorecho, "\n- Update the code...\n")
+	@git pull
+
+update: --pre-update ## Update Druid Stonehenge
+	$(call colorecho, "\n- Restart and recreate the containers...\n")
+	@docker-compose up -d --force-recreate
+
 define colorecho
     @tput -T xterm setaf 3
     @echo $1
