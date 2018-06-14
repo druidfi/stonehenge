@@ -34,7 +34,7 @@ $ make up
 
 ## Project implementation
 
-- See https://github.com/druidfi/otava-amisreformi/tree/PROF-X-traefik
+- See https://github.com/druidfi/otava-amisreformi
 
 ## TODO
 
