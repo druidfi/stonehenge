@@ -21,6 +21,10 @@ help: ## Print this help
 install: ## Install Druid Stonehenge
 	$(call colorecho, "\nInstall Druid Stonehenge\n")
 
+status: ## Druid Stonehenge status
+	$(call colorecho, "\nDruid Stonehenge status\n")
+	@docker-compose ps
+
 stop: ## Stop Druid Stonehenge containers
 	$(call colorecho, "\nStop Druid Stonehenge containers\n")
 	@docker-compose stop
