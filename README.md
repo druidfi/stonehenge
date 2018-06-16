@@ -32,6 +32,20 @@ $ cd ~/druidfi-stonehenge
 $ make up
 ```
 
+### Add alias
+
+Add this line to your shell (bash, zsh, fish):
+
+```
+alias stonehenge='make -C ~/druidfi-stonehenge'
+```
+
+Now you can run make targets from anywhere with the alias:
+
+```
+$ stonehenge up
+```
+
 ## Project implementation
 
 - See https://github.com/druidfi/otava-amisreformi
@@ -39,6 +53,8 @@ $ make up
 ## TODO
 
 - Project implementation
+- Examples
+- Shell detection and autocreate the alias
 - Linux support
 
 ## Screenshots
