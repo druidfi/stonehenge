@@ -46,6 +46,10 @@ Now you can run make targets from anywhere with the alias:
 $ stonehenge up
 ```
 
+## Example applications
+
+- [Symfony 4](examples/symfony/README.md)
+
 ## Project implementation
 
 - See https://github.com/druidfi/otava-amisreformi
