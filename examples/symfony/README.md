@@ -3,13 +3,13 @@
 ## Requirements
 
 - druidfi/stonehenge up & running
-- Composer
 
 ## Setup
 
 Install Symfony 4 application with Composer:
 
 ```
+$ cd examples/symfony
 $ make up
 ```
 

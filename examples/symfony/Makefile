@@ -8,9 +8,10 @@ help: ## Print this help
 
 up: ## Launch Symfony application
 	$(call colorecho, "\nCreate Symfony project to app folder")
-	@composer create-project symfony/website-skeleton app
+	@docker run --rm --interactive --tty --volume $(shell pwd):/app composer create-project symfony/website-skeleton app
 	$(call colorecho, "\nStart Symfony application")
 	@docker-compose up -d
+	$(call colorecho, "\n- DONE! Check http://symfony.docker.druid.fi...\n")
 
 define colorecho
     @tput -T xterm setaf 3
