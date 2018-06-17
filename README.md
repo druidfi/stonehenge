@@ -73,3 +73,7 @@ Traefik
 - [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
 - [https://portainer.io/](https://portainer.io/)
 - [https://traefik.io/](https://traefik.io/)
+
+## License
+
+The files in this archive are released under the MIT license. You can find a copy of this license in LICENSE.
