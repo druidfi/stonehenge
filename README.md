@@ -50,16 +50,12 @@ $ stonehenge up
 
 - [Symfony 4](examples/symfony/README.md)
 
-## Project implementation
-
-- See https://github.com/druidfi/otava-amisreformi
-
 ## TODO
 
-- Project implementation
 - Examples
 - Shell detection and autocreate the alias
 - Linux support
+- Travis
 
 ## Screenshots
 
