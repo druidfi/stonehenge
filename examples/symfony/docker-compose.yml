@@ -35,16 +35,16 @@ services:
   # CLI CONTAINER. For using Composer and bin/console
   #
 
-  cli:
-    image: druidfi/docker-cli:latest
-    container_name: "${PROJECT_NAME}-cli"
-    restart: on-failure
-    tty: true
-    stdin_open: true
-    volumes:
-      - "${APP1_PATH}:/app"
-    networks:
-      - internal
+#  cli:
+#    image: druidfi/docker-cli:latest
+#    container_name: "${PROJECT_NAME}-cli"
+#    restart: on-failure
+#    tty: true
+#    stdin_open: true
+#    volumes:
+#      - "${APP1_PATH}:/app"
+#    networks:
+#      - internal
 
   #
   # PHP-FPM
@@ -63,8 +63,11 @@ services:
 # VOLUMES
 #
 
-volumes:
-  mongodb:
+volumes: {}
+
+#
+# NETWORKS
+#
 
 networks:
   # Internal network for project containers
