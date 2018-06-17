@@ -25,10 +25,10 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=${PROJECT_NAME}-nginx"
       - "traefik.port=80"
-      - "traefik.docker.network=druidfi-network"
+      - "traefik.docker.network=stonehenge-network"
       - "traefik.frontend.rule=Host:${APP1_HOST}"
     networks:
-      - druidfi-network
+      - stonehenge-network
       - internal
 
   #
@@ -72,5 +72,5 @@ networks:
     external: false
 
   # Network from druidfi/stonehenge
-  druidfi-network:
+  stonehenge-network:
     external: true
