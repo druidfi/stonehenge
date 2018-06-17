@@ -12,10 +12,8 @@ services:
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     labels:
       - "traefik.enable=false"
-    networks:
-      - "${NETWORK_NAME}"
 
-  proxy:
+  traefik:
     image: traefik
     container_name: "${PREFIX}-traefik"
     restart: always
@@ -25,8 +23,6 @@ services:
       --api
       --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
-    networks:
-      - "${NETWORK_NAME}"
     labels:
       - "traefik.backend=proxy"
       - "traefik.port=8080"
@@ -45,8 +41,6 @@ services:
       --logo "${LOGO_URL}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - "${NETWORK_NAME}"
     labels:
       - "traefik.backend=portainer"
       - "traefik.port=9000"
@@ -55,13 +49,12 @@ services:
   mailhog:
     image: mailhog/mailhog
     container_name: "${PREFIX}-mailhog"
-    networks:
-      - "${NETWORK_NAME}"
     labels:
       - "traefik.backend=mailhog"
       - "traefik.port=8025"
       - "traefik.frontend.rule=Host:mailhog.${DOCKER_DOMAIN}"
 
 networks:
-  stonehenge-network: # This network is created with the Makefile
-    external: true
+  default:
+    external:
+      name: "${NETWORK_NAME}"
