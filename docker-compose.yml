@@ -1,36 +1,36 @@
-version: '2'
+version: '3.6'
 
 services:
   dnsmasq:
     image: andyshinn/dnsmasq:2.75
-    container_name: "druidfi-dnsmasq"
+    container_name: "${PREFIX}-dnsmasq"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
     cap_add:
       - NET_ADMIN
-    command: "--address=/.docker.druid.fi/127.0.0.1"
+    command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     labels:
-      - 'traefik.enable=false'
+      - "traefik.enable=false"
     networks:
-      - druidfi-network
+      - "${NETWORK_NAME}"
 
   proxy:
     image: traefik
-    container_name: "druidfi-traefik"
+    container_name: "${PREFIX}-traefik"
     restart: always
     #restart: unless-stopped
     command: |-
       --docker
       --api
-      --docker.domain=docker.druid.fi
+      --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
     networks:
-      - druidfi-network
+      - "${NETWORK_NAME}"
     labels:
-      - 'traefik.backend=proxy'
-      - 'traefik.port=8080'
-      - 'traefik.frontend.rule=Host:traefik.docker.druid.fi'
+      - "traefik.backend=proxy"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:traefik.${DOCKER_DOMAIN}"
     ports:
       - "80:80"
       - "8080:8080" # The Web UI (enabled by --api)
@@ -39,29 +39,29 @@ services:
 
   portainer:
     image: portainer/portainer
-    container_name: "druidfi-portainer"
+    container_name: "${PREFIX}-portainer"
     command: |-
       --no-auth -H unix:///var/run/docker.sock
-      --logo "https://www.druid.fi/themes/custom/druid/logo.svg"
+      --logo "${LOGO_URL}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - druidfi-network
+      - "${NETWORK_NAME}"
     labels:
-      - 'traefik.backend=portainer'
-      - 'traefik.port=9000'
-      - 'traefik.frontend.rule=Host:portainer.docker.druid.fi'
+      - "traefik.backend=portainer"
+      - "traefik.port=9000"
+      - "traefik.frontend.rule=Host:portainer.${DOCKER_DOMAIN}"
 
   mailhog:
     image: mailhog/mailhog
-    container_name: "druidfi-mailhog"
+    container_name: "${PREFIX}-mailhog"
     networks:
-      - druidfi-network
+      - "${NETWORK_NAME}"
     labels:
-      - 'traefik.backend=mailhog'
-      - 'traefik.port=8025'
-      - 'traefik.frontend.rule=Host:mailhog.docker.druid.fi'
+      - "traefik.backend=mailhog"
+      - "traefik.port=8025"
+      - "traefik.frontend.rule=Host:mailhog.${DOCKER_DOMAIN}"
 
 networks:
-  druidfi-network:
+  stonehenge-network: # This network is created with the Makefile
     external: true
