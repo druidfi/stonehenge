@@ -14,3 +14,11 @@ $ make up
 ```
 
 Access the site in http://symfony.docker.druid.fi/
+
+## Console
+
+The Symfony console can be run with cli container:
+
+```
+$ docker-compose exec cli bin/console
+```

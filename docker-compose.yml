@@ -9,7 +9,7 @@ services:
       - "53:53/udp"
     cap_add:
       - NET_ADMIN
-    command: "--address=/.docker.druid.fi/127.0.0.1"
+    command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     labels:
       - 'traefik.enable=false'
     networks:
@@ -23,14 +23,14 @@ services:
     command: |-
       --docker
       --api
-      --docker.domain=docker.druid.fi
+      --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
     networks:
       - druidfi-network
     labels:
       - 'traefik.backend=proxy'
       - 'traefik.port=8080'
-      - 'traefik.frontend.rule=Host:traefik.docker.druid.fi'
+      - 'traefik.frontend.rule=Host:traefik.${DOCKER_DOMAIN}'
     ports:
       - "80:80"
       - "8080:8080" # The Web UI (enabled by --api)
@@ -50,7 +50,7 @@ services:
     labels:
       - 'traefik.backend=portainer'
       - 'traefik.port=9000'
-      - 'traefik.frontend.rule=Host:portainer.docker.druid.fi'
+      - 'traefik.frontend.rule=Host:portainer.${DOCKER_DOMAIN}'
 
   mailhog:
     image: mailhog/mailhog
@@ -60,7 +60,7 @@ services:
     labels:
       - 'traefik.backend=mailhog'
       - 'traefik.port=8025'
-      - 'traefik.frontend.rule=Host:mailhog.docker.druid.fi'
+      - 'traefik.frontend.rule=Host:mailhog.${DOCKER_DOMAIN}'
 
 networks:
   druidfi-network:
