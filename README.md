@@ -46,16 +46,16 @@ Now you can run make targets from anywhere with the alias:
 $ stonehenge up
 ```
 
-## Project implementation
+## Example applications
 
-- See https://github.com/druidfi/otava-amisreformi
+- [Symfony 4](examples/symfony/README.md)
 
 ## TODO
 
-- Project implementation
 - Examples
 - Shell detection and autocreate the alias
 - Linux support
+- Travis
 
 ## Screenshots
 
