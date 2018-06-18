@@ -6,7 +6,7 @@ down: ## Tear down Stonehenge
 	$(call colorecho, "\n- Stop the containers...\n")
 	@docker-compose down
 	$(call colorecho, "\n- Remove resolver file...\n")
-	@source .env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
+	@. .env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
 	$(call colorecho, "\n- DONE!\n")
 
 help: ## Print this help
@@ -29,9 +29,9 @@ stop: ## Stop Stonehenge containers
 up: ## Launch Stonehenge
 	$(call colorecho, "\nStart Stonehenge")
 	$(call colorecho, "\n- Set resolver file...\n")
-	@source .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+	@. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
 	$(call colorecho, "\n- Create network $$NETWORK_NAME...\n")
-	@source .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
+	@. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
 	$(call colorecho, "\n- Start the containers...\n")
 	@docker-compose up -d
 	$(call colorecho, "\n- SUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
@@ -46,7 +46,7 @@ update: ## Update Stonehenge
 
 define colorecho
     @tput -T xterm setaf 3
-    @source .env && echo $1
+    @. .env && echo $1
     @tput -T xterm sgr0
 endef
 
