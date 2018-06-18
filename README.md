@@ -1,6 +1,8 @@
-# druidfi/stonehenge
+# Stonehenge
 
 Local development environment toolset on Docker supporting multiple projects.
+
+[![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
 
 ## Requirements
 
@@ -9,10 +11,10 @@ Local development environment toolset on Docker supporting multiple projects.
 
 ## Included containers
 
-- `andyshinn/dnsmasq` to route `*.docker.druid.fi` to `127.0.0.1`
-- `mailhog/mailhog` in [mailhog.docker.druid.fi](http://mailhog.docker.druid.fi) to catch emails
-- `portainer/portainer` in [portainer.docker.druid.fi](http://portainer.docker.druid.fi) to manage your Docker
-- `traefik` in [traefik.docker.druid.fi](http://traefik.docker.druid.fi) to handle all our reverse proxy needs
+- `andyshinn/dnsmasq` to route `*.docker.sh` to `127.0.0.1`
+- `mailhog/mailhog` in [mailhog.docker.sh](http://mailhog.docker.sh) to catch emails
+- `portainer/portainer` in [portainer.docker.sh](http://portainer.docker.sh) to manage your Docker
+- `traefik` in [traefik.docker.sh](http://traefik.docker.sh) to handle all our reverse proxy needs
 
 ## Setup
 
@@ -27,8 +29,8 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/maste
 ### Or manually with Git
 
 ```
-$ git clone git@github.com:druidfi/stonehenge.git ~/druidfi-stonehenge
-$ cd ~/druidfi-stonehenge
+$ git clone git@github.com:druidfi/stonehenge.git ~/stonehenge
+$ cd ~/stonehenge
 $ make up
 ```
 
@@ -37,7 +39,7 @@ $ make up
 Add this line to your shell (bash, zsh, fish):
 
 ```
-alias stonehenge='make -C ~/druidfi-stonehenge'
+alias stonehenge='make -C ~/stonehenge'
 ```
 
 Now you can run make targets from anywhere with the alias:
@@ -46,26 +48,15 @@ Now you can run make targets from anywhere with the alias:
 $ stonehenge up
 ```
 
-## Project implementation
+## Example applications
 
-- See https://github.com/druidfi/otava-amisreformi
+- [Symfony 4](examples/symfony/README.md)
 
 ## TODO
 
-- Project implementation
 - Examples
 - Shell detection and autocreate the alias
 - Linux support
-
-## Screenshots
-
-Portainer
-
-![alt text](portainer_screenshot.png "Portainer screenshot")
-
-Traefik
-
-![alt text](traefik_screenshot.png "Traefik screenshot")
 
 ## References
 
