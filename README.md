@@ -2,6 +2,8 @@
 
 Local development environment toolset on Docker supporting multiple projects.
 
+[![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
+
 ## Requirements
 
 - Docker for Mac 18.03+
@@ -55,17 +57,6 @@ $ stonehenge up
 - Examples
 - Shell detection and autocreate the alias
 - Linux support
-- Travis
-
-## Screenshots
-
-Portainer
-
-![alt text](portainer_screenshot.png "Portainer screenshot")
-
-Traefik
-
-![alt text](traefik_screenshot.png "Traefik screenshot")
 
 ## References
 
