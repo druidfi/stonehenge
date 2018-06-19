@@ -1,11 +1,14 @@
 # Stonehenge
 
+![Stonehenge logo](logos/stonehenge_logo_wide.svg)
+
 Local development environment toolset on Docker supporting multiple projects.
 
 [![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
 
 ## Requirements
 
+- For Mac only for now (see TODO)
 - Docker for Mac 18.03+
 - No other services listening port 80 (e.g. Pygmy or nginx-proxy)
 
@@ -54,7 +57,7 @@ $ stonehenge up
 
 ## TODO
 
-- Examples
+- More examples (Drupal, Wordpress, Node app, etc)
 - Shell detection and autocreate the alias
 - Linux support
 
