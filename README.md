@@ -55,6 +55,19 @@ $ stonehenge up
 
 - [Symfony 4](examples/symfony/README.md)
 
+## Fork and modify
+
+To brand the toolset for your organization:
+
+- Fork this repository
+- Modify `.env` file e.g. like follows:
+  - `COMPOSE_PROJECT_NAME=company_dev`
+  - `DOCKER_DOMAIN=docker.company_dev.com`
+  - `LOGO_URL=https://your-cool-logo.png`
+  - `NETWORK_NAME=company_dev-network`
+  - `PREFIX=company_dev`
+- IMPORTANT! Let us know! <3
+
 ## TODO
 
 - More examples (Drupal, Wordpress, Node app, etc)
