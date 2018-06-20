@@ -32,7 +32,7 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/maste
 ### Or manually with Git
 
 ```
-$ git clone git@github.com:druidfi/stonehenge.git ~/stonehenge
+$ git clone -b master https://github.com/druidfi/stonehenge.git ~/stonehenge
 $ cd ~/stonehenge
 $ make up
 ```

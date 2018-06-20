@@ -1,7 +1,8 @@
 #!/bin/bash
 
 REPO_FOLDER=~/stonehenge
-REPO_URL=git@github.com:druidfi/stonehenge.git
+REPO_URL=https://github.com/druidfi/stonehenge.git
+REPO_BRANCH=master
 
 main () {
     if [ "$(uname)" == "Darwin" ]; then
@@ -11,7 +12,7 @@ main () {
     fi
 
     if [ ! -d "$REPO_FOLDER" ] ; then
-        git clone $REPO_URL $REPO_FOLDER
+        git clone -b $REPO_BRANCH $REPO_URL $REPO_FOLDER
     fi
 
     cd "$REPO_FOLDER"
