@@ -1,6 +1,14 @@
 .PHONY: down help install status stop up update
 .DEFAULT_GOAL := help
 
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+	SOURCE := "."
+else
+	SOURCE := "source"
+endif
+
 down: ## Tear down Stonehenge
 	$(call colorecho, "\nTear down Stonehenge")
 	$(call colorecho, "\n- Stop the containers...\n")
@@ -47,7 +55,7 @@ update: ## Update Stonehenge
 
 define colorecho
     @tput -T xterm setaf 3
-    @. .env && echo $1
+	@${SOURCE} .env && echo $1
     @tput -T xterm sgr0
 endef
 
