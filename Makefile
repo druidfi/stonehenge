@@ -2,6 +2,7 @@
 .DEFAULT_GOAL := help
 
 UNAME_S := $(shell uname -s)
+CURRENT_DIR := $(shell pwd)
 
 down: ## Tear down Stonehenge
 	$(call colorecho, "\nTear down Stonehenge")
@@ -49,7 +50,7 @@ update: ## Update Stonehenge
 
 define colorecho
     @tput -T xterm setaf 3
-	@. .env && echo $1
+	@. $(CURRENT_DIR)/.env && echo $1
     @tput -T xterm sgr0
 endef
 
