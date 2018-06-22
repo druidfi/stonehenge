@@ -27,7 +27,7 @@ main () {
         fi
 
         RESOLVER_FILE=$COMMON_RESOLV_FILE
-        grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
+        grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
     fi
 
     exit 0
