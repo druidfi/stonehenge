@@ -22,18 +22,13 @@ main () {
         sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
     else
         if [  -n "$(uname -a | grep Ubuntu)" ]; then
-            sudo apt-get update && sudo apt-get upgrade
+            # Stop Ubuntu default DNS server
+            sudo service systemd-resolved stop
         fi
 
-        # Stop Ubuntu default DNS server
-        sudo service systemd-resolved stop
-
         RESOLVER_FILE=$COMMON_RESOLV_FILE
-        sudo sh -c "echo '$RESOLVER_BODY' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
+        grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
     fi
-
-    FILE=testi.txt
-    grep -qF -- "$RESOLVER_BODY_LINUX" "$FILE" || echo "$RESOLVER_BODY_LINUX" >> "$FILE"
 
     exit 0
 }
