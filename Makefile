@@ -29,11 +29,12 @@ stop: ## Stop Stonehenge containers
 up: ## Launch Stonehenge
 	$(call colorecho, "\nStart Stonehenge")
 	$(call colorecho, "\n- Set resolver file...\n")
-	@. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+	@./resolver.sh
+#	@. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
 	$(call colorecho, "\n- Create network $$NETWORK_NAME...\n")
-	@. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
+#	@. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
 	$(call colorecho, "\n- Start the containers...\n")
-	@docker-compose up -d
+#	@docker-compose up -d
 	$(call colorecho, "\n- SUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
 
 update: ## Update Stonehenge
