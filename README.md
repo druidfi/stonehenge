@@ -53,6 +53,7 @@ $ stonehenge up
 
 ## Example applications
 
+- [Ghost](examples/ghost/README.md)
 - [Symfony 4](examples/symfony/README.md)
 
 ## TODO
