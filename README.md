@@ -55,6 +55,7 @@ $ stonehenge up
 
 - [Ghost](examples/ghost/README.md)
 - [Symfony 4](examples/symfony/README.md)
+- [Wordpress](examples/wordpress/README.md)
 
 ## Fork and modify
 
@@ -71,7 +72,7 @@ To brand the toolset for your organization:
 
 ## TODO
 
-- More examples (Drupal, Wordpress, Node app, etc)
+- More examples (Drupal, Node app, etc)
 - Shell detection and autocreate the alias
 - Linux support
 
