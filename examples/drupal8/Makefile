@@ -1,5 +1,7 @@
-.PHONY: down help up
+.PHONY: app down help up
 .DEFAULT_GOAL := help
+
+DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 
 app:
 	$(call colorecho, "\nCreate Drupal 8 project to drupal folder")
@@ -14,10 +16,11 @@ help: ## Print this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
-up: app ## Launch example Drupal 8 application
+up: ## Launch example Drupal 8 application
 	$(call colorecho, "\nStart Drupal 8 example application...")
 	@docker-compose up -d
-    @docker-compose exec drupal drush -y site:install --db-url=mysql://drupal:drupal@127.0.0.1:3306/drupal --site-name="Drupal 8 example"
+	$(call colorecho, "\nInstall site with Drush...")
+	@docker-compose exec drupal drush -y site:install --db-url=$(DB_URL) --site-name="Drupal 8 example"
 	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh...\n")
 
 define colorecho
