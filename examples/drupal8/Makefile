@@ -17,6 +17,7 @@ help: ## Print this help
 up: app ## Launch example Drupal 8 application
 	$(call colorecho, "\nStart Drupal 8 example application...")
 	@docker-compose up -d
+    @docker-compose exec drupal drush -y site:install --db-url=mysql://drupal:drupal@127.0.0.1:3306/drupal --site-name="Drupal 8 example"
 	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh...\n")
 
 define colorecho
