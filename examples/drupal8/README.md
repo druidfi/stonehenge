@@ -13,6 +13,8 @@ $ cd examples/drupal8
 $ make up
 ```
 
+Wait. It takes some time to load all the files etc.
+
 Access the site in http://drupal8.docker.sh/
 
 ## CLI
@@ -20,7 +22,7 @@ Access the site in http://drupal8.docker.sh/
 Login to container:
 
 ```
-$ docker-compose exec cli bin/console
+$ docker-compose exec drupal bash
 ```
 
 Then you can use e.g. Drush
@@ -37,4 +39,5 @@ This will put down the container and remove the drupal folder.
 
 ## References
 
-Drupal container from Amazee.io - https://hub.docker.com/r/amazeeio/drupal/
+- Drupal container from Amazee.io - https://hub.docker.com/r/amazeeio/drupal/
+- Check also http://lagoon.readthedocs.io/en/stable/
