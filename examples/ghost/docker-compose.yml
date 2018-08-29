@@ -15,7 +15,7 @@ services:
   #
 
   ghost:
-    image: ghost:1-alpine
+    image: ghost:2-alpine
     restart: always
     ports:
       - 2368:2368
