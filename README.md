@@ -55,6 +55,7 @@ $ stonehenge up
 
 - [Drupal 8](examples/drupal8/README.md)
 - [Ghost](examples/ghost/README.md)
+- [Hugo](examples/hugo/README.md)
 - [Symfony 4](examples/symfony/README.md)
 - [Wordpress](examples/wordpress/README.md)
 
