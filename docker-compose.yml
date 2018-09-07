@@ -24,7 +24,7 @@ services:
       --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
     labels:
-      - "traefik.backend=proxy"
+      - "traefik.backend=traefik"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:traefik.${DOCKER_DOMAIN}"
     ports:
@@ -53,6 +53,13 @@ services:
       - "traefik.backend=mailhog"
       - "traefik.port=8025"
       - "traefik.frontend.rule=Host:mailhog.${DOCKER_DOMAIN}"
+
+  ssh-agent:
+    image: amazeeio/ssh-agent
+    container_name: "${PREFIX}-ssh-agent"
+    restart: always
+    volumes:
+      - ~/.ssh:/ssh
 
 networks:
   default:

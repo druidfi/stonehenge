@@ -59,6 +59,8 @@ define containers_up
     $(create_network)
 	$(call colorecho, "\n- Start the containers...\n")
     @docker-compose up -d --force-recreate --remove-orphans
+    $(call colorecho, "\n- Adding your SSH key...\n")
+    @docker run --rm -it --volume=$$HOME/.ssh/id_rsa:/$$HOME/.ssh/id_rsa --volumes-from=stonehenge-ssh-agent --name=stonehenge-ssh-agent-add-key amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa
     $(call started)
 endef
 
