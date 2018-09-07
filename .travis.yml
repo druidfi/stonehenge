@@ -1,9 +1,5 @@
 sudo: required
 
-os:
-- linux
-- osx
-
 language: ruby
 services: docker
 
