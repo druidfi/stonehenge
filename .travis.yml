@@ -26,9 +26,11 @@ before_install:
 install: true
 
 script:
-  - make -v
+#  - make -v
   - docker --version
-  - docker-compose --version
-  - docker network create ${STONEHENGE_NETWORK_NAME}
-  - docker-compose up -d
-  - docker-compose ps
+#  - docker-compose --version
+#  - docker network create ${STONEHENGE_NETWORK_NAME}
+#  - docker-compose up -d
+#  - docker-compose ps
+  - make up
+  - make status
