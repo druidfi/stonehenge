@@ -3,7 +3,7 @@ sudo: required
 language: ruby
 services: docker
 
-env:
+global:
   - DOCKER_COMPOSE_REPO=https://github.com/docker/compose
   - DOCKER_COMPOSE_VERSION=1.22.0
   - STONEHENGE_NETWORK_NAME=stonehenge-network
