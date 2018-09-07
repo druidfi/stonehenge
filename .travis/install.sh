@@ -4,11 +4,9 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 
     echo "Hello osx"
 
-    brew cask install docker
-
 else
 
-    echo "Hello linux"
+    echo "Hello $TRAVIS_OS_NAME"
 
     # Install latest Docker
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -

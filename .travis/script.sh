@@ -2,15 +2,11 @@
 
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 
-    echo "Hello osx"
-
-    make -v
-    docker --version
-    docker-compose --version
+    echo "Hello osx. Docker cannot be used with osx in Travis. Sorry."
 
 else
 
-    echo "Hello linux"
+    echo "Hello $TRAVIS_OS_NAME"
 
     make -v
     docker --version
