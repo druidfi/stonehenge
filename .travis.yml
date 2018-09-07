@@ -4,7 +4,9 @@ language: ruby
 services: docker
 
 env:
+  - DOCKER_COMPOSE_REPO=https://github.com/docker/compose
   - DOCKER_COMPOSE_VERSION=1.22.0
+  - STONEHENGE_NETWORK_NAME=stonehenge-network
 
 before_install:
 
@@ -16,14 +18,15 @@ before_install:
 
   # Install docker-compose
   - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - curl -L ${DOCKER_COMPOSE_REPO}/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
 install: true
 
 script:
+  - make -v
   - docker --version
   - docker-compose --version
-  - docker network create stonehenge-network
+  - docker network create ${STONEHENGE_NETWORK_NAME}
   - docker-compose up -d
