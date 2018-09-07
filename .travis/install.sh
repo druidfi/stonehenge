@@ -3,6 +3,7 @@
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 
     echo "Hello osx"
+
 else
 
     echo "Hello linux"
