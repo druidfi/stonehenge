@@ -30,3 +30,4 @@ script:
   - docker-compose --version
   - docker network create ${STONEHENGE_NETWORK_NAME}
   - docker-compose up -d
+  - docker-compose ps
