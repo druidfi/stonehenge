@@ -4,6 +4,10 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 
     echo "Hello osx"
 
+    make -v
+    docker --version
+    docker-compose --version
+
 else
 
     echo "Hello linux"
