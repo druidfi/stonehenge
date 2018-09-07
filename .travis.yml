@@ -1,7 +1,19 @@
 sudo: required
-#os: osx
+
+os:
+- linux
+- osx
+
 language: ruby
 services: docker
+
+matrix:
+  include:
+  - os: linux
+    dist: trusty
+    sudo: required
+  - os: osx
+    osx_image: xcode9.4
 
 env:
   global:
@@ -9,21 +21,8 @@ env:
     - DOCKER_COMPOSE_VERSION=1.22.0
     - STONEHENGE_NETWORK_NAME=stonehenge-network
 
-before_install:
-
-  # Install latest Docker
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y install docker-ce
-
-  # Install docker-compose
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L ${DOCKER_COMPOSE_REPO}/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
-install: true
+install:
+  - ./.travis/install.sh
 
 script:
   - make -v
