@@ -4,6 +4,8 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 
     echo "Hello osx"
 
+    brew cask install docker
+
 else
 
     echo "Hello linux"
