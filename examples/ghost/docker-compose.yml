@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.2'
 
 #
 # SERVICES
@@ -27,11 +27,11 @@ services:
       database__connection__password: example
       database__connection__database: ghost
     labels:
-      - "traefik.enable=true"
-      - "traefik.backend=${PROJECT_NAME}-ghost"
-      - "traefik.port=2368"
-      - "traefik.docker.network=stonehenge-network"
-      - "traefik.frontend.rule=Host:${APP1_HOST}"
+      traefik.enable: true
+      traefik.backend: "${PROJECT_NAME}-ghost"
+      traefik.port: 2368
+      traefik.docker.network: stonehenge-network
+      traefik.frontend.rule: "Host:${APP1_HOST}"
     networks:
       - internal
       - stonehenge-network
