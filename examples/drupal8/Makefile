@@ -16,11 +16,11 @@ help: ## Print this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
-up: ## Launch example Drupal 8 application
+up: app ## Launch example Drupal 8 application
 	$(call colorecho, "\nStart Drupal 8 example application...")
 	@docker-compose up -d
 	$(call colorecho, "\nInstall site with Drush...")
-	@docker-compose exec drupal drush -y site:install --db-url=$(DB_URL) --site-name="Drupal 8 example"
+	@docker-compose exec drupal drush -y site:install demo_umami --db-url=$(DB_URL) --site-name="Drupal 8 example"
 	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh...\n")
 
 define colorecho
