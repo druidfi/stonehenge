@@ -9,7 +9,7 @@ Local development environment toolset on Docker supporting multiple projects.
 ## Requirements
 
 - For Mac only for now (see TODO)
-- Docker for Mac 18.03+
+- Docker for Mac 17.04.0+
 - No other services listening port 80 (e.g. Pygmy or nginx-proxy)
 
 ## Included containers

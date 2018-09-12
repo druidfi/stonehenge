@@ -1,53 +1,81 @@
-.PHONY: down help install status stop up update
+PHONY :=
 .DEFAULT_GOAL := help
 
+OS := $(shell uname -s)
+
+PHONY += down
 down: ## Tear down Stonehenge
-	$(call colorecho, "\nTear down Stonehenge")
-	$(call colorecho, "\n- Stop the containers...\n")
-	@docker-compose down
+	$(call colorecho, "\nTear down Stonehenge\n\n- Stop the containers...\n")
+	@docker-compose down -v --remove-orphans
+	@. .env && docker network remove $$NETWORK_NAME || docker network inspect $$NETWORK_NAME
 	$(call colorecho, "\n- Remove resolver file...\n")
 	@. .env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
-	$(call colorecho, "\n- DONE!\n")
+	$(call colorecho, "\nDONE!")
 
+PHONY += help
 help: ## Print this help
 	$(call colorecho, "\nAvailable commands for Stonehenge:\n")
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
+PHONY += install
 install: ## Install Stonehenge
 	$(call colorecho, "\nInstall Stonehenge\n")
 
+PHONY += status
 status: ## Stonehenge status
 	$(call colorecho, "\nStonehenge status\n")
 	@docker-compose ps
 
+PHONY += stop
 stop: ## Stop Stonehenge containers
 	$(call colorecho, "\nStop Stonehenge containers\n")
 	@docker-compose stop
-	$(call colorecho, "\n- DONE!\n")
+	$(call colorecho, "\nDONE!")
 
+PHONY += up
 up: ## Launch Stonehenge
-	$(call colorecho, "\nStart Stonehenge")
-	$(call colorecho, "\n- Set resolver file...\n")
-	@. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
-	$(call colorecho, "\n- Create network $$NETWORK_NAME...\n")
-	@. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
-	$(call colorecho, "\n- Start the containers...\n")
-	@docker-compose up -d
-	$(call colorecho, "\n- SUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
+	$(call colorecho, "\nStart Stonehenge on $(OS)")
+	$(resolver_create)
+	$(containers_up)
 
+PHONY += update
 update: ## Update Stonehenge
-	$(call colorecho, "\nUpdate Stonehenge")
-	$(call colorecho, "\n- Pull the latest code...\n")
+	$(call colorecho, "\nUpdate Stonehenge\n\n- Pull the latest code...\n")
 	@git pull
-	$(call colorecho, "\n- Restart and recreate the containers...\n")
-	@docker-compose up -d --force-recreate
-	$(call colorecho, "\nSUCCESS!\n")
+	$(containers_up)
+
+#
+# FUNCTIONS
+#
 
 define colorecho
     @tput -T xterm setaf 3
     @. .env && echo $1
     @tput -T xterm sgr0
+endef
+
+define containers_up
+    $(create_network)
+	$(call colorecho, "\n- Start the containers...\n")
+    @docker-compose up -d --force-recreate --remove-orphans
+    $(call colorecho, "\n- Adding your SSH key...\n")
+    @docker run --rm -it --volume=$$HOME/.ssh/id_rsa:/$$HOME/.ssh/id_rsa --volumes-from=stonehenge-ssh-agent --name=stonehenge-ssh-agent-add-key amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa
+    $(call started)
+endef
+
+define create_network
+	$(call colorecho, "\n- Create network $$NETWORK_NAME...\n")
+    @. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
+endef
+
+define resolver_create
+	$(call colorecho, "\n- Set resolver file...\n")
+    @. .env && sudo mkdir -p /etc/resolver && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+endef
+
+define started
+	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN...")
 endef
 
 define RESOLVER_BODY
@@ -56,3 +84,15 @@ nameserver 127.0.0.1
 port 53
 endef
 export RESOLVER_BODY
+
+.PHONY: $(PHONY)
+
+include .env
+
+ifeq ($(DOCKER_DOMAIN),)
+$(error DOCKER_DOMAIN not set)
+endif
+
+ifeq ($(NETWORK_NAME),)
+$(error NETWORK_NAME not set)
+endif
