@@ -71,7 +71,7 @@ endef
 
 define resolver_create
 	$(call colorecho, "\n- Set resolver file...\n")
-    @. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+    @. .env && sudo mkdir -p /etc/resolver && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
 endef
 
 define started
