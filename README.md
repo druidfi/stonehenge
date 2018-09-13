@@ -37,7 +37,23 @@ $ cd ~/stonehenge
 $ make up
 ```
 
-### Add alias
+## Stop or shutdown Stonehenge
+
+Stonehenge will be started on boot by default if not stopped before.
+
+To stop Stonehenge:
+
+```
+$ make stop
+```
+
+Or totally to stop and remove Stonehenge:
+
+```
+$ make down
+```
+
+## Add alias
 
 Add this line to your shell (bash, zsh, fish):
 
