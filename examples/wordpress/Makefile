@@ -9,7 +9,7 @@ help: ## Print this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
-up: app ## Launch example Wordpress site
+up: ## Launch example Wordpress site
 	$(call colorecho, "\nStart Wordpress example site...")
 	@docker-compose up -d
 	$(call colorecho, "\n- DONE! Check http://wordpress.docker.sh...\n")
