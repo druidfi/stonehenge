@@ -4,6 +4,7 @@ services:
   dnsmasq:
     image: andyshinn/dnsmasq:2.75
     container_name: "${PREFIX}-dnsmasq"
+    restart: unless-stopped
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -16,8 +17,7 @@ services:
   traefik:
     image: traefik
     container_name: "${PREFIX}-traefik"
-    restart: always
-    #restart: unless-stopped
+    restart: unless-stopped
     command: |-
       --docker
       --api
@@ -36,6 +36,7 @@ services:
   portainer:
     image: portainer/portainer
     container_name: "${PREFIX}-portainer"
+    restart: unless-stopped
     command: |-
       --no-auth -H unix:///var/run/docker.sock
       --logo "${LOGO_URL}"
@@ -49,6 +50,7 @@ services:
   mailhog:
     image: mailhog/mailhog
     container_name: "${PREFIX}-mailhog"
+    restart: unless-stopped
     labels:
       traefik.backend: mailhog
       traefik.port: 8025
@@ -57,7 +59,7 @@ services:
   ssh-agent:
     image: amazeeio/ssh-agent
     container_name: "${PREFIX}-ssh-agent"
-    restart: always
+    restart: unless-stopped
     volumes:
       - ~/.ssh:/ssh
 
