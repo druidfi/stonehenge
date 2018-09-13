@@ -1,4 +1,4 @@
-version: '3.6'
+version: '3.2'
 
 #
 # SERVICES
@@ -42,11 +42,11 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
     labels:
-    - "traefik.enable=true"
-    - "traefik.backend=${PROJECT_NAME}-wordpress"
-    - "traefik.port=80"
-    - "traefik.docker.network=stonehenge-network"
-    - "traefik.frontend.rule=Host:${APP1_HOST}"
+      traefik.enable: true
+      traefik.backend: "${PROJECT_NAME}-wordpress"
+      traefik.port: 80
+      traefik.docker.network: stonehenge-network
+      traefik.frontend.rule: "Host:${APP1_HOST}"
     networks:
     - stonehenge-network
     - internal
