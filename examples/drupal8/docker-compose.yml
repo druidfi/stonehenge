@@ -1,0 +1,52 @@
+version: '3.2'
+
+#
+# SERVICES
+#
+
+#
+# Variables are loaded from .env file in this folder.
+#
+
+services:
+
+  # Drupal 8
+
+  drupal:
+    image: druidfi/docker-drupal:php71-basic
+    container_name: "${PROJECT_NAME}-drupal"
+    restart: always
+    hostname: &hostname ${APP1_HOST}
+    environment:
+      VIRTUAL_HOST: *hostname
+      WEBROOT: web
+    volumes:
+      - ./drupal:/var/www/drupal/public_html:delegated
+    labels:
+      traefik.enable: true
+      traefik.backend: "${PROJECT_NAME}-drupal8"
+      traefik.port: 80
+      traefik.docker.network: stonehenge-network
+      traefik.frontend.rule: "Host:${APP1_HOST}"
+    networks:
+      - stonehenge-network
+      - internal
+
+#
+# VOLUMES
+#
+
+volumes: {}
+
+#
+# NETWORKS
+#
+
+networks:
+  # Internal network for project containers
+  internal:
+    external: false
+
+  # Network from druidfi/stonehenge
+  stonehenge-network:
+    external: true

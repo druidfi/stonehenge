@@ -1,9 +1,10 @@
-version: '3.6'
+version: '3.2'
 
 services:
   dnsmasq:
     image: andyshinn/dnsmasq:2.75
     container_name: "${PREFIX}-dnsmasq"
+    restart: unless-stopped
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -11,22 +12,21 @@ services:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     labels:
-      - "traefik.enable=false"
+      traefik.enable: false
 
   traefik:
     image: traefik
     container_name: "${PREFIX}-traefik"
-    restart: always
-    #restart: unless-stopped
+    restart: unless-stopped
     command: |-
       --docker
       --api
       --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
     labels:
-      - "traefik.backend=proxy"
-      - "traefik.port=8080"
-      - "traefik.frontend.rule=Host:traefik.${DOCKER_DOMAIN}"
+      traefik.backend: traefik
+      traefik.port: 8080
+      traefik.frontend.rule: "Host:traefik.${DOCKER_DOMAIN}"
     ports:
       - "80:80"
       - "8080:8080" # The Web UI (enabled by --api)
@@ -36,23 +36,32 @@ services:
   portainer:
     image: portainer/portainer
     container_name: "${PREFIX}-portainer"
+    restart: unless-stopped
     command: |-
       --no-auth -H unix:///var/run/docker.sock
       --logo "${LOGO_URL}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
-      - "traefik.backend=portainer"
-      - "traefik.port=9000"
-      - "traefik.frontend.rule=Host:portainer.${DOCKER_DOMAIN}"
+      traefik.backend: portainer
+      traefik.port: 9000
+      traefik.frontend.rule: "Host:portainer.${DOCKER_DOMAIN}"
 
   mailhog:
     image: mailhog/mailhog
     container_name: "${PREFIX}-mailhog"
+    restart: unless-stopped
     labels:
-      - "traefik.backend=mailhog"
-      - "traefik.port=8025"
-      - "traefik.frontend.rule=Host:mailhog.${DOCKER_DOMAIN}"
+      traefik.backend: mailhog
+      traefik.port: 8025
+      traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
+
+  ssh-agent:
+    image: amazeeio/ssh-agent
+    container_name: "${PREFIX}-ssh-agent"
+    restart: unless-stopped
+    volumes:
+      - ~/.ssh:/ssh
 
 networks:
   default:

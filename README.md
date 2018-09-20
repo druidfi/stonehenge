@@ -9,7 +9,7 @@ Local development environment toolset on Docker supporting multiple projects.
 ## Requirements
 
 - For Mac only for now (see TODO)
-- Docker for Mac 18.03+
+- Docker for Mac 17.04.0+
 - No other services listening port 80 (e.g. Pygmy or nginx-proxy)
 
 ## Included containers
@@ -37,7 +37,23 @@ $ cd ~/stonehenge
 $ make up
 ```
 
-### Add alias
+## Stop or shutdown Stonehenge
+
+Stonehenge will be started on boot by default if not stopped before.
+
+To stop Stonehenge:
+
+```
+$ make stop
+```
+
+Or totally to stop and remove Stonehenge:
+
+```
+$ make down
+```
+
+## Add alias
 
 Add this line to your shell (bash, zsh, fish):
 
@@ -53,7 +69,11 @@ $ stonehenge up
 
 ## Example applications
 
+- [Drupal 8](examples/drupal8/README.md)
+- [Ghost](examples/ghost/README.md)
+- [Hugo](examples/hugo/README.md)
 - [Symfony 4](examples/symfony/README.md)
+- [Wordpress](examples/wordpress/README.md)
 
 ## Fork and modify
 
@@ -70,7 +90,7 @@ To brand the toolset for your organization:
 
 ## TODO
 
-- More examples (Drupal, Wordpress, Node app, etc)
+- More examples
 - Shell detection and autocreate the alias
 - Linux support
 

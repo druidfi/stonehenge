@@ -7,6 +7,7 @@ app:
 
 down: ## Tear down example Symfony application
 	@docker-compose down -v
+	@chmod -R 0777 app && rm -rf app
 
 help: ## Print this help
 	$(call colorecho, "\nAvailable commands:\n")
