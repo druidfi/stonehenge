@@ -18,6 +18,7 @@ EOM
 
 main () {
     if [ "$(uname)" == "Darwin" ]; then
+        test -d /etc/resolver || sudo mkdir -p /etc/resolver
         RESOLVER_FILE=/etc/resolver/$DOCKER_DOMAIN
         sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
     else

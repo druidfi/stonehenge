@@ -70,10 +70,9 @@ define create_network
 endef
 
 define resolver_create
-	$(call colorecho, "\n- Set resolver file...\n")
-	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@test -d ~/.ssh || mkdir ~/.ssh
-    @. ./.env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+	$(call colorecho, "\n- Set resolver file...\n")
+	@./resolver.sh
 endef
 
 define started
