@@ -7,9 +7,9 @@ PHONY += down
 down: ## Tear down Stonehenge
 	$(call colorecho, "\nTear down Stonehenge\n\n- Stop the containers...\n")
 	@docker-compose down -v --remove-orphans
-	@. .env && docker network remove $$NETWORK_NAME || docker network inspect $$NETWORK_NAME
+	@. ./.env && docker network remove $$NETWORK_NAME || docker network inspect $$NETWORK_NAME
 	$(call colorecho, "\n- Remove resolver file...\n")
-	@. .env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
+	@. ./.env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
 	$(call colorecho, "\nDONE!")
 
 PHONY += help
@@ -51,7 +51,7 @@ update: ## Update Stonehenge
 
 define colorecho
     @tput -T xterm setaf 3
-    @. .env && echo $1
+    @. ./.env && echo $1
     @tput -T xterm sgr0
 endef
 
@@ -66,14 +66,14 @@ endef
 
 define create_network
 	$(call colorecho, "\n- Create network $$NETWORK_NAME...\n")
-    @. .env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
+    @. ./.env && docker network inspect $$NETWORK_NAME > /dev/null || docker network create $$NETWORK_NAME && echo "Network created"
 endef
 
 define resolver_create
 	$(call colorecho, "\n- Set resolver file...\n")
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@test -d ~/.ssh || mkdir ~/.ssh
-    @. .env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
+    @. ./.env && sudo sh -c "echo '$$RESOLVER_BODY' > /etc/resolver/$$DOCKER_DOMAIN" && echo "Resolver file created"
 endef
 
 define started
