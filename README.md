@@ -8,7 +8,7 @@ Local development environment toolset on Docker supporting multiple projects.
 
 ## Requirements
 
-- For Mac only for now (see TODO)
+- macOS, Arch Linux or Ubuntu
 - Docker for Mac 17.04.0+
 - No other services listening port 80 (e.g. Pygmy or nginx-proxy)
 
@@ -75,6 +75,14 @@ $ stonehenge up
 - [Symfony 4](examples/symfony/README.md)
 - [Wordpress](examples/wordpress/README.md)
 
+## Tested with
+
+- Arch Linux
+- macOS High Sierra 10.13.6
+- Manjaro 17.1.6 (Arch Linux)
+- Ubuntu 17.10
+- Ubuntu 18.04
+
 ## Fork and modify
 
 To brand the toolset for your organization:
@@ -92,7 +100,6 @@ To brand the toolset for your organization:
 
 - More examples
 - Shell detection and autocreate the alias
-- Linux support
 
 ## References
 
