@@ -1,5 +1,7 @@
 #!/bin/bash
 
+shopt -s xpg_echo
+
 # Load env file
 . .env
 
@@ -32,7 +34,6 @@ main () {
         elif [ -f "/etc/arch-release" ]; then
 
             echo "Archlinux does need extra resolver modifications..."
-            #sudo grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
         fi
     fi
 

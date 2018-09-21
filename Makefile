@@ -51,7 +51,7 @@ update: ## Update Stonehenge
 
 define colorecho
     @tput -T xterm setaf 3
-    @. ./.env && echo $1
+    @. ./.env && shopt -s xpg_echo && echo $1
     @tput -T xterm sgr0
 endef
 
