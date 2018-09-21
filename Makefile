@@ -10,7 +10,7 @@ down: ## Tear down Stonehenge
 	@. ./.env && docker network remove $$NETWORK_NAME || docker network inspect $$NETWORK_NAME
 	$(call colorecho, "\n- Remove resolver file...\n")
 	@. ./.env && sudo rm -f /etc/resolver/$$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
-	$(call colorecho, "\nDONE!")
+	$(call colorecho, "\nDONE!\n")
 
 PHONY += help
 help: ## Print this help
@@ -31,7 +31,7 @@ PHONY += stop
 stop: ## Stop Stonehenge containers
 	$(call colorecho, "\nStop Stonehenge containers\n")
 	@docker-compose stop
-	$(call colorecho, "\nDONE!")
+	$(call colorecho, "\nSTOPPED!\n")
 
 PHONY += up
 up: ## Launch Stonehenge
@@ -76,7 +76,7 @@ define resolver_create
 endef
 
 define started
-	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN...")
+	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
 endef
 
 define RESOLVER_BODY
