@@ -5,7 +5,7 @@ OS := $(shell uname -s)
 
 PHONY += down
 down: ## Tear down Stonehenge
-	$(call colorecho, "\nTear down Stonehenge\n\n- Stop the containers...\n")
+	$(call colorecho, "\nTear down Stonehenge\n\n- Stop and remove the containers...\n")
 	@docker-compose down -v --remove-orphans
 	@. ./.env && docker network remove $$NETWORK_NAME || docker network inspect $$NETWORK_NAME
 	$(call colorecho, "\n- Remove resolver file...\n")
