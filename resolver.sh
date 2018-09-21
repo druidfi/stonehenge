@@ -22,13 +22,17 @@ main () {
         RESOLVER_FILE=/etc/resolver/$DOCKER_DOMAIN
         sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
     else
+        RESOLVER_FILE=$COMMON_RESOLV_FILE
+
         if [  -n "$(uname -a | grep Ubuntu)" ]; then
             # Stop Ubuntu default DNS server
-            sudo service systemd-resolved stop
-        fi
+            #sudo service systemd-resolved stop
+            echo "With Ubuntu you need to handle /etc/hosts manually..."
 
-        RESOLVER_FILE=$COMMON_RESOLV_FILE
-        grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
+        elif [ -f "/etc/arch-release" ]; then
+
+            grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
+        fi
     fi
 
     exit 0
