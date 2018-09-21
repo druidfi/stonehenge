@@ -5,9 +5,6 @@ services:
     image: andyshinn/dnsmasq:2.75
     container_name: "${PREFIX}-dnsmasq"
     restart: unless-stopped
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
     cap_add:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
