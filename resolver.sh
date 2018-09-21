@@ -31,7 +31,8 @@ main () {
 
         elif [ -f "/etc/arch-release" ]; then
 
-            grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
+            echo "Archlinux does need extra resolver modifications..."
+            #sudo grep -qF -- "$RESOLVER_BODY_LINUX" "$RESOLVER_FILE" || sudo echo "$RESOLVER_BODY_LINUX" >> "$RESOLVER_FILE"
         fi
     fi
 
