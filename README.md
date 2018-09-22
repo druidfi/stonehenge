@@ -9,19 +9,19 @@ Local development environment toolset on Docker supporting multiple projects.
 ## Requirements
 
 - macOS, Arch Linux or Ubuntu
-- Docker for Mac 17.04.0+
-- No other services listening port 80 (e.g. Pygmy or nginx-proxy)
+- Docker 17.04.0+
+- No other services listening port 80
 
 ## Included containers
 
-- `andyshinn/dnsmasq` to route `*.docker.sh` to `127.0.0.1`
+- `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
 - `mailhog/mailhog` in [mailhog.docker.sh](http://mailhog.docker.sh) to catch emails
 - `portainer/portainer` in [portainer.docker.sh](http://portainer.docker.sh) to manage your Docker
 - `traefik` in [traefik.docker.sh](http://traefik.docker.sh) to handle all our reverse proxy needs
 
 ## Setup
 
-Note: setup will prompt once for your password as it creates resolver file in `/etc/resolver` folder.
+Note: in some systems setup will prompt once for your password as it will setup DNS.
 
 ### Oneliner
 
@@ -39,7 +39,7 @@ $ make up
 
 ## Stop or shutdown Stonehenge
 
-Stonehenge will be started on boot by default if not stopped before.
+Note: Stonehenge will be started on boot by default if not stopped before.
 
 To stop Stonehenge:
 
