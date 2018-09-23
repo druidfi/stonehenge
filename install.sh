@@ -4,6 +4,8 @@
 # Remember to lint this script with: https://www.shellcheck.net/
 #
 
+shopt -s xpg_echo
+
 REPO_FOLDER=~/stonehenge2
 REPO_URL=https://github.com/druidfi/stonehenge.git
 REPO_BRANCH=master
