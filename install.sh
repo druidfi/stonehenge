@@ -37,21 +37,21 @@ main () {
 
     clear
 
-    echo -e "${LCYAN}"
+    echo "${LCYAN}"
     ascii
-    echo -e "${NC}"
+    echo "${NC}"
 
     if [ ! -d "$REPO_FOLDER" ] ; then
-        echo -e "${GREEN}Clone the Stonehenge repository to ${REPO_FOLDER}${NC}"
+        echo "${GREEN}Clone the Stonehenge repository to ${REPO_FOLDER}${NC}"
         git clone -b $REPO_BRANCH $REPO_URL $REPO_FOLDER
     fi
 
     cd "$REPO_FOLDER" || exit 1
 
-    echo -e "${GREEN}Update the code...${NC}"
+    echo "${GREEN}Update the code...${NC}"
     git pull
 
-    echo -e "${GREEN}Start up the Stonehenge...${NC}"
+    echo "${GREEN}Start up the Stonehenge...${NC}"
     make up
 
     exit 0
