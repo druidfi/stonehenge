@@ -16,4 +16,12 @@ else
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/${BRANCH}/install.sh)"
 
+    if curl -s "portainer.docker.sh" | grep "portainer.io"
+    then
+        echo "Success: portainer.docker.sh is responding."
+    else
+        echo "Error: portainer.docker.sh is NOT responding."
+        exit 1
+    fi
+
 fi
