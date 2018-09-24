@@ -16,10 +16,12 @@ else
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/${BRANCH}/install.sh)"
 
+    docker-compose ps
+
     URL="http://portainer.docker.sh"
 
     # store the whole response with the status at the and
-    HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST $URL)
+    HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" $URL)
 
     # extract the body
     HTTP_BODY=$(echo $HTTP_RESPONSE | sed -e 's/HTTPSTATUS\:.*//g')
