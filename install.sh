@@ -6,7 +6,7 @@
 
 shopt -s xpg_echo
 
-REPO_FOLDER=~/stonehenge2
+REPO_FOLDER=~/stonehenge
 REPO_URL=https://github.com/druidfi/stonehenge.git
 REPO_BRANCH=master
 
