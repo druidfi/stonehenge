@@ -16,12 +16,24 @@ else
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/${BRANCH}/install.sh)"
 
-    if curl -s http://portainer.docker.sh | grep "portainer.io"
-    then
-        echo "Success: portainer.docker.sh is responding."
-    else
-        echo "Error: portainer.docker.sh is NOT responding."
-        exit 1
+    URL="http://portainer.docker.sh"
+
+    # store the whole response with the status at the and
+    HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST $URL)
+
+    # extract the body
+    HTTP_BODY=$(echo $HTTP_RESPONSE | sed -e 's/HTTPSTATUS\:.*//g')
+
+    # extract the status
+    HTTP_STATUS=$(echo $HTTP_RESPONSE | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+    # print the body
+    echo "$HTTP_BODY"
+
+    # example using the status
+    if [ ! $HTTP_STATUS -eq 200  ]; then
+      echo "Error [HTTP status: $HTTP_STATUS]"
+      exit 1
     fi
 
 fi
