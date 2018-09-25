@@ -79,6 +79,7 @@ $ stonehenge up
 
 - Arch Linux
 - macOS High Sierra 10.13.6
+- macOS Mojave 10.14
 - Manjaro 17.1.6 (Arch Linux)
 - Ubuntu 16.04
 - Ubuntu 17.10
