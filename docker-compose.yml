@@ -8,8 +8,10 @@ services:
     cap_add:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
+    dns: 8.8.8.8
     labels:
       traefik.enable: false
+
 
   traefik:
     image: traefik
