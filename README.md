@@ -69,6 +69,7 @@ $ stonehenge up
 
 ## Example applications
 
+- [Contenta CMS](examples/contentacms/README.md)
 - [Drupal 8](examples/drupal8/README.md)
 - [Ghost](examples/ghost/README.md)
 - [Hugo](examples/hugo/README.md)
