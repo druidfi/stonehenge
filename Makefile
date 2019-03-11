@@ -16,9 +16,8 @@ down: ## Tear down Stonehenge
 
 PHONY += help
 help: ## Print this help
-	$(call colorecho, "\nAvailable commands for Stonehenge:\n")
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""
+	$(call colorecho, "\nAvailable make commands for Stonehenge:\n")
+	@cat $(MAKEFILE_LIST) | grep -e "^[a-zA-Z_\-]*: *.*## *" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | sort
 
 PHONY += install
 install: ## Install Stonehenge
