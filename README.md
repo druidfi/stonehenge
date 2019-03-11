@@ -37,6 +37,18 @@ $ cd ~/stonehenge
 $ make up
 ```
 
+## Local HTTPS
+
+Requirements:
+
+- [mkcert](https://github.com/FiloSottile/mkcert)
+
+Create and install local CA and certs for Stonehenge:
+
+```
+$ make certs
+```
+
 ## Stop or shutdown Stonehenge
 
 Note: Stonehenge will be started on boot by default if not stopped before.

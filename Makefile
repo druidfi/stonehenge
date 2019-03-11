@@ -48,30 +48,42 @@ update: ## Update Stonehenge
 # Advanced targets, not shown on help
 #
 
-certs: --certs-ca --certs-certs
+PHONY += certs
+certs: --certs-create-key-and-csr --certs-install-ca --certs-create-certs up
+
+PHONY += certs-uninstall
+certs-uninstall: export CAROOT = $(shell pwd)/certs
+certs-uninstall:
+	$(call colorecho, "\nUninstall local CA...\n")
+	@mkcert -uninstall || echo "No CA found..."
 
 PHONY += --certs-ca
---certs-ca: export CAROOT = $(shell pwd)/certs
---certs-ca:
+--certs-install-ca: export CAROOT = $(shell pwd)/certs
+--certs-install-ca:
 ifeq ($(MKCERT_BIN),no)
 	$(error ${MKCERT_ERROR})
 else
 	$(call colorecho, "\nCreate local CA...\n")
-	@mkcert -install
+	@mkcert -install -csr certs/stonehenge.csr
 endif
 
---certs-certs: export CAROOT = $(shell pwd)/certs
---certs-certs:
+PHONY += --certs-create-certs
+--certs-create-certs: export CAROOT = $(shell pwd)/certs
+--certs-create-certs:
 ifeq ($(MKCERT_BIN),no)
 	$(error ${MKCERT_ERROR})
 else
-	$(call colorecho, "Create local certs to ./certs folder...\n")
-ifeq ($(shell test -f certs/ssl.pem && test -f certs/ssl-key.pem && echo yes || echo no),no)
-	@mkcert -cert-file certs/ssl.pem -key-file certs/ssl-key.pem '*.${DOCKER_DOMAIN}'
-else
-	$(call colorecho, "Certs already exists in ./certs folder\n")
+	$(call colorecho, "Create stonehenge.crt to ./certs folder...\n")
+	@test -f certs/stonehenge.crt && echo "- already exists" || mkcert -csr certs/stonehenge.csr -cert-file certs/stonehenge.crt
 endif
-endif
+
+PHONY += --certs-create-key-and-csr
+--certs-create-key-and-csr:
+	$(call colorecho, "Create stonehenge.key & stonehenge.csr to ./certs folder...\n")
+	@test -f certs/stonehenge.key && test -f certs/stonehenge.csr && echo "Stonehenge .key and .csr already exist" || openssl req -new \
+	-newkey rsa:2048 -nodes -keyout certs/stonehenge.key \
+  -out certs/stonehenge.csr \
+  -subj "/O=Stonehenge/OU=Stonehenge/CN=*.${DOCKER_DOMAIN}"
 
 #
 # FUNCTIONS
@@ -105,6 +117,13 @@ endef
 
 define started
 	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
+endef
+
+define create_csr
+	openssl req -new \
+  -newkey rsa:2048 -nodes -keyout certs/stonehenge.key \
+  -out certs/stonehenge.csr \
+  -subj "/O=Stonehenge/OU=Stonehenge mkcert/CN=*.docker.sh"
 endef
 
 .PHONY: $(PHONY)
