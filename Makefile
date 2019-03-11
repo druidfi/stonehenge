@@ -19,10 +19,6 @@ help: ## Print this help
 	$(call colorecho, "\nAvailable make commands for Stonehenge:\n")
 	@cat $(MAKEFILE_LIST) | grep -e "^[a-zA-Z_\-]*: *.*## *" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | sort
 
-PHONY += install
-install: ## Install Stonehenge
-	$(call colorecho, "\nInstall Stonehenge\n")
-
 PHONY += status
 status: ## Stonehenge status
 	$(call colorecho, "\nStonehenge status\n")
