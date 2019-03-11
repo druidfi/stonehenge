@@ -4,8 +4,8 @@ function get_distribution() {
   if [[ "$(uname)" == "Darwin" ]]; then
     echo "osx"
   elif [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-    echo $ID
+    # shellcheck disable=SC1091
+    . /etc/os-release && echo "${ID}"
   fi
 }
 
@@ -27,5 +27,5 @@ function get_compose_files() {
   if [[ -f "docker-compose-$DISTRO.yml" ]]; then
     FILES="$FILES -f docker-compose-$DISTRO.yml"
   fi
-  echo ${FILES}
+  echo "${FILES}"
 }

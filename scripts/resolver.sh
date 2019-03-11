@@ -6,6 +6,7 @@ shopt -s xpg_echo
 DISTRO=$(get_distribution)
 
 # Load env file
+# shellcheck disable=SC1091
 . .env
 
 read -r -d '' RESOLVER_BODY_DARWIN << EOM
@@ -22,24 +23,19 @@ EOM
 install () {
   if [[ "$DISTRO" == "osx" ]]; then
     test -d /etc/resolver || sudo mkdir -p /etc/resolver
-    RESOLVER_FILE=/etc/resolver/$DOCKER_DOMAIN
     sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
-
     exit 0
   fi
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
     echo "$DISTRO does not need extra resolver modifications..."
     exit 0
-  fi
-
-  if [[ -f "/etc/resolv.conf" ]]; then
-    echo "reached"
+  elif [[ -f "/etc/resolv.conf" ]]; then
     ORIGINAL=$(cat /etc/resolv.conf)
     # Backup original resolv.conf, add our local nameserver as first.
     sudo cp /etc/resolv.conf /etc/resolv.conf.default
 
-    if [[ ! $(grep "druidfi/stonehenge" /etc/resolv.conf) ]]; then
+    if grep -q "druidfi/stonehenge" /etc/resolv.conf; then
       sudo sh -c "printf '$RESOLVER_BODY_LINUX\n$ORIGINAL' > /etc/resolv.conf"
     fi
     exit 0
@@ -50,9 +46,8 @@ install () {
 }
 
 remove() {
-  echo "OS = ${OS} and DISTRO = ${DISTRO}"
   if [[ "$DISTRO" == "osx" ]]; then
-    sudo rm -f /etc/resolver/$DOCKER_DOMAIN && echo "Resolver file removed" || echo "Already removed"
+    sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
   else
     if [[ -f "/etc/resolv.conf.default" ]]; then
       # Remove our resolv.conf and replace with old.

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
+if [[ ${TRAVIS_OS_NAME} == 'osx' ]]; then
 
     echo "Hello osx"
 
@@ -16,7 +16,7 @@ else
 
     # Install docker-compose
     sudo rm /usr/local/bin/docker-compose
-    curl -L $DOCKER_COMPOSE_REPO/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m` > docker-compose
+    curl -L "${DOCKER_COMPOSE_REPO}/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" > docker-compose
     chmod +x docker-compose
     sudo mv docker-compose /usr/local/bin
 
