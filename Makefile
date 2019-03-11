@@ -2,6 +2,7 @@ PHONY :=
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
 
+DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 OS := $(shell uname -s)
 
 PHONY += down
@@ -83,6 +84,10 @@ endef
 .PHONY: $(PHONY)
 
 include .env
+
+ifeq ($(DOCKER_COMPOSE_BIN),no)
+$(error docker-compose is required)
+endif
 
 ifeq ($(DOCKER_DOMAIN),)
 $(error DOCKER_DOMAIN not set)
