@@ -3,6 +3,8 @@ PHONY :=
 SHELL := /bin/bash
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
+MKCERT_BIN := $(shell which mkcert || echo no)
+MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
 OS := $(shell uname -s)
 
 PHONY += down
@@ -41,6 +43,35 @@ update: ## Update Stonehenge
 	$(call colorecho, "\nUpdate Stonehenge\n\n- Pull the latest code...\n")
 	@git pull
 	$(containers_up)
+
+#
+# Advanced targets, not shown on help
+#
+
+certs: --certs-ca --certs-certs
+
+PHONY += --certs-ca
+--certs-ca: export CAROOT = $(shell pwd)/certs
+--certs-ca:
+ifeq ($(MKCERT_BIN),no)
+	$(error ${MKCERT_ERROR})
+else
+	$(call colorecho, "\nCreate local CA...\n")
+	@mkcert -install
+endif
+
+--certs-certs: export CAROOT = $(shell pwd)/certs
+--certs-certs:
+ifeq ($(MKCERT_BIN),no)
+	$(error ${MKCERT_ERROR})
+else
+	$(call colorecho, "Create local certs to ./certs folder...\n")
+ifeq ($(shell test -f certs/ssl.pem && test -f certs/ssl-key.pem && echo yes || echo no),no)
+	@mkcert -cert-file certs/ssl.pem -key-file certs/ssl-key.pem '*.${DOCKER_DOMAIN}'
+else
+	$(call colorecho, "Certs already exists in ./certs folder\n")
+endif
+endif
 
 #
 # FUNCTIONS

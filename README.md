@@ -10,7 +10,7 @@ Local development environment toolset on Docker supporting multiple projects.
 
 - macOS, Arch Linux or Ubuntu
 - Docker 17.04.0+
-- No other services listening port 80
+- No other services listening port 80 or 443
 
 ## Included containers
 
