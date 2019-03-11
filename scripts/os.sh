@@ -1,9 +1,9 @@
 #!/bin/bash
 
 function get_distribution() {
-  if [ "$(uname)" == "Darwin" ]; then
+  if [[ "$(uname)" == "Darwin" ]]; then
     echo "osx"
-  elif [ -f /etc/os-release ]; then
+  elif [[ -f /etc/os-release ]]; then
     . /etc/os-release
     echo $ID
   fi
@@ -14,7 +14,7 @@ function get_compose_files() {
   # We have a specific docker-compose file to bind dnsmasq service on
   # 127.0.0.48 (instead of the default 0.0.0.0), due to systemd-resolved
   # using the 53 port on 0.0.0.0.
-  if [ $(uname) == "Linux" ]; then
+  if [[ $(uname) == "Linux" ]]; then
     FILES=" -f docker-compose-linux.yml"
   else
     # We can't add dnsmasq service to default docker-compose.yml file, because
@@ -24,8 +24,8 @@ function get_compose_files() {
   fi
 
   # Distribution specific compose.
-  if [ -f "docker-compose-$DISTRO.yml" ]; then
+  if [[ -f "docker-compose-$DISTRO.yml" ]]; then
     FILES="$FILES -f docker-compose-$DISTRO.yml"
   fi
-  echo $FILES
+  echo ${FILES}
 }
