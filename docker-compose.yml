@@ -9,20 +9,21 @@ services:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     dns: 8.8.8.8
-    labels:
-      traefik.enable: false
-
 
   traefik:
     image: traefik
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     command: |-
-      --docker
       --api
-      --docker.domain=${DOCKER_DOMAIN}
       --logLevel=DEBUG
+      --docker
+      --docker.watch="true"
+      --docker.domain="${DOCKER_DOMAIN}"
+      --docker.network="${NETWORK_NAME}"
+      --docker.exposedbydefault="false"
     labels:
+      traefik.enable: true
       traefik.backend: traefik
       traefik.port: 8080
       traefik.frontend.rule: "Host:traefik.${DOCKER_DOMAIN}"
@@ -42,6 +43,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
+      traefik.enable: true
       traefik.backend: portainer
       traefik.port: 9000
       traefik.frontend.rule: "Host:portainer.${DOCKER_DOMAIN}"
@@ -51,6 +53,7 @@ services:
     container_name: "${PREFIX}-mailhog"
     restart: unless-stopped
     labels:
+      traefik.enable: true
       traefik.backend: mailhog
       traefik.port: 8025
       traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
