@@ -22,16 +22,21 @@ services:
       --docker.domain="${DOCKER_DOMAIN}"
       --docker.network="${NETWORK_NAME}"
       --docker.exposedbydefault="false"
+      --defaultentrypoints=http,https
+      --entrypoints="Name:http Address::80"
+      --entrypoints="Name:https Address::443 TLS:/ssl/stonehenge.crt,/ssl/stonehenge.key"
     labels:
       traefik.enable: true
       traefik.backend: traefik
       traefik.port: 8080
       traefik.frontend.rule: "Host:traefik.${DOCKER_DOMAIN}"
     ports:
+      - "443:443"
       - "80:80"
       - "8080:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./certs:/ssl # mkcert certs
 
   portainer:
     image: portainer/portainer
