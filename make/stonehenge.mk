@@ -68,7 +68,7 @@ define colorecho
 endef
 
 define started
-	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN...\n")
+	$(call colorecho, "\nSUCCESS! Open http://portainer.$$DOCKER_DOMAIN ...\n")
 endef
 
 ifeq ($(DOCKER_COMPOSE_BIN),no)
