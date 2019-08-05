@@ -1,11 +1,17 @@
 .PHONY: app down help up
 .DEFAULT_GOAL := help
 
-DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
+DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
+DRUPAL_PROFILE := demo_umami
+DRUPAL_SITENAME := Drupal 8 example
+DRUPAL_URL := http://drupal8.docker.sh
 
 app:
 	$(call colorecho, "\nCreate Drupal 8 project to drupal folder")
-	@docker run --rm --interactive --tty --volume $(shell pwd):/app composer create-project drupal-composer/drupal-project --no-interaction --stability dev --ignore-platform-reqs drupal
+	@docker run --rm --interactive --tty \
+		--volume $(shell pwd):/app \
+		composer create-project drupal-composer/drupal-project --no-interaction --stability dev --ignore-platform-reqs \
+		drupal
 
 down: ## Tear down example Drupal 8 application
 	@docker-compose down -v
@@ -20,8 +26,10 @@ up: app ## Launch example Drupal 8 application
 	$(call colorecho, "\nStart Drupal 8 example application...")
 	@docker-compose up -d
 	$(call colorecho, "\nInstall site with Drush...")
-	@docker-compose exec drupal drush -y site:install demo_umami --db-url=$(DB_URL) --site-name="Drupal 8 example"
-	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh ...\n")
+	@docker-compose exec drupal drush -y site:install $(DRUPAL_PROFILE) \
+		--db-url=$(DRUPAL_DB_URL) \
+		--site-name="$(DRUPAL_SITENAME)"
+	$(call colorecho, "\n- DONE! Check $(DRUPAL_URL) ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

@@ -1,6 +1,8 @@
 .PHONY: down help up
 .DEFAULT_GOAL := help
 
+SF_URL := http://symfony.docker.sh
+
 app:
 	$(call colorecho, "\nCreate Symfony project to app folder")
 	@docker run --rm --interactive --tty --volume $(shell pwd):/app composer create-project symfony/website-skeleton app
@@ -17,7 +19,7 @@ help: ## Print this help
 up: app ## Launch example Symfony application
 	$(call colorecho, "\nStart Symfony example application...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://symfony.docker.sh ...\n")
+	$(call colorecho, "\n- DONE! Check $(SF_URL) ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

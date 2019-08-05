@@ -1,6 +1,8 @@
 .PHONY: down help up
 .DEFAULT_GOAL := help
 
+GHOST_URL := http://ghost.docker.sh
+
 down: ## Tear down example Ghost application
 	@docker-compose down -v
 
@@ -12,7 +14,7 @@ help: ## Print this help
 up: ## Launch example Ghost application
 	$(call colorecho, "\nStart Ghost example application...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://ghost.docker.sh ...\n")
+	$(call colorecho, "\n- DONE! Check $(GHOST_URL) ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

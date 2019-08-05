@@ -1,11 +1,18 @@
 .PHONY: app down help up
 .DEFAULT_GOAL := help
 
-DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
+DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
+DRUPAL_PROFILE := contenta_jsonapi
+DRUPAL_SITENAME := Contenta CMS example
+DRUPAL_URL := http://contentacms.docker.sh
 
 app:
 	$(call colorecho, "\nCreate Contenta CMS project...")
-	@test -d contentacms && echo "Project folder already exists" || docker run --rm --interactive --tty --volume $(shell pwd):/app composer create-project contentacms/contenta-jsonapi-project --stability dev --no-interaction --remove-vcs --no-progress --prefer-dist --ignore-platform-reqs contentacms
+	@test -d contentacms && echo "Project folder already exists" || docker run --rm --interactive --tty \
+		--volume $(shell pwd):/app \
+		composer create-project contentacms/contenta-jsonapi-project \
+		--stability dev --no-interaction --remove-vcs --no-progress --prefer-dist --ignore-platform-reqs \
+		contentacms
 
 down: ## Tear down example Contenta CMS application
 	@docker-compose down -v
@@ -20,9 +27,11 @@ up: app ## Launch example Contenta CMS application
 	$(call colorecho, "\nStart Contenta CMS example application...")
 	@docker-compose up -d
 	$(call colorecho, "\nInstall site with Drush...")
-	@docker-compose exec contentacms drush -y site:install contenta_jsonapi --db-url=$(DB_URL) --site-name="Contenta CMS example"
+	@docker-compose exec contentacms drush -y site:install $(DRUPAL_PROFILE) \
+		--db-url=$(DRUPAL_DB_URL) \
+		--site-name="$(DRUPAL_SITENAME)"
 	@docker-compose exec contentacms drush en -y recipes_magazin contentajs
-	$(call colorecho, "\nDONE! Check http://contentacms.docker.sh ...\n")
+	$(call colorecho, "\nDONE! Check $(DRUPAL_URL) ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

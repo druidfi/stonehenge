@@ -1,6 +1,8 @@
 .PHONY: down help up
 .DEFAULT_GOAL := help
 
+WP_URL := http://wordpress.docker.sh
+
 down: ## Tear down example Wordpress site
 	@docker-compose down -v
 
@@ -12,7 +14,7 @@ help: ## Print this help
 up: ## Launch example Wordpress site
 	$(call colorecho, "\nStart Wordpress example site...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://wordpress.docker.sh ...\n")
+	$(call colorecho, "\n- DONE! Check $(WP_URL) ...\n")
 
 define colorecho
     @tput -T xterm setaf 3
