@@ -35,7 +35,7 @@ hugo: ## Hugo CLI: Create a new content file
 up: site ## Launch example Hugo site
 	$(call colorecho, "\nStart Hugo example site...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://hugo.docker.sh...")
+	$(call colorecho, "\n- DONE! Check http://hugo.docker.sh ...")
 
 define colorecho
     @tput -T xterm setaf 3

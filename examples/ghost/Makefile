@@ -12,7 +12,7 @@ help: ## Print this help
 up: ## Launch example Ghost application
 	$(call colorecho, "\nStart Ghost example application...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://ghost.docker.sh...\n")
+	$(call colorecho, "\n- DONE! Check http://ghost.docker.sh ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

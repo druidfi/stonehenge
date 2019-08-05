@@ -22,7 +22,7 @@ up: app ## Launch example Contenta CMS application
 	$(call colorecho, "\nInstall site with Drush...")
 	@docker-compose exec contentacms drush -y site:install contenta_jsonapi --db-url=$(DB_URL) --site-name="Contenta CMS example"
 	@docker-compose exec contentacms drush en -y recipes_magazin contentajs
-	$(call colorecho, "\nDONE! Check http://contentacms.docker.sh...\n")
+	$(call colorecho, "\nDONE! Check http://contentacms.docker.sh ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

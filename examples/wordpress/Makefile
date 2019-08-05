@@ -12,7 +12,7 @@ help: ## Print this help
 up: ## Launch example Wordpress site
 	$(call colorecho, "\nStart Wordpress example site...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://wordpress.docker.sh...\n")
+	$(call colorecho, "\n- DONE! Check http://wordpress.docker.sh ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

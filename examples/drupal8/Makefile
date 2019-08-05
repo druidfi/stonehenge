@@ -21,7 +21,7 @@ up: app ## Launch example Drupal 8 application
 	@docker-compose up -d
 	$(call colorecho, "\nInstall site with Drush...")
 	@docker-compose exec drupal drush -y site:install demo_umami --db-url=$(DB_URL) --site-name="Drupal 8 example"
-	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh...\n")
+	$(call colorecho, "\n- DONE! Check http://drupal8.docker.sh ...\n")
 
 define colorecho
     @tput -T xterm setaf 3

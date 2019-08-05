@@ -17,7 +17,7 @@ help: ## Print this help
 up: app ## Launch example Symfony application
 	$(call colorecho, "\nStart Symfony example application...")
 	@docker-compose up -d
-	$(call colorecho, "\n- DONE! Check http://symfony.docker.sh...\n")
+	$(call colorecho, "\n- DONE! Check http://symfony.docker.sh ...\n")
 
 define colorecho
     @tput -T xterm setaf 3
