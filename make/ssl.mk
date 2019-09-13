@@ -4,47 +4,41 @@
 
 MKCERT_BIN := $(shell which mkcert || echo no)
 MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
+MKCERT_CAROOT := $(shell pwd)/certs
+SH_CERTS_PATH := certs
+SH_CERT_FILENAME := stonehenge
 
 PHONY += certs
-certs: --certs-create-key-and-csr --certs-install-ca --certs-create-certs up ## Install certs
+certs: --certs-install-ca --certs-create-certs ## Install certs
 
 PHONY += certs-uninstall
-certs-uninstall: export CAROOT = $(shell pwd)/certs
+certs-uninstall: export CAROOT = $(MKCERT_CAROOT)
 certs-uninstall:
-	$(call colorecho, "\nUninstall local CA...\n")
+ifeq ($(MKCERT_BIN),no)
+	$(error ${MKCERT_ERROR})
+else
+	$(call step,Uninstall local CA...)
 	@mkcert -uninstall || echo "No CA found..."
+endif
 
-PHONY += --certs-ca
---certs-install-ca: export CAROOT = $(shell pwd)/certs
+PHONY += --certs-install-ca
+--certs-install-ca: export CAROOT = $(MKCERT_CAROOT)
 --certs-install-ca:
 ifeq ($(MKCERT_BIN),no)
 	$(error ${MKCERT_ERROR})
 else
-	$(call colorecho, "\nCreate local CA...\n")
-	@mkcert -install -csr certs/stonehenge.csr
+	$(call step,Create local CA...)
+	@mkcert -install
 endif
 
 PHONY += --certs-create-certs
---certs-create-certs: export CAROOT = $(shell pwd)/certs
+--certs-create-certs: export CAROOT = $(MKCERT_CAROOT)
+--certs-create-certs: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
 --certs-create-certs:
 ifeq ($(MKCERT_BIN),no)
 	$(error ${MKCERT_ERROR})
 else
-	$(call colorecho, "Create stonehenge.crt to ./certs folder...\n")
-	@test -f certs/stonehenge.crt && echo "- already exists" || mkcert -csr certs/stonehenge.csr -cert-file certs/stonehenge.crt
+	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
+	@test -f $(CERT).crt && echo "- already exists" || \
+		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
 endif
-
-PHONY += --certs-create-key-and-csr
---certs-create-key-and-csr:
-	$(call colorecho, "Create stonehenge.key & stonehenge.csr to ./certs folder...\n")
-	@test -f certs/stonehenge.key && test -f certs/stonehenge.csr && echo "Stonehenge .key and .csr already exist" || openssl req -new \
-	-newkey rsa:2048 -nodes -keyout certs/stonehenge.key \
-  -out certs/stonehenge.csr \
-  -subj "/O=Stonehenge/OU=Stonehenge/CN=*.${DOCKER_DOMAIN}"
-
-define create_csr
-	openssl req -new \
-  -newkey rsa:2048 -nodes -keyout certs/stonehenge.key \
-  -out certs/stonehenge.csr \
-  -subj "/O=Stonehenge/OU=Stonehenge mkcert/CN=*.docker.sh"
-endef
