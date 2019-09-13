@@ -10,7 +10,7 @@ matrix:
 env:
   global:
     - DOCKER_COMPOSE_REPO=https://github.com/docker/compose
-    - DOCKER_COMPOSE_VERSION=1.22.0
+    - DOCKER_COMPOSE_VERSION=1.24.1
     - STONEHENGE_NETWORK_NAME=stonehenge-network
 
 install:
