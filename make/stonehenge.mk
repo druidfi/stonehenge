@@ -3,7 +3,7 @@ SHELL := /bin/bash
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
-OS := $(shell test -f /etc/os-release && . /etc/os-release && echo "${ID}" || uname)
+OS := $(shell test -f /etc/os-release && . /etc/os-release && echo "$${ID}" || uname)
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
 ifeq ($(OS),Darwin)
@@ -27,7 +27,7 @@ restart: ## Restart Stonehenge
 	$(call success,Restarted!)
 
 PHONY += status
-status: ## Stonehenge status
+status: ## Show Stonehenge status
 	$(call step,Stonehenge status)
 	@${DOCKER_COMPOSE_CMD} ps
 

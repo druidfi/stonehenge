@@ -8,7 +8,7 @@ Local development environment toolset on Docker supporting multiple projects.
 
 ## Requirements
 
-- macOS, Arch Linux or Ubuntu
+- macOS, Arch Linux or Ubuntu LTS
 - Docker 18.06.0+
 - Make
 - No other services listening port 80 or 443
@@ -44,6 +44,12 @@ $ make up
 Requirements:
 
 - [mkcert](https://github.com/FiloSottile/mkcert)
+
+Install `mkcert`:
+
+```
+$ make mkcert-install
+```
 
 Create and install local CA and certs for Stonehenge:
 
@@ -90,6 +96,11 @@ $ stonehenge up
 - [Symfony 4](examples/symfony/README.md)
 - [Wordpress](examples/wordpress/README.md)
 
+## Supported
+
+- Latest macOS: Catalina
+- Latest Ubuntu LTS: 18.04
+
 ## Tested with
 
 - Arch Linux
@@ -97,7 +108,7 @@ $ stonehenge up
 - macOS High Sierra 10.13.6
 - macOS Mojave 10.14
 - Manjaro 17.1.6 (Arch Linux)
-- Ubuntu 16.04
+- Ubuntu 16.04 LTS
 - Ubuntu 17.10
 - Ubuntu 18.04 LTS
 
