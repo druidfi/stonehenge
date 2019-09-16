@@ -5,6 +5,7 @@ debug:
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
 	$(call val,Docker network name,$(NETWORK_NAME))
 	$(call val,docker-compose installed,$(DOCKER_COMPOSE_BIN))
+	$(call val,docker-compose command,$(DOCKER_COMPOSE_CMD))
 	$(call val,mkcert installed,$(MKCERT_BIN))
 
 PHONY += help

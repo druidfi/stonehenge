@@ -4,10 +4,12 @@ shopt -s xpg_echo
 
 function get_distribution() {
   if [[ "$(uname)" == "Darwin" ]]; then
-    echo "osx"
+    echo "darwin"
   elif [[ -f /etc/os-release ]]; then
     # shellcheck disable=SC1091
     . /etc/os-release && echo "${ID}"
+  else
+    echo "linux"
   fi
 }
 
@@ -29,7 +31,7 @@ nameserver 127.0.0.48
 EOM
 
 install_resolver () {
-  if [[ "$DISTRO" == "osx" ]]; then
+  if [[ "$DISTRO" == "darwin" ]]; then
     test -d /etc/resolver || sudo mkdir -p /etc/resolver
     sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
     exit 0

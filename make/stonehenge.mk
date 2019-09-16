@@ -2,13 +2,15 @@
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
-OS := $(shell uname -s)
+OS := $(shell . ./scripts/functions.sh && get_distribution)
 SHELL := /bin/bash
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
-ifeq ($(OS),Darwin)
+ifeq ($(OS),darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
-else ifeq ($(OS),Linux)
+else ifeq ($(OS),ubuntu)
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml
+else ifeq ($(OS),linux)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
 
@@ -24,7 +26,7 @@ down: ## Tear down Stonehenge
 	@docker network remove ${NETWORK_NAME} || docker network inspect ${NETWORK_NAME}
 	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
 	$(call step,Remove resolver file...)
-ifeq ($(OS),Darwin)
+ifeq ($(OS),darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(OS),Linux)
 	@. ./scripts/functions.sh && remove_resolver
