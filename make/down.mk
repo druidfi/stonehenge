@@ -1,3 +1,5 @@
+RESOLV_CONF_BAK_EXISTS := $(shell test -f resolv.conf.bak && echo "yes" || echo "no")
+
 PHONY += down
 down: ## Tear down Stonehenge
 	$(call step,Tear down Stonehenge\n\nStop and remove the containers...)
@@ -7,10 +9,9 @@ down: ## Tear down Stonehenge
 	$(call step,Remove resolver file...)
 ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
+	@sudo rm /etc/resolv.conf
+	@sudo mv /etc/resolv.conf.bak /etc/resolv.conf
 else
-	if [[ -f "/etc/resolv.conf.default" ]]; then
-	  # Remove our resolv.conf and replace with old.
-	  sudo rm /etc/resolv.conf && sudo mv /etc/resolv.conf.bak /etc/resolv.conf
-	fi
 endif
 	$(call success,DONE!)
