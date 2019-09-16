@@ -1,8 +1,4 @@
-version: '3.2'
-
-#
-# SERVICES
-#
+version: '3.7'
 
 #
 # Variables are loaded from .env file in this folder.
@@ -10,15 +6,10 @@ version: '3.2'
 
 services:
 
-  #
-  # GHOST
-  #
-
+  # Ghost container
   ghost:
     image: ghost:2-alpine
-    restart: always
-    ports:
-      - 2368:2368
+    container_name: "${PROJECT_NAME}-ghost"
     environment:
       # see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
       database__client: mysql
@@ -28,37 +19,24 @@ services:
       database__connection__database: ghost
     labels:
       traefik.enable: true
-      traefik.backend: "${PROJECT_NAME}-ghost"
       traefik.port: 2368
-      traefik.docker.network: stonehenge-network
       traefik.frontend.rule: "Host:${APP1_HOST}"
     networks:
-      - internal
-      - stonehenge-network
+      - default
+      - dev-network
 
+  # Database container
   db:
     image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
     networks:
-      - internal
-
-#
-# VOLUMES
-#
-
-volumes: {}
-
-#
-# NETWORKS
-#
+      - default
 
 networks:
-  # Internal network for project containers
-  internal:
-    external: false
 
   # Network from druidfi/stonehenge
-  stonehenge-network:
+  dev-network:
+    name: stonehenge-network
     external: true
