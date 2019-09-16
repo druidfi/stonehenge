@@ -1,4 +1,5 @@
-RESOLV_CONF_BAK_EXISTS := $(shell test -f resolv.conf.bak && echo "yes" || echo "no")
+RESOLV_CONF := /etc/resolv.conf
+RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.bak && echo "yes" || echo "no")
 
 PHONY += down
 down: ## Tear down Stonehenge
@@ -10,8 +11,8 @@ down: ## Tear down Stonehenge
 ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
-	@sudo rm /etc/resolv.conf
-	@sudo mv /etc/resolv.conf.bak /etc/resolv.conf
+	@sudo rm ${RESOLV_CONF}
+	@sudo mv ${RESOLV_CONF}.bak ${RESOLV_CONF}
 else
 endif
 	$(call success,DONE!)
