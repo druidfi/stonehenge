@@ -1,9 +1,9 @@
 .DEFAULT_GOAL := help
+SHELL := /bin/bash
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
 OS := $(shell . ./scripts/functions.sh && get_distribution)
-SHELL := /bin/bash
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
 ifeq ($(OS),darwin)

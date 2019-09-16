@@ -1,8 +1,8 @@
 #!/bin/bash
 
-shopt -s xpg_echo
+#shopt -s xpg_echo
 
-function get_distribution() {
+get_distribution () {
   if [[ "$(uname)" == "Darwin" ]]; then
     echo "darwin"
   elif [[ -f /etc/os-release ]]; then
@@ -56,7 +56,7 @@ install_resolver () {
 }
 
 remove_resolver() {
-  if [[ "$DISTRO" == "osx" ]]; then
+  if [[ "$DISTRO" == "darwin" ]]; then
     sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
   else
     if [[ -f "/etc/resolv.conf.default" ]]; then
