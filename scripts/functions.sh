@@ -47,19 +47,7 @@ install_resolver () {
   fi
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
-    VERSION=$(get_ubuntu_version)
-
-    if [[ "$VERSION" == "18.04" ]]; then
-      echo "Ubuntu $VERSION needs some extra resolver modifications..."
-      sudo mv /etc/resolv.conf /etc/resolv.conf.bak
-      sudo sh -c "printf '$RESOLVER_BODY_LINUX\n$ORIGINAL' > /etc/resolv.conf"
-      sudo echo "DNSStubListener=no" > /etc/systemd/resolved.conf
-      sudo systemctl daemon-reload
-      sudo systemctl restart systemd-resolved.service
-    else
-      echo "$DISTRO $VERSION does not need extra resolver modifications..."
-    fi
-
+    #echo "$DISTRO $VERSION does not need extra resolver modifications..."
     exit 0
   elif [[ -f "/etc/resolv.conf" ]]; then
     ORIGINAL=$(cat /etc/resolv.conf)
@@ -74,6 +62,25 @@ install_resolver () {
 
   echo "Unknown distribution. You might need to handle name resolver settings manually."
   exit 0
+}
+
+post_actions() {
+  if [[ "$DISTRO" == "ubuntu" ]]; then
+    VERSION=$(get_ubuntu_version)
+
+    if [[ "$VERSION" == "18.04" ]]; then
+      echo "Ubuntu $VERSION needs some post actions..."
+      sudo mv /etc/resolv.conf /etc/resolv.conf.bak
+      sudo sh -c "printf '$RESOLVER_BODY_LINUX\n$ORIGINAL' > /etc/resolv.conf"
+      sudo echo "DNSStubListener=no" > /etc/systemd/resolved.conf
+      sudo systemctl daemon-reload
+      sudo systemctl restart systemd-resolved.service
+    else
+      echo "$DISTRO $VERSION does not need extra resolver modifications..."
+    fi
+
+    exit 0
+  fi
 }
 
 remove_resolver() {

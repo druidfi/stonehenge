@@ -63,6 +63,7 @@ up: ## Launch Stonehenge
 	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
 	$(call step,Adding your SSH key...)
 	@test -f ~/.ssh/id_rsa && docker run --rm -it --volume=$$HOME/.ssh/id_rsa:/$$HOME/.ssh/id_rsa --volumes-from=${PREFIX}-ssh-agent --name=${PREFIX}-ssh-agent-add-key amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
+	@. ./scripts/functions.sh && post_actions
 	$(call success,SUCCESS! Open http://portainer.${DOCKER_DOMAIN} ...)
 
 PHONY += update
