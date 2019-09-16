@@ -9,7 +9,8 @@ Local development environment toolset on Docker supporting multiple projects.
 ## Requirements
 
 - macOS, Arch Linux or Ubuntu
-- Docker 17.04.0+
+- Docker 18.06.0+
+- Make
 - No other services listening port 80 or 443
 
 ## Included containers
@@ -18,6 +19,7 @@ Local development environment toolset on Docker supporting multiple projects.
 - `mailhog/mailhog` in [mailhog.docker.sh](http://mailhog.docker.sh) to catch emails
 - `portainer/portainer` in [portainer.docker.sh](http://portainer.docker.sh) to manage your Docker
 - `traefik` in [traefik.docker.sh](http://traefik.docker.sh) to handle all our reverse proxy needs
+- `makecert` generated SSL certificate
 
 ## Setup
 
@@ -91,12 +93,13 @@ $ stonehenge up
 ## Tested with
 
 - Arch Linux
+- macOS Catalina 10.15
 - macOS High Sierra 10.13.6
 - macOS Mojave 10.14
 - Manjaro 17.1.6 (Arch Linux)
 - Ubuntu 16.04
 - Ubuntu 17.10
-- Ubuntu 18.04
+- Ubuntu 18.04 LTS
 
 ## Fork and modify
 
@@ -107,7 +110,6 @@ To brand the toolset for your organization:
   - `COMPOSE_PROJECT_NAME=company_dev`
   - `DOCKER_DOMAIN=docker.company_dev.com`
   - `LOGO_URL=https://your-cool-logo.png`
-  - `NETWORK_NAME=company_dev-network`
   - `PREFIX=company_dev`
 - IMPORTANT! Let us know! <3
 

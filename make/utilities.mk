@@ -24,13 +24,13 @@ RED=\033[0;31m
 YELLOW=\033[0;33m
 
 define step
-	@. ./.env && printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
+	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
 endef
 
 define success
-	@. ./.env && printf "\n${GREEN}${1}${NO_COLOR} ${2}\n\n"
+	@printf "\n${GREEN}${1}${NO_COLOR} ${2}\n\n"
 endef
 
 define val
-	@. ./.env && printf "${YELLOW}${1}:${NO_COLOR} ${2}\n"
+	@printf "${YELLOW}${1}:${NO_COLOR} ${2}\n"
 endef
