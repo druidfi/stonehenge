@@ -10,7 +10,7 @@ ifeq ($(OS),darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
 else ifeq ($(OS),ubuntu)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
-	UBUNTU_VERSION := $(shell . /etc/os-release && echo "${VERSION_ID}")
+	UBUNTU_VERSION := $(shell . /etc/os-release && echo "$${VERSION_ID}")
 else ifeq ($(OS),linux)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
