@@ -55,6 +55,7 @@ PHONY += --ssh
 		--name=${PREFIX}-ssh-agent-add-key \
 		amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
 
+export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
 --up-post-actions:
 	$(call step,Call post actions on $(OS)...)
@@ -62,7 +63,7 @@ ifeq ($(OS),darwin)
 else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	@sudo mv /etc/resolv.conf /etc/resolv.conf.bak
-	@sudo sh -c "printf '${RESOLVER_BODY_DARWIN}' > /etc/resolv.conf"
+	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /etc/resolv.conf"
 	@sudo echo "DNSStubListener=no" > /etc/systemd/resolved.conf
 	@sudo systemctl daemon-reload
 	@sudo systemctl restart systemd-resolved.service
