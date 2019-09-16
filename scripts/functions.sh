@@ -13,6 +13,15 @@ get_distribution () {
   fi
 }
 
+get_ubuntu_version () {
+  if [[ -f /etc/os-release ]]; then
+    # shellcheck disable=SC1091
+    . /etc/os-release && echo "${VERSION_ID}"
+  else
+    echo "no-ubuntu"
+  fi
+}
+
 DISTRO=$(get_distribution)
 
 # Load env file
@@ -38,7 +47,14 @@ install_resolver () {
   fi
 
   if [[ "$DISTRO" == "ubuntu" ]]; then
-    echo "$DISTRO does not need extra resolver modifications..."
+    VERSION=$(get_ubuntu_version)
+
+    if [[ "$VERSION" == "18.04" ]]; then
+      echo "Ubuntu $VERSION needs some extra resolver modifications..."
+    else
+      echo "$DISTRO does not need extra resolver modifications..."
+    fi
+
     exit 0
   elif [[ -f "/etc/resolv.conf" ]]; then
     ORIGINAL=$(cat /etc/resolv.conf)
