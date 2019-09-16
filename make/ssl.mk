@@ -42,3 +42,8 @@ else
 	@test -f $(CERT).crt && echo "- already exists" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
 endif
+
+# If mkcert bin does not exist, show installation targets
+ifeq ($(MKCERT_BIN),no)
+include $(PROJECT_DIR)/make/mkcert.mk
+endif
