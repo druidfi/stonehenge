@@ -34,3 +34,7 @@ endef
 define val
 	@printf "${YELLOW}${1}:${NO_COLOR} ${2}\n"
 endef
+
+define warn
+	@printf "\n${RED}${1}${NO_COLOR} ${2}\n\n"
+endef
