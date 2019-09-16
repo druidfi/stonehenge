@@ -13,7 +13,7 @@ certs: --certs-install-ca --certs-create-certs ## Install certs
 
 PHONY += certs-uninstall
 certs-uninstall: export CAROOT = $(MKCERT_CAROOT)
-certs-uninstall:
+certs-uninstall: ## Uninstall certs
 ifeq ($(MKCERT_BIN),no)
 	$(error ${MKCERT_ERROR})
 else
