@@ -9,7 +9,7 @@ SSH_VOLUME_NAME := $(PREFIX)-ssh
 ifeq ($(OS),darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
 else ifeq ($(OS),ubuntu)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 else ifeq ($(OS),linux)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
