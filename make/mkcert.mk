@@ -5,7 +5,7 @@ MKCERT_SOURCE := https://github.com/FiloSottile/mkcert/releases/download/${MKCER
 MKCERT_BIN_PATH := /usr/local/bin/mkcert
 
 mkcert-install: ## Install mkcert
-ifeq ($(OS),darwin)
+ifeq ($(OS),Darwin)
 	$(call step,Install mkcert with brew)
 ifeq ($(BREW_BIN),no)
 	$(call warn,Brew is not installed!)
@@ -18,3 +18,5 @@ else ifeq ($(OS),ubuntu)
 	@wget ${MKCERT_SOURCE} -O ${MKCERT_BIN_PATH}
 	@chmod +x ${MKCERT_BIN_PATH}
 endif
+	$(call step,Show mkcert help)
+	@mkcert -help

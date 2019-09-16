@@ -3,15 +3,15 @@ SHELL := /bin/bash
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
-OS := $(shell . ./scripts/functions.sh && get_distribution)
+OS := $(shell test -f /etc/os-release && . /etc/os-release && echo "${ID}" || uname)
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
-ifeq ($(OS),darwin)
+ifeq ($(OS),Darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
 else ifeq ($(OS),ubuntu)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 	UBUNTU_VERSION := $(shell . /etc/os-release && echo "$${VERSION_ID}")
-else ifeq ($(OS),linux)
+else ifeq ($(OS),Linux)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
 

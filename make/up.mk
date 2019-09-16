@@ -22,7 +22,7 @@ export RESOLVER_BODY_DARWIN
 PHONY += --up-pre-actions
 --up-pre-actions:
 	$(call step,Call pre actions on $(OS)...)
-ifeq ($(OS),darwin)
+ifeq ($(OS),Darwin)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@sudo sh -c "printf '$$RESOLVER_BODY_DARWIN' > /etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file created"
 else ifeq ($(OS),ubuntu)
@@ -59,7 +59,7 @@ export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
 --up-post-actions:
 	$(call step,Call post actions on $(OS)...)
-ifeq ($(OS),darwin)
+ifeq ($(OS),Darwin)
 else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	@sudo mv /etc/resolv.conf /etc/resolv.conf.bak

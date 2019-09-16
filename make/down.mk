@@ -5,7 +5,7 @@ down: ## Tear down Stonehenge
 	@docker network remove ${NETWORK_NAME} || docker network inspect ${NETWORK_NAME}
 	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
 	$(call step,Remove resolver file...)
-ifeq ($(OS),darwin)
+ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else
 	if [[ -f "/etc/resolv.conf.default" ]]; then
