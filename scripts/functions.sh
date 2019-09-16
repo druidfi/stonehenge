@@ -2,7 +2,15 @@
 
 shopt -s xpg_echo
 
-. ./scripts/os.sh
+function get_distribution() {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    echo "osx"
+  elif [[ -f /etc/os-release ]]; then
+    # shellcheck disable=SC1091
+    . /etc/os-release && echo "${ID}"
+  fi
+}
+
 DISTRO=$(get_distribution)
 
 # Load env file
@@ -20,7 +28,7 @@ read -r -d '' RESOLVER_BODY_LINUX << EOM
 nameserver 127.0.0.48
 EOM
 
-install () {
+install_resolver () {
   if [[ "$DISTRO" == "osx" ]]; then
     test -d /etc/resolver || sudo mkdir -p /etc/resolver
     sudo sh -c "echo '$RESOLVER_BODY_DARWIN' > /etc/resolver/$DOCKER_DOMAIN" && echo "Resolver file created"
@@ -45,7 +53,7 @@ install () {
   exit 0
 }
 
-remove() {
+remove_resolver() {
   if [[ "$DISTRO" == "osx" ]]; then
     sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
   else

@@ -1,56 +1,67 @@
 .DEFAULT_GOAL := help
 
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
+NETWORK_NAME := $(PREFIX)-network
 OS := $(shell uname -s)
 SHELL := /bin/bash
+SSH_VOLUME_NAME := $(PREFIX)-ssh
+
+ifeq ($(OS),Darwin)
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
+else ifeq ($(OS),Linux)
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
+endif
+
+PHONY += config
+config: ## Show Stonehenge container config
+	$(call step,Show Stonehenge container config on $(OS)...)
+	@${DOCKER_COMPOSE_CMD} config
 
 PHONY += down
 down: ## Tear down Stonehenge
-	$(call step,Tear down Stonehenge\n\n- Stop and remove the containers...)
-	@docker-compose down -v --remove-orphans
+	$(call step,Tear down Stonehenge\n\nStop and remove the containers...)
+	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans
 	@docker network remove ${NETWORK_NAME} || docker network inspect ${NETWORK_NAME}
+	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
 	$(call step,Remove resolver file...)
-	@. ./scripts/resolver.sh && remove
-	$(call step,DONE!)
-
-PHONY += help
-help: ## Print this help
-	$(call step,Available make commands for Stonehenge:)
-	@cat $(MAKEFILE_LIST) | grep -e "^[a-zA-Z_\-]*: *.*## *" | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' | sort
-
-PHONY += check-scripts
-check-scripts:
-	@shellcheck scripts/*.sh install.sh .travis/*.sh && echo "All good"
+ifeq ($(OS),Darwin)
+	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+else ifeq ($(OS),Linux)
+	@. ./scripts/functions.sh && remove_resolver
+endif
+	$(call success,DONE!)
 
 PHONY += restart
 restart: ## Restart Stonehenge
 	$(call step,Restarting Stonehenge containers...)
-	@docker-compose restart
-	$(call step,Restarted!)
+	@${DOCKER_COMPOSE_CMD} restart
+	$(call success,Restarted!)
 
 PHONY += status
 status: ## Stonehenge status
 	$(call step,Stonehenge status)
-	@docker-compose ps
+	@${DOCKER_COMPOSE_CMD} ps
 
 PHONY += stop
 stop: ## Stop Stonehenge
 	$(call step,Stopping Stonehenge containers...)
-	@docker-compose stop
-	$(call step,STOPPED!)
+	@${DOCKER_COMPOSE_CMD} stop
+	$(call success,Stopped!)
 
 PHONY += up
 up: ## Launch Stonehenge
 	$(call step,Start Stonehenge on $(OS))
-	$(call step,- Set resolver file...)
-	@shopt -s xpg_echo && . ./scripts/resolver.sh && install
-	$(call step,- Create network ${NETWORK_NAME}...)
+	$(call step,Create resolver file...)
+	@. ./scripts/functions.sh && install_resolver
+	$(call step,Create network ${NETWORK_NAME}...)
 	@docker network inspect ${NETWORK_NAME} > /dev/null || docker network create ${NETWORK_NAME} && echo "Network created"
-	$(call step,- Start the containers...)
-	@docker-compose -f docker-compose.yml $$(. ./scripts/os.sh && get_compose_files) up -d --force-recreate --remove-orphans
-	$(call step,- Adding your SSH key...)
-	@test -f ~/.ssh/id_rsa && docker run --rm -it --volume=$$HOME/.ssh/id_rsa:/$$HOME/.ssh/id_rsa --volumes-from=stonehenge-ssh-agent --name=stonehenge-ssh-agent-add-key amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
-	$(started)
+	$(call step,Create volume ${SSH_VOLUME_NAME}...)
+	@docker volume inspect ${SSH_VOLUME_NAME} > /dev/null || docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+	$(call step,Start the containers...)
+	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+	$(call step,Adding your SSH key...)
+	@test -f ~/.ssh/id_rsa && docker run --rm -it --volume=$$HOME/.ssh/id_rsa:/$$HOME/.ssh/id_rsa --volumes-from=${PREFIX}-ssh-agent --name=${PREFIX}-ssh-agent-add-key amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
+	$(call success,SUCCESS! Open http://portainer.${DOCKER_DOMAIN} ...)
 
 PHONY += update
 update: ## Update Stonehenge
@@ -61,34 +72,22 @@ update: ## Update Stonehenge
 #
 # Include addons
 #
+
+include $(PROJECT_DIR)/make/utilities.mk
 include $(PROJECT_DIR)/make/ssl.mk
 
 #
-# FUNCTIONS
+# Check requirements
 #
-
-# Colors
-NO_COLOR=\033[0m
-GREEN=\033[0;32m
-RED=\033[0;31m
-YELLOW=\033[0;33m
-
-define started
-	$(call step,SUCCESS! Open http://portainer.$$DOCKER_DOMAIN ...)
-endef
-
-define step
-	@. ./.env && printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
-endef
 
 ifeq ($(DOCKER_COMPOSE_BIN),no)
 $(error docker-compose is required)
 endif
 
 ifeq ($(DOCKER_DOMAIN),)
-$(error DOCKER_DOMAIN not set)
+$(error DOCKER_DOMAIN not set in .env)
 endif
 
-ifeq ($(NETWORK_NAME),)
-$(error NETWORK_NAME not set)
+ifeq ($(PREFIX),)
+$(error PREFIX not set in .env)
 endif

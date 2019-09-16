@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.7'
 
 services:
   dnsmasq:
@@ -9,9 +9,6 @@ services:
       - NET_ADMIN
     command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
     dns: 8.8.8.8
-    ports:
-      - "6053:53/tcp"
-      - "6053:53/udp"
 
   traefik:
     image: traefik
@@ -23,11 +20,11 @@ services:
       --docker
       --docker.watch="true"
       --docker.domain="${DOCKER_DOMAIN}"
-      --docker.network="${NETWORK_NAME}"
+      --docker.network="${PREFIX}-network"
       --docker.exposedbydefault="false"
       --defaultentrypoints=http,https
       --entrypoints="Name:http Address::80"
-      --entrypoints="Name:https Address::443 TLS:/ssl/stonehenge.crt,/ssl/stonehenge.key"
+      --entrypoints="Name:https Address::443 TLS:/ssl/${PREFIX}.crt,/ssl/${PREFIX}.key"
     labels:
       traefik.enable: true
       traefik.backend: traefik
@@ -72,8 +69,14 @@ services:
     restart: unless-stopped
     volumes:
       - ~/.ssh:/ssh
+      - ssh:/tmp/amazeeio_ssh-agent/
 
 networks:
   default:
-    external:
-      name: "${NETWORK_NAME}"
+    name: "${PREFIX}-network"
+    external: true
+
+volumes:
+  ssh:
+    name: "${PREFIX}-ssh"
+    external: true
