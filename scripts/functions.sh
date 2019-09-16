@@ -51,8 +51,13 @@ install_resolver () {
 
     if [[ "$VERSION" == "18.04" ]]; then
       echo "Ubuntu $VERSION needs some extra resolver modifications..."
+      sudo mv /etc/resolv.conf /etc/resolv.conf.bak
+      sudo sh -c "printf '$RESOLVER_BODY_LINUX\n$ORIGINAL' > /etc/resolv.conf"
+      sudo echo "DNSStubListener=no" > /etc/systemd/resolved.conf
+      sudo systemctl daemon-reload
+      sudo systemctl restart systemd-resolved.service
     else
-      echo "$DISTRO does not need extra resolver modifications..."
+      echo "$DISTRO $VERSION does not need extra resolver modifications..."
     fi
 
     exit 0
