@@ -11,7 +11,5 @@ pre_actions () {
     fi
     exit 0
   fi
-
-  echo "Unknown distribution. You might need to handle name resolver settings manually."
   exit 0
 }
