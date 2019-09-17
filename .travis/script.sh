@@ -14,7 +14,12 @@ make up
 make mkcert-install
 
 # Install SSL-sertificate
-sudo make certs
+if [[ ${TRAVIS_DIST} == 'xenial' ]]; then
+  # See https://github.com/FiloSottile/mkcert/pull/193
+  sudo make certs
+else
+  make certs
+fi
 
 # Check that we can connect to local Portainer
 curl -Is https://portainer.docker.sh | head -1
