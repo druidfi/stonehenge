@@ -124,6 +124,14 @@ To brand the toolset for your organization:
   - `PREFIX=company_dev`
 - IMPORTANT! Let us know! <3
 
+## Debug
+
+Use following command to see what data is detected:
+
+```
+$ make debug
+```
+
 ## TODO
 
 - More examples
