@@ -64,7 +64,7 @@ else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	@sudo mv /etc/resolv.conf /etc/resolv.conf.bak
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /etc/resolv.conf"
-	@sudo echo "DNSStubListener=no" > /etc/systemd/resolved.conf
+	@sudo sh -c "echo "DNSStubListener=no" > /etc/systemd/resolved.conf"
 	@sudo systemctl daemon-reload
 	@sudo systemctl restart systemd-resolved.service
 else ifeq ($(OS),linux)

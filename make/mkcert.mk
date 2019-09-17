@@ -15,8 +15,8 @@ endif
 else ifeq ($(OS),ubuntu)
 	@sudo apt install libnss3-tools
 	$(call step,Download mkcert binary and make it executable)
-	@wget ${MKCERT_SOURCE} -O ${MKCERT_BIN_PATH}
-	@chmod +x ${MKCERT_BIN_PATH}
+	@sudo wget ${MKCERT_SOURCE} -O ${MKCERT_BIN_PATH}
+	@sudo chmod +x ${MKCERT_BIN_PATH}
 endif
 	$(call step,Show mkcert help)
 	@mkcert -help
