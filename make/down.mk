@@ -31,7 +31,6 @@ ifeq ($(OS),Darwin)
 else ifeq ($(OS),ubuntu)
 	$(call step,Restore resolver file symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
 	sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
-	sudo /bin/cp -rf /etc/systemd/resolved.conf.default /etc/systemd/resolved.conf
 else
 endif
 	$(call success,DONE!)
