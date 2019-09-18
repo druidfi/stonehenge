@@ -61,12 +61,12 @@ PHONY += --up-post-actions
 ifeq ($(OS),Darwin)
 else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
-	@sudo cp /etc/resolv.conf /etc/resolv.conf.default
-	@sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.default
-	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' >> /etc/resolv.conf"
-	@sudo sh -c "echo "DNSStubListener=no" >> /etc/systemd/resolved.conf"
-	@sudo systemctl daemon-reload
-	@sudo systemctl restart systemd-resolved.service
+	sudo /bin/cp -rf /etc/resolv.conf /etc/resolv.conf.default
+	sudo /bin/cp -rf /etc/systemd/resolved.conf /etc/systemd/resolved.conf.default
+	sudo sh -c "printf '$$RESOLVER_BODY_LINUX' >> /etc/resolv.conf"
+	sudo sh -c "echo "DNSStubListener=no" >> /etc/systemd/resolved.conf"
+	sudo systemctl daemon-reload
+	sudo systemctl restart systemd-resolved.service
 else ifeq ($(OS),linux)
 endif
 	$(call success,SUCCESS! Open http://portainer.${DOCKER_DOMAIN} ...)

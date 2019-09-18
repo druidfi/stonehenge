@@ -24,13 +24,15 @@ PHONY += --down-remove-volume
 
 PHONY += --down-post-actions
 --down-post-actions:
-	$(call step,Remove resolver file...)
 ifeq ($(OS),Darwin)
+	$(call step,Remove resolver file on $(OS)...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
-else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
-	@sudo rm ${RESOLV_CONF}
-	@sudo mv ${RESOLV_CONF}.default ${RESOLV_CONF}
-	@sudo cp /etc/resolv.conf.default /etc/resolv.conf
+else ifeq ($(OS),ubuntu)
+ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
+	$(call step,Restore resolver file on from ${RESOLV_CONF}.default on $(OS) $(UBUNTU_VERSION)...)
+	sudo /bin/cp -rf ${RESOLV_CONF}.default ${RESOLV_CONF}
+	sudo /bin/cp -rf /etc/systemd/resolved.conf.default /etc/systemd/resolved.conf
+endif
 else
 endif
 	$(call success,DONE!)
