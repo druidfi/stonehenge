@@ -63,13 +63,14 @@ PHONY += --ssh
 		--name=${PREFIX}-ssh-agent-add-key \
 		amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
 
-export RESOLVER_BODY_LINUX
+export RESOLVER_BODY_UBUNTU
 PHONY += --up-post-actions
 --up-post-actions:
 ifeq ($(OS),Darwin)
 else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
-	sudo sh -c "printf '$$RESOLVER_BODY_UBUNTU' >> /etc/resolv.conf"
+	sudo sh -c "printf '$$RESOLVER_BODY_UBUNTU' >> /run/systemd/resolve/resolv-stonehenge.conf"
+	sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
 #	sudo systemctl daemon-reload
 #	sudo systemctl restart systemd-resolved.service
 else ifeq ($(OS),linux)
