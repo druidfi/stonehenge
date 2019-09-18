@@ -21,8 +21,8 @@ PHONY += --up-title
 export RESOLVER_BODY_DARWIN
 PHONY += --up-pre-actions
 --up-pre-actions:
-	$(call step,Call pre actions on $(OS)...)
 ifeq ($(OS),Darwin)
+	$(call step,Create resolver file on $(OS)...)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@sudo sh -c "printf '$$RESOLVER_BODY_DARWIN' > /etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file created"
 else ifeq ($(OS),ubuntu)
@@ -58,14 +58,14 @@ PHONY += --ssh
 export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
 --up-post-actions:
-	$(call step,Call post actions on $(OS)...)
 ifeq ($(OS),Darwin)
-else ifeq ($(OS),ubuntu)
+else ifeq ($(OS),ubuntu222)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	@sudo cp /etc/resolv.conf /etc/resolv.conf.default
+	@sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.default
 	@sudo mv /etc/resolv.conf /etc/resolv.conf.bak
-	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /etc/resolv.conf"
-	@sudo sh -c "echo "DNSStubListener=no" > /etc/systemd/resolved.conf"
+	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' >> /etc/resolv.conf"
+	@sudo sh -c "echo "DNSStubListener=no" >> /etc/systemd/resolved.conf"
 	@sudo systemctl daemon-reload
 	@sudo systemctl restart systemd-resolved.service
 else ifeq ($(OS),linux)

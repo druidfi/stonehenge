@@ -1,14 +1,6 @@
 version: '3.7'
 
 services:
-  dnsmasq:
-    image: andyshinn/dnsmasq:2.78
-    container_name: "${PREFIX}-dnsmasq"
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-    command: "--address=/.${DOCKER_DOMAIN}/127.0.0.1"
-    dns: 8.8.8.8
 
   traefik:
     image: traefik:v1.7.16

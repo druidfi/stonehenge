@@ -6,6 +6,7 @@ make -v
 docker --version
 docker-compose --version
 make debug
+ping -c 1 docker.sh
 
 # Start up Stonehenge
 make up
@@ -20,6 +21,8 @@ if [[ ${TRAVIS_DIST} == 'xenial' ]]; then
 else
   make certs
 fi
+
+ping -c 1 docker.sh
 
 # Check that we can connect to local Portainer
 curl -Is https://portainer.docker.sh | head -1

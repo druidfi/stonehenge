@@ -118,10 +118,11 @@ To brand the toolset for your organization:
 
 - Fork this repository
 - Modify `.env` file e.g. like follows:
-  - `COMPOSE_PROJECT_NAME=company_dev`
-  - `DOCKER_DOMAIN=docker.company_dev.com`
+  - `COMPOSE_PROJECT_NAME=company`
+  - `DOCKER_DOMAIN=docker.company.com`
   - `LOGO_URL=https://your-cool-logo.png`
-  - `PREFIX=company_dev`
+  - `PREFIX=company`
+- Point your `docker.company.com` and `*.docker.company.com` to `127.0.0.1`
 - IMPORTANT! Let us know! <3
 
 ## Debug

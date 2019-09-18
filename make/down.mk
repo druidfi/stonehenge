@@ -27,9 +27,10 @@ PHONY += --down-post-actions
 	$(call step,Remove resolver file...)
 ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
-else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
+else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes222)
 	@sudo rm ${RESOLV_CONF}
 	@sudo mv ${RESOLV_CONF}.bak ${RESOLV_CONF}
+	@sudo cp /etc/resolv.conf.default /etc/resolv.conf
 else
 endif
 	$(call success,DONE!)
