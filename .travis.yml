@@ -1,11 +1,11 @@
 matrix:
   include:
   - os: linux
-    dist: xenial # Ubuntu 16.04 LTS
+    dist: bionic # Ubuntu 18.04 LTS
     sudo: required
     services: docker
   - os: linux
-    dist: bionic # Ubuntu 18.04 LTS
+    dist: xenial # Ubuntu 16.04 LTS
     sudo: required
     services: docker
 # Cannot use Docker in osx images

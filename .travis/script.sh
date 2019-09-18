@@ -2,7 +2,6 @@
 
 echo "Distribution: ${TRAVIS_DIST}"
 
-make -v
 docker --version
 docker-compose --version
 make debug
