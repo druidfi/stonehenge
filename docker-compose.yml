@@ -24,7 +24,7 @@ services:
       --docker.exposedbydefault="false"
       --defaultentrypoints=http,https
       --entrypoints="Name:http Address::80"
-      --entrypoints="Name:https Address::443 TLS:/ssl/${PREFIX}.crt,/ssl/${PREFIX}.key"
+      --entrypoints="Name:https Address::443 TLS:/ssl/${DOCKER_DOMAIN}.crt,/ssl/${DOCKER_DOMAIN}.key"
     labels:
       traefik.enable: true
       traefik.backend: traefik

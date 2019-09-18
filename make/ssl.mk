@@ -6,7 +6,7 @@ MKCERT_BIN := $(shell which mkcert || echo no)
 MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
 MKCERT_CAROOT := $(shell pwd)/certs
 SH_CERTS_PATH := certs
-SH_CERT_FILENAME := stonehenge
+SH_CERT_FILENAME := $(DOCKER_DOMAIN)
 
 PHONY += certs
 certs: --certs-install-ca --certs-create-certs ## Install certs
