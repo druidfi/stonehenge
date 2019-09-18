@@ -29,7 +29,8 @@ cat /etc/resolv.conf
 cat /etc/systemd/resolved.conf
 
 # Check that we can connect to local Portainer
-curl -Is https://portainer.docker.sh | head -1
+#curl -Is https://portainer.docker.sh | head -1
+curl -s https://portainer.docker.sh | grep Portainer
 
 # Tear down Stonehenge
 make down
