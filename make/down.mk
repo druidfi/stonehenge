@@ -1,7 +1,7 @@
 DOWN_TARGETS := --down-title --down --down-remove-network --down-remove-volume --down-post-actions
 
 RESOLV_CONF := /etc/resolv.conf
-RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.bak && echo "yes" || echo "no")
+RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.default && echo "yes" || echo "no")
 
 PHONY += down
 down: $(DOWN_TARGETS) ## Tear down Stonehenge
@@ -27,9 +27,9 @@ PHONY += --down-post-actions
 	$(call step,Remove resolver file...)
 ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
-else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes222)
+else ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
 	@sudo rm ${RESOLV_CONF}
-	@sudo mv ${RESOLV_CONF}.bak ${RESOLV_CONF}
+	@sudo mv ${RESOLV_CONF}.default ${RESOLV_CONF}
 	@sudo cp /etc/resolv.conf.default /etc/resolv.conf
 else
 endif

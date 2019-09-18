@@ -7,6 +7,8 @@ docker --version
 docker-compose --version
 make debug
 ping -c 1 docker.sh
+cat /etc/resolv.conf
+cat /etc/systemd/resolved.conf
 
 # Start up Stonehenge
 make up
@@ -23,6 +25,8 @@ else
 fi
 
 ping -c 1 docker.sh
+cat /etc/resolv.conf
+cat /etc/systemd/resolved.conf
 
 # Check that we can connect to local Portainer
 curl -Is https://portainer.docker.sh | head -1

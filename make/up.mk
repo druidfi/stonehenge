@@ -59,11 +59,10 @@ export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
 --up-post-actions:
 ifeq ($(OS),Darwin)
-else ifeq ($(OS),ubuntu222)
+else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	@sudo cp /etc/resolv.conf /etc/resolv.conf.default
 	@sudo cp /etc/systemd/resolved.conf /etc/systemd/resolved.conf.default
-	@sudo mv /etc/resolv.conf /etc/resolv.conf.bak
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' >> /etc/resolv.conf"
 	@sudo sh -c "echo "DNSStubListener=no" >> /etc/systemd/resolved.conf"
 	@sudo systemctl daemon-reload
