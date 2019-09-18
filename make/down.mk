@@ -30,7 +30,7 @@ ifeq ($(OS),Darwin)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(OS),ubuntu)
 	$(call step,Restore resolver file symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
-	sudo ln -s $(RESOLV_STUB) /etc/resolv.conf
+	sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
 	sudo /bin/cp -rf /etc/systemd/resolved.conf.default /etc/systemd/resolved.conf
 else
 endif
