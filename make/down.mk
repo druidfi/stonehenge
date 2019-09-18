@@ -2,6 +2,7 @@ DOWN_TARGETS := --down-title --down --down-remove-network --down-remove-volume -
 
 RESOLV_CONF := /etc/resolv.conf
 RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.default && echo "yes" || echo "no")
+RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
 
 PHONY += down
 down: $(DOWN_TARGETS) ## Tear down Stonehenge
@@ -28,11 +29,9 @@ ifeq ($(OS),Darwin)
 	$(call step,Remove resolver file on $(OS)...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(OS),ubuntu)
-ifeq ($(RESOLV_CONF_BAK_EXISTS),yes)
-	$(call step,Restore resolver file on from ${RESOLV_CONF}.default on $(OS) $(UBUNTU_VERSION)...)
-	sudo /bin/cp -rf ${RESOLV_CONF}.default ${RESOLV_CONF}
+	$(call step,Restore resolver file symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
+	sudo ln -s $(RESOLV_STUB) /etc/resolv.conf
 	sudo /bin/cp -rf /etc/systemd/resolved.conf.default /etc/systemd/resolved.conf
-endif
 else
 endif
 	$(call success,DONE!)

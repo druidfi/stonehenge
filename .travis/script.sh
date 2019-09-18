@@ -29,7 +29,9 @@ cat /etc/systemd/resolved.conf
 
 # Check that we can connect to local Portainer
 #curl -Is https://portainer.docker.sh | head -1
+echo "CURL portainer for checking access starts"
 curl -s https://portainer.docker.sh | grep Portainer
+echo "CURL portainer for checking access ends"
 
 # Tear down Stonehenge
 make down
