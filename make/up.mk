@@ -71,8 +71,6 @@ else ifeq ($(OS),ubuntu)
 	$(call step,Handle DNS on $(OS) $(UBUNTU_VERSION)...)
 	sudo sh -c "printf '$$RESOLVER_BODY_UBUNTU' >> /run/systemd/resolve/resolv-stonehenge.conf"
 	sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
-#	sudo systemctl daemon-reload
-#	sudo systemctl restart systemd-resolved.service
 else ifeq ($(OS),linux)
 endif
 	$(call success,SUCCESS! Open http://portainer.${DOCKER_DOMAIN} ...)

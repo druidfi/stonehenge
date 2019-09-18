@@ -29,8 +29,8 @@ ifeq ($(OS),Darwin)
 	$(call step,Remove resolver file on $(OS)...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(OS),ubuntu)
-	$(call step,Restore resolver file symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
-	sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
+	$(call step,Restore resolver symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
+	@sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
 else
 endif
 	$(call success,DONE!)
