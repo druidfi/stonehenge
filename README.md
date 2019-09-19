@@ -39,6 +39,16 @@ $ cd ~/stonehenge
 $ make up
 ```
 
+### Using custom domain
+
+You can also use custom domain instead of `docker.sh`:
+
+```
+$ make up DOCKER_DOMAIN=docker.druid.fi
+```
+
+Or alternatively change DOCKER_DOMAIN value in `.env` file.
+
 ## Stop or shutdown Stonehenge
 
 Note: Stonehenge will be started on boot by default if not stopped before.

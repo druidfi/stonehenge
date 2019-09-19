@@ -18,7 +18,7 @@ ifeq ($(MKCERT_BIN),no)
 else
 	$(call step,Uninstall local CA...)
 	@mkcert -uninstall || echo "No CA found..."
-	rm -rf $(SH_CERTS_PATH)/*.crt $(SH_CERTS_PATH)/*.key $(SH_CERTS_PATH)/*.pem
+	@rm -rf $(SH_CERTS_PATH)/*.crt $(SH_CERTS_PATH)/*.key $(SH_CERTS_PATH)/*.pem
 endif
 
 PHONY += --certs-install-ca
