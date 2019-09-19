@@ -25,12 +25,13 @@ PHONY += --down-remove-volume
 
 PHONY += --down-post-actions
 --down-post-actions:
-ifeq ($(OS),Darwin)
+ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Remove resolver file on $(OS)...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
-else ifeq ($(OS),ubuntu)
-	$(call step,Restore resolver symlink to $(RESOLV_STUB) on $(OS) $(UBUNTU_VERSION)...)
+else ifeq ($(OS_ID),ubuntu)
+	$(call step,Restore resolver symlink to $(RESOLV_STUB) on $(OS) $(OS_ID)...)
 	@sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
 else
+	$(call step,No post actions defined for $(OS))
 endif
 	$(call success,DONE!)

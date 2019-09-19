@@ -1,19 +1,18 @@
 .DEFAULT_GOAL := help
 SHELL := /bin/bash
 
+# Load OS information
+include $(PROJECT_DIR)/make/os.mk
+
+DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
-OS := $(shell test -f /etc/os-release && . /etc/os-release && echo "$${ID}" || uname)
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
 # Set OS/distro specific variables
-ifeq ($(OS),Darwin)
+ifeq ($(OS_ID_LIKE),darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
-	BREW_BIN := $(shell which brew || echo no)
-else ifeq ($(OS),ubuntu)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
-	UBUNTU_VERSION := $(shell . /etc/os-release && echo "$${VERSION_ID}")
-else ifeq ($(OS),Linux)
+else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
 
@@ -58,6 +57,10 @@ include $(PROJECT_DIR)/make/mkcert.mk
 #
 # Check requirements
 #
+
+ifeq ($(DOCKER_BIN),no)
+$(error docker is required)
+endif
 
 ifeq ($(DOCKER_COMPOSE_BIN),no)
 $(error docker-compose is required)

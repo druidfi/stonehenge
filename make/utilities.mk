@@ -2,9 +2,15 @@ PHONY += debug
 debug:
 	$(call step,Debug:)
 	$(call val,OS,$(OS))
+	$(call val,OS_ID,$(OS_ID))
+	$(call val,OS_ID_LIKE,$(OS_ID_LIKE))
+	$(call val,OS_VERSION,$(OS_VERSION))
+	$(call val,Docker installed,$(DOCKER_BIN))
+	$(call val,Docker version,$(shell docker --version))
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
 	$(call val,Docker network name,$(NETWORK_NAME))
 	$(call val,docker-compose installed,$(DOCKER_COMPOSE_BIN))
+	$(call val,Docker Compose version,$(shell docker-compose --version))
 	$(call val,docker-compose command,$(DOCKER_COMPOSE_CMD))
 	$(call val,mkcert installed,$(MKCERT_BIN))
 
