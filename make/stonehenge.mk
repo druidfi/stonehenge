@@ -11,7 +11,7 @@ ifeq ($(OS),Darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
 	BREW_BIN := $(shell which brew || echo no)
 else ifeq ($(OS),ubuntu)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 	UBUNTU_VERSION := $(shell . /etc/os-release && echo "$${VERSION_ID}")
 else ifeq ($(OS),Linux)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
