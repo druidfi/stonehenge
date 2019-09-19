@@ -4,10 +4,11 @@ matrix:
     dist: bionic # Ubuntu 18.04 LTS
     sudo: required
     services: docker
-  - os: linux
-    dist: xenial # Ubuntu 16.04 LTS
-    sudo: required
-    services: docker
+# Ubuntu 16.04 is not supported anymore
+#  - os: linux
+#    dist: xenial # Ubuntu 16.04 LTS
+#    sudo: required
+#    services: docker
 # Cannot use Docker in osx images
 #  - os: osx
 #    osx_image: xcode9.4
