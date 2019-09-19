@@ -7,6 +7,6 @@ SHELL := /bin/bash
 include .env
 
 # Include Stonehenge makefiles
-include $(PROJECT_DIR)/make/*.mk
+include $(PROJECT_DIR)/make/stonehenge.mk
 
 .PHONY: $(PHONY)

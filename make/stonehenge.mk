@@ -1,3 +1,5 @@
+include $(PROJECT_DIR)/make/os.mk
+
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
@@ -37,6 +39,12 @@ update: ## Update Stonehenge
 	$(call step,Update Stonehenge\n\n- Pull the latest code...)
 	@git pull
 	@make up
+
+include $(PROJECT_DIR)/make/mkcert.mk
+include $(PROJECT_DIR)/make/ssl.mk
+include $(PROJECT_DIR)/make/up.mk
+include $(PROJECT_DIR)/make/down.mk
+include $(PROJECT_DIR)/make/utilities.mk
 
 #
 # Check requirements
