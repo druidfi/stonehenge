@@ -8,18 +8,18 @@ Local development environment toolset on Docker supporting multiple projects.
 
 ## Requirements
 
-- macOS, Arch Linux or Ubuntu LTS
+- Latest macOS or Ubuntu LTS
 - Docker 18.06.0+
 - Make
 - No other services listening port 80 or 443
 
-## Included containers
+## Included
 
 - `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
-- `mailhog/mailhog` in [mailhog.docker.sh](http://mailhog.docker.sh) to catch emails
-- `portainer/portainer` in [portainer.docker.sh](http://portainer.docker.sh) to manage your Docker
-- `traefik` in [traefik.docker.sh](http://traefik.docker.sh) to handle all our reverse proxy needs
-- `makecert` generated SSL certificate
+- `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
+- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker
+- `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
+- [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 
 ## Setup
 
@@ -37,24 +37,6 @@ $ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/maste
 $ git clone -b master https://github.com/druidfi/stonehenge.git ~/stonehenge
 $ cd ~/stonehenge
 $ make up
-```
-
-## Local HTTPS
-
-Requirements:
-
-- [mkcert](https://github.com/FiloSottile/mkcert)
-
-Install `mkcert`:
-
-```
-$ make mkcert-install
-```
-
-Create and install local CA and certs for Stonehenge:
-
-```
-$ make certs
 ```
 
 ## Stop or shutdown Stonehenge
@@ -96,21 +78,19 @@ $ stonehenge up
 - [Symfony 4](examples/symfony/README.md)
 - [Wordpress](examples/wordpress/README.md)
 
-## Supported
+## Supported operating systems
 
-- Latest macOS: Catalina
-- Latest Ubuntu LTS: 18.04
+- macOS Catalina 10.15
+- Ubuntu 18.04 LTS
 
-## Tested with
+Also tested with at some point:
 
 - Arch Linux
-- macOS Catalina 10.15
 - macOS High Sierra 10.13.6
 - macOS Mojave 10.14
 - Manjaro 17.1.6 (Arch Linux)
 - Ubuntu 16.04 LTS
 - Ubuntu 17.10
-- Ubuntu 18.04 LTS
 
 ## Fork and modify
 
