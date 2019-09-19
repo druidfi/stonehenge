@@ -21,7 +21,7 @@ else
 ifeq ($(OS_ID_LIKE),darwin)
 ifeq ($(BREW_BIN),no)
 	$(call step,Download mkcert binary and make it executable)
-	@curl -sL ${MKCERT_SOURCE} -o ${MKCERT_BIN_PATH}
+	@curl -# -L ${MKCERT_SOURCE} -o ${MKCERT_BIN_PATH}
 	@chmod +x ${MKCERT_BIN_PATH}
 else
 	$(call step,Install mkcert with brew)
@@ -38,7 +38,7 @@ else ifeq ($(OS_ID_LIKE),arch)
 	@sudo pacman -S $(MKCERT_REQS_ARCH)
 endif
 	$(call step,Download mkcert binary and make it executable)
-	@sudo wget ${MKCERT_SOURCE} -O ${MKCERT_BIN_PATH}
+	@sudo curl -# -L ${MKCERT_SOURCE} -o ${MKCERT_BIN_PATH}
 	@sudo chmod +x ${MKCERT_BIN_PATH}
 endif
 # Linux ends
