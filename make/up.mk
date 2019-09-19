@@ -19,19 +19,12 @@ PHONY += --up-title
 	$(call step,\nnStart Stonehenge on $(OS))
 
 export RESOLVER_BODY_DARWIN
-export RESOLVER_BODY_LINUX
 PHONY += --up-pre-actions
 --up-pre-actions:
 ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Create resolver file /etc/resolver/${DOCKER_DOMAIN} on $(OS)...)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@sudo sh -c "printf '$$RESOLVER_BODY_DARWIN' > /etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file created"
-else ifeq ($(OS_ID),ubuntu)
-	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf on $(OS)...)
-	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
-	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
-else
-	$(call step,No additional DNS configuration made on $(OS)...)
 endif
 
 PHONY += --up-create-network
@@ -60,6 +53,12 @@ PHONY += --ssh
 		--name=${PREFIX}-ssh-agent-add-key \
 		amazeeio/ssh-agent ssh-add ~/.ssh/id_rsa || echo "No SSH key found"
 
+export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
 --up-post-actions:
+ifeq ($(OS_ID),ubuntu)
+	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf on $(OS)...)
+	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
+	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
+endif
 	$(call success,SUCCESS! Open https://portainer.${DOCKER_DOMAIN} ...)
