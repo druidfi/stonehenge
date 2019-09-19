@@ -6,8 +6,10 @@ NETWORK_NAME := $(PREFIX)-network
 OS := $(shell test -f /etc/os-release && . /etc/os-release && echo "$${ID}" || uname)
 SSH_VOLUME_NAME := $(PREFIX)-ssh
 
+# Set OS/distro specific variables
 ifeq ($(OS),Darwin)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
+	BREW_BIN := $(shell which brew || echo no)
 else ifeq ($(OS),ubuntu)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-ubuntu.yml
 	UBUNTU_VERSION := $(shell . /etc/os-release && echo "$${VERSION_ID}")
@@ -51,6 +53,7 @@ include $(PROJECT_DIR)/make/up.mk
 include $(PROJECT_DIR)/make/down.mk
 include $(PROJECT_DIR)/make/utilities.mk
 include $(PROJECT_DIR)/make/ssl.mk
+include $(PROJECT_DIR)/make/mkcert.mk
 
 #
 # Check requirements

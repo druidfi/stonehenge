@@ -2,7 +2,6 @@
 # SSL related targets
 #
 
-MKCERT_BIN := $(shell which mkcert || echo no)
 MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
 MKCERT_CAROOT := $(shell pwd)/certs
 SH_CERTS_PATH := certs
@@ -19,6 +18,7 @@ ifeq ($(MKCERT_BIN),no)
 else
 	$(call step,Uninstall local CA...)
 	@mkcert -uninstall || echo "No CA found..."
+	rm -rf $(SH_CERTS_PATH)/*.crt $(SH_CERTS_PATH)/*.key $(SH_CERTS_PATH)/*.pem
 endif
 
 PHONY += --certs-install-ca
@@ -41,9 +41,4 @@ else
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
 	@test -f $(CERT).crt && echo "- already exists" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
-endif
-
-# If mkcert bin does not exist, show installation targets
-ifeq ($(MKCERT_BIN),no)
-include $(PROJECT_DIR)/make/mkcert.mk
 endif

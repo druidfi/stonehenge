@@ -1,4 +1,4 @@
-DOWN_TARGETS := --down-title --down --down-remove-network --down-remove-volume --down-post-actions
+DOWN_TARGETS := --down-title --down --down-remove-network --down-remove-volume certs-uninstall --down-post-actions
 
 RESOLV_CONF := /etc/resolv.conf
 RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.default && echo "yes" || echo "no")
