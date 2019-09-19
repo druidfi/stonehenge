@@ -18,7 +18,7 @@ env:
     - DOCKER_COMPOSE_VERSION=1.24.1
 
 install:
-  - ./.travis/install.sh
+  - ./.travis/install.sh || travis_terminate 1;
 
 script:
-  - ./.travis/script.sh
+  - ./.travis/script.sh || travis_terminate 1;
