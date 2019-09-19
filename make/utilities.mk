@@ -28,6 +28,14 @@ ping: ## Ping docker domain
 	$(call step,Setup domain $(DOCKER_DOMAIN) resolves to:)
 	@ping -q -c 1 -t 1 $(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
 
+PHONY += debug-arch
+debug-arch:
+	@make debug OS_RELEASE_FILE=tests/os-release.arch UNAME=Linux
+
+PHONY += debug-manjaro
+debug-manjaro:
+	@make debug OS_RELEASE_FILE=tests/os-release.arch-manjaro UNAME=Linux
+
 # Colors
 NO_COLOR=\033[0m
 GREEN=\033[0;32m
