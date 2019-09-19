@@ -3,9 +3,9 @@ MKCERT_BIN_PATH := /usr/local/bin/mkcert
 MKCERT_VERSION := v1.4.0
 
 ifeq ($(OS_ID_LIKE),darwin)
-	MKCERT_SOURCE := https://github.com/FiloSottile/mkcert/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-amd64
-else
 	MKCERT_SOURCE := https://github.com/FiloSottile/mkcert/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-darwin-amd64
+else
+	MKCERT_SOURCE := https://github.com/FiloSottile/mkcert/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-amd64
 endif
 
 PHONY += mkcert-install
@@ -28,8 +28,10 @@ endif
 else
 # Linux
 ifeq ($(OS_ID_LIKE),debian)
+	$(call step,Install mkcert requirements: libnss3-tools)
 	@sudo apt -y install libnss3-tools
 else ifeq ($(OS_ID_LIKE),arch)
+	$(call step,Install mkcert requirements: nss)
 	@sudo pacman -Sy nss
 endif
 	$(call step,Download mkcert binary and make it executable)
