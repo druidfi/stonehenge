@@ -13,6 +13,9 @@ debug:
 	$(call val,Docker Compose version,$(shell docker-compose --version))
 	$(call val,docker-compose command,$(DOCKER_COMPOSE_CMD))
 	$(call val,mkcert installed,$(MKCERT_BIN))
+ifeq ($(OS_ID_LIKE),darwin)
+	$(call val,brew installed,$(BREW_BIN))
+endif
 
 PHONY += help
 help: ## Print this help
