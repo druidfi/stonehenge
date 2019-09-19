@@ -26,7 +26,7 @@ ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Create resolver file /etc/resolver/${DOCKER_DOMAIN} on $(OS)...)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 	@sudo sh -c "printf '$$RESOLVER_BODY_DARWIN' > /etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file created"
-else ifeq ($(OS),ubuntu)
+else ifeq ($(OS_ID),ubuntu)
 	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf on $(OS)...)
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
 	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
