@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 echo "Distribution: ${TRAVIS_DIST}"
 
 docker --version
