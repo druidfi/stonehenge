@@ -1,9 +1,3 @@
-.DEFAULT_GOAL := help
-SHELL := /bin/bash
-
-# Load OS information
-include $(PROJECT_DIR)/make/os.mk
-
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
 NETWORK_NAME := $(PREFIX)-network
@@ -43,16 +37,6 @@ update: ## Update Stonehenge
 	$(call step,Update Stonehenge\n\n- Pull the latest code...)
 	@git pull
 	@make up
-
-#
-# Include addons
-#
-
-include $(PROJECT_DIR)/make/up.mk
-include $(PROJECT_DIR)/make/down.mk
-include $(PROJECT_DIR)/make/utilities.mk
-include $(PROJECT_DIR)/make/ssl.mk
-include $(PROJECT_DIR)/make/mkcert.mk
 
 #
 # Check requirements

@@ -55,17 +55,19 @@ PHONY += --ssh
 
 export RESOLVER_BODY_LINUX
 PHONY += --up-post-actions
+--up-post-actions: RESOLV_CONF := /etc/resolv.conf
+--up-post-actions: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
 --up-post-actions:
 #
 # Resolver for Ubuntu is made in post actions so dnsmasq is available in 127.0.0.48:53
 #
 ifeq ($(OS_ID_LIKE),arch)
-	$(call step,Modify resolver file /etc/resolv.conf...)
-	@sudo cp /etc/resolv.conf /etc/resolv.conf.default
-	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /etc/resolv.conf"
+	$(call step,Modify resolver file $(RESOLV_CONF)...)
+	@sudo cp $(RESOLV_CONF) $(RESOLV_CONF).default
+	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > $(RESOLV_CONF)"
 else ifeq ($(OS_ID),ubuntu)
 	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf...)
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
-	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
+	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf $(RESOLV_CONF)
 endif
 	$(call success,SUCCESS! Open https://portainer.${DOCKER_DOMAIN} ...)

@@ -1,9 +1,5 @@
 DOWN_TARGETS := --down-title --down --down-remove-network --down-remove-volume certs-uninstall --down-post-actions
 
-RESOLV_CONF := /etc/resolv.conf
-RESOLV_CONF_BAK_EXISTS := $(shell test -f ${RESOLV_CONF}.default && echo "yes" || echo "no")
-RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
-
 PHONY += down
 down: $(DOWN_TARGETS) ## Tear down Stonehenge
 
@@ -24,16 +20,19 @@ PHONY += --down-remove-volume
 	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
 
 PHONY += --down-post-actions
+--down-post-actions: RESOLV_CONF := /etc/resolv.conf
+--down-post-actions: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
 --down-post-actions:
 ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Remove resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
 else ifeq ($(OS_ID_LIKE),arch)
-	$(call step,Restore resolver file /etc/resolv.conf...)
-	@sudo cp /etc/resolv.conf.default /etc/resolv.conf
+	$(call step,Restore resolver file $(RESOLV_CONF)...)
+	@sudo cp $(RESOLV_CONF).default $(RESOLV_CONF)
 else ifeq ($(OS_ID),ubuntu)
 	$(call step,Restore resolver symlink to $(RESOLV_STUB)...)
-	@sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
+	@sudo ln -nsf $(RESOLV_STUB) $(RESOLV_CONF)
+	@sudo rm /run/systemd/resolve/resolv-stonehenge.conf
 else
 	$(call step,No post actions defined for $(OS))
 endif

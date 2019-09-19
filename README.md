@@ -125,6 +125,8 @@ $ make debug
 
 ## TODO
 
+- Support for Debian and RHEL
+- Support for Windows (if feasible)
 - More examples
 - Shell detection and autocreate the alias
 

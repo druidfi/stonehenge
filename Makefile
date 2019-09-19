@@ -1,10 +1,12 @@
+.DEFAULT_GOAL := help
 PHONY :=
 PROJECT_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
+SHELL := /bin/bash
 
-# Include stonehenge ENV variables
+# Include Stonehenge ENV variables
 include .env
 
-# Include stonehenge makefile
-include $(PROJECT_DIR)/make/stonehenge.mk
+# Include Stonehenge makefiles
+include $(PROJECT_DIR)/make/*.mk
 
 .PHONY: $(PHONY)
