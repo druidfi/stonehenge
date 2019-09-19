@@ -28,8 +28,11 @@ PHONY += --down-post-actions
 ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Remove resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+else ifeq ($(OS_ID_LIKE),arch)
+	$(call step,Restore resolver file /etc/resolv.conf...)
+	@sudo cp /etc/resolv.conf.default /etc/resolv.conf
 else ifeq ($(OS_ID),ubuntu)
-	$(call step,Restore resolver symlink to $(RESOLV_STUB) on $(OS) $(OS_ID)...)
+	$(call step,Restore resolver symlink to $(RESOLV_STUB)...)
 	@sudo ln -nsf $(RESOLV_STUB) /etc/resolv.conf
 else
 	$(call step,No post actions defined for $(OS))

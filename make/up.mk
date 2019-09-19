@@ -59,8 +59,12 @@ PHONY += --up-post-actions
 #
 # Resolver for Ubuntu is made in post actions so dnsmasq is available in 127.0.0.48:53
 #
-ifeq ($(OS_ID),ubuntu)
-	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf on $(OS)...)
+ifeq ($(OS_ID_LIKE),arch)
+	$(call step,Modify resolver file /etc/resolv.conf...)
+	@sudo cp /etc/resolv.conf /etc/resolv.conf.default
+	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /etc/resolv.conf"
+else ifeq ($(OS_ID),ubuntu)
+	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf...)
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
 	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf /etc/resolv.conf
 endif
