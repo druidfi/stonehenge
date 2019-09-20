@@ -60,3 +60,22 @@ endef
 define warn
 	@printf "\n${RED}${1}${NO_COLOR} ${2}\n\n"
 endef
+
+#
+# Experimental: don't list them with help
+#
+
+#
+#
+#
+PHONY += lineinfile
+lineinfile: FILE := /tmp/foobar.conf
+lineinfile: LINE := foobar=foo
+lineinfile:
+	$(call step,Add line to a file and how the result.\nYou can different lines with:\nmake lineinfile LINE=furbar)
+	$(call lineinfile,$(FILE),$(LINE))
+	@cat $(FILE)
+
+define lineinfile
+	@grep -qF -- "${2}" "${1}" || echo "${2}" >> "${1}"
+endef
