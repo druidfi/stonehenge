@@ -50,6 +50,9 @@ update: ## Update Stonehenge
 	@git pull
 	@make up
 
+PHONY += upgrade
+upgrade: down update ## Upgrade Stonehenge (tear down the current first)
+
 include $(PROJECT_DIR)/make/mkcert.mk
 include $(PROJECT_DIR)/make/ssl.mk
 include $(PROJECT_DIR)/make/up.mk
