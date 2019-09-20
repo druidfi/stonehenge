@@ -79,6 +79,16 @@ Now you can run make targets from anywhere with the alias:
 $ stonehenge up
 ```
 
+## SSH keys
+
+By default Stonehenge tries to add key from `~/.ssh/id_rsa`.
+
+You can add additional SSH keys with:
+
+```
+$ make addkey KEY=mykey
+```
+
 ## Example applications
 
 - [Contenta CMS](examples/contentacms/README.md)
