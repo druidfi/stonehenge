@@ -8,7 +8,7 @@ echo "Distribution: ${TRAVIS_DIST}"
 docker --version
 docker-compose --version
 make debug
-ping -c 1 docker.sh
+make ping
 cat /etc/resolv.conf
 cat /etc/systemd/resolved.conf
 
@@ -26,7 +26,7 @@ else
   make certs
 fi
 
-ping -c 1 docker.sh
+make ping
 cat /etc/resolv.conf
 cat /etc/systemd/resolved.conf
 
