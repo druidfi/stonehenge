@@ -31,7 +31,7 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:1.22.0
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
