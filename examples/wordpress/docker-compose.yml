@@ -1,8 +1,4 @@
-version: '3.2'
-
-#
-# SERVICES
-#
+version: '3.7'
 
 #
 # Variables are loaded from .env file in this folder.
@@ -10,12 +6,9 @@ version: '3.2'
 
 services:
 
-  #
-  # MYSQL
-  #
-
+  # Database container
   db:
-    image: mysql:5.7
+    image: mysql:8
     volumes:
     - db_data:/var/lib/mysql
     restart: always
@@ -27,10 +20,7 @@ services:
     networks:
       - internal
 
-  #
-  # WORDPRESS
-  #
-
+  # Wordpress container
   wordpress:
     depends_on:
     - db
@@ -43,30 +33,22 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
     labels:
       traefik.enable: true
-      traefik.backend: "${PROJECT_NAME}-wordpress"
       traefik.port: 80
-      traefik.docker.network: stonehenge-network
       traefik.frontend.rule: "Host:${APP1_HOST}"
     networks:
-    - stonehenge-network
+    - dev-network
     - internal
 
-#
-# VOLUMES
-#
-
-volumes:
-  db_data:
-
-#
-# NETWORKS
-#
-
 networks:
+
+  # Network from druidfi/stonehenge
+  dev-network:
+    name: stonehenge-network
+    external: true
+
   # Internal network for project containers
   internal:
     external: false
 
-  # Network from druidfi/stonehenge
-  stonehenge-network:
-    external: true
+volumes:
+  db_data:

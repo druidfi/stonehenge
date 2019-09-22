@@ -1,7 +1,7 @@
 .PHONY: down help up
 .DEFAULT_GOAL := help
 
-GHOST_URL := http://ghost.docker.sh
+GHOST_URL := https://ghost.docker.sh
 NO_COLOR=\033[0m
 YELLOW=\033[0;33m
 

@@ -1,8 +1,4 @@
-version: '3.2'
-
-#
-# SERVICES
-#
+version: '3.7'
 
 #
 # Variables are loaded from .env file in this folder.
@@ -10,10 +6,9 @@ version: '3.2'
 
 services:
 
-  # NGINX
-
+  # Nginx container
   nginx:
-    image: nginx:1.15-alpine
+    image: nginx:1.17-alpine
     container_name: "${PROJECT_NAME}-nginx"
     restart: always
     volumes:
@@ -23,35 +18,18 @@ services:
       - "${APP1_PATH}:/app"
     labels:
       traefik.enable: true
-      traefik.backend: "${PROJECT_NAME}-nginx"
       traefik.port: 80
-      traefik.docker.network: stonehenge-network
       traefik.frontend.rule: "Host:${APP1_HOST}"
     networks:
-      - stonehenge-network
+      - dev-network
       - internal
-
-  #
-  # CLI CONTAINER. For using Composer and bin/console
-  #
-
-#  cli:
-#    image: druidfi/docker-cli:latest
-#    container_name: "${PROJECT_NAME}-cli"
-#    restart: on-failure
-#    tty: true
-#    stdin_open: true
-#    volumes:
-#      - "${APP1_PATH}:/app"
-#    networks:
-#      - internal
 
   #
   # PHP-FPM
   #
 
   php-fpm:
-    image: php:7.2-fpm-alpine
+    image: php:7.3-fpm-alpine
     container_name: "${PROJECT_NAME}-php-fpm"
     restart: always
     volumes:
@@ -59,21 +37,13 @@ services:
     networks:
       - internal
 
-#
-# VOLUMES
-#
-
-volumes: {}
-
-#
-# NETWORKS
-#
-
 networks:
+
+  # Network from druidfi/stonehenge
+  dev-network:
+    name: stonehenge-network
+    external: true
+
   # Internal network for project containers
   internal:
     external: false
-
-  # Network from druidfi/stonehenge
-  stonehenge-network:
-    external: true

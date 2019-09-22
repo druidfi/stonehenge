@@ -4,7 +4,7 @@
 DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 DRUPAL_PROFILE := demo_umami
 DRUPAL_SITENAME := Drupal 8 example
-DRUPAL_URL := http://drupal8.docker.sh
+DRUPAL_URL := https://drupal8.docker.sh
 NO_COLOR=\033[0m
 YELLOW=\033[0;33m
 
