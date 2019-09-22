@@ -22,6 +22,7 @@ services:
       traefik.backend: traefik
       traefik.port: 8080
       traefik.frontend.rule: "Host:traefik.${DOCKER_DOMAIN}"
+      traefik.frontend.redirect.entryPoint: https
     ports:
       - "443:443"
       - "80:80"
@@ -44,6 +45,7 @@ services:
       traefik.backend: portainer
       traefik.port: 9000
       traefik.frontend.rule: "Host:portainer.${DOCKER_DOMAIN}"
+      traefik.frontend.redirect.entryPoint: https
 
   mailhog:
     image: mailhog/mailhog
@@ -54,6 +56,7 @@ services:
       traefik.backend: mailhog
       traefik.port: 8025
       traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
+      traefik.frontend.redirect.entryPoint: https
 
   ssh-agent:
     image: amazeeio/ssh-agent
@@ -74,6 +77,7 @@ services:
       traefik.backend: catchall
       traefik.frontend.rule: "HostRegexp:{catchall:.*}"
       traefik.frontend.priority: 1
+      traefik.frontend.redirect.entryPoint: https
 
 networks:
   default:
