@@ -67,9 +67,7 @@ services:
     image: nginx:1.17-alpine
     container_name: "${PREFIX}-catchall"
     volumes:
-      - ./catchall.html:/usr/share/nginx/html/index.html:ro
-      - ./logos/stonehenge_logo_wide.png:/usr/share/nginx/html/stonehenge_logo_wide.png:ro
-      - ./highlight:/usr/share/nginx/html/highlight:ro
+      - ./catchall:/usr/share/nginx/html:ro
     labels:
       traefik.enable: true
       traefik.backend: catchall
