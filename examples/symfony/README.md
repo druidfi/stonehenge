@@ -13,7 +13,7 @@ $ cd examples/symfony
 $ make up
 ```
 
-Access the site in http://symfony.docker.sh/
+Access the site in https://symfony.docker.sh/
 
 ## Console
 

@@ -13,4 +13,4 @@ $ cd examples/wordpress
 $ make up
 ```
 
-Access the site in http://wordpress.docker.sh/
+Access the site in https://wordpress.docker.sh/

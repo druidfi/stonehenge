@@ -4,7 +4,7 @@
 DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 DRUPAL_PROFILE := contenta_jsonapi
 DRUPAL_SITENAME := Contenta CMS example
-DRUPAL_URL := http://contentacms.docker.sh
+DRUPAL_URL := https://contentacms.docker.sh
 
 app:
 	$(call colorecho, "\nCreate Contenta CMS project...")
