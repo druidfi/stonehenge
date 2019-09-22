@@ -3,9 +3,11 @@
 # exit when any command fails
 set -e
 
-echo "#"
-echo "# Information on this test:"
-echo "#"
+# Colors
+NO_COLOR=\033[0m
+YELLOW=\033[0;33m
+
+printf "\n\n%sInformation on this test:%s\n\n" "${YELLOW}" "${NO_COLOR}"
 
 echo "Distribution: ${TRAVIS_DIST}"
 docker --version
