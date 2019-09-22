@@ -4,8 +4,8 @@
 set -e
 
 # Colors
-NO_COLOR=\033[0m
-YELLOW=\033[0;33m
+NO_COLOR="\033[0m"
+YELLOW="\033[0;33m"
 
 printf "\n\n%sInformation on this test:%s\n\n" "${YELLOW}" "${NO_COLOR}"
 
