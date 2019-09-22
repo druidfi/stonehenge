@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Service not found!</title>
+    <style>
+    body {
+        font-family: monospace;
+    }
+    </style>
+    <link rel="stylesheet" href="highlight/styles/github.min.css">
+    <script charset="UTF-8" src="highlight/highlight.pack.js"></script>
+</head>
+<body>
+<img src="stonehenge_logo_wide.png" alt="Stonehenge">
+
+<h1>Error: Service not found for <span class="hostname"></span>!</h1>
+
+<p>Service is not probably not defined in any docker-compose.yml file labels for Traefik.</p>
+
+<p>You should have something like this on your project:</p>
+
+<pre>
+<code class="yaml">
+version: '3.7'
+
+services:
+  yourproject:
+    image: someimage
+    container_name: "${COMPOSE_PROJECT_NAME}-yourproject"
+    labels:
+      traefik.enable: true
+      traefik.port: 80
+      traefik.frontend.rule: "Host:<span class="hostname"></span>"
+    networks:
+      - dev-network
+
+networks:
+
+  # Network from druidfi/stonehenge
+  dev-network:
+    name: stonehenge-network
+    external: true
+</code>
+</pre>
+<script>
+    hljs.initHighlightingOnLoad();
+
+    const parser = document.createElement('a');
+    parser.href = window.location.href;
+
+    var hostnames = document.getElementsByClassName("hostname");
+    for(let i = 0; i < hostnames.length; i++) {
+        hostnames.item(i).innerHTML = parser.hostname;
+    }
+</script>
+</body>
+</html>

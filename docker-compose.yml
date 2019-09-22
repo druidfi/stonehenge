@@ -63,6 +63,19 @@ services:
       - ~/.ssh:/ssh
       - ssh:/tmp/amazeeio_ssh-agent/
 
+  catchall:
+    image: nginx:1.17-alpine
+    container_name: "${PREFIX}-catchall"
+    volumes:
+      - ./catchall.html:/usr/share/nginx/html/index.html:ro
+      - ./logos/stonehenge_logo_wide.png:/usr/share/nginx/html/stonehenge_logo_wide.png:ro
+      - ./highlight:/usr/share/nginx/html/highlight:ro
+    labels:
+      traefik.enable: true
+      traefik.backend: catchall
+      traefik.frontend.rule: "HostRegexp:{catchall:.*}"
+      traefik.frontend.priority: 1
+
 networks:
   default:
     name: "${PREFIX}-network"
