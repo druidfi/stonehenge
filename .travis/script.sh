@@ -23,6 +23,10 @@ make up
 info "Ping should resolve to 127.0.0.1 now"
 make ping
 
+# Check that DNS work still
+info "Check that DNS works when curling Google. Expecting HTTP/2 200"
+curl -Is https://www.google.com | head -1
+
 # Check that we can connect to local Portainer
 info "CURL portainer for checking access starts"
 curl -s https://portainer.docker.sh | grep Portainer
@@ -31,7 +35,3 @@ info "CURL portainer for checking access ends"
 # Tear down Stonehenge
 info "Tear down Stonehenge"
 make down
-
-# Check that DNS work still
-info "Check that DNS works when curling Google. Expecting HTTP/2 200"
-curl -Is https://www.google.com | head -1
