@@ -3,11 +3,12 @@
 # exit when any command fails
 set -e
 
-# Colors
-NO_COLOR="\033[0m"
-YELLOW="\033[0;33m"
+# Print yellow info line
+info () {
+  printf '\n\e[1;33m%-6s\e[m\n\n' "$1"
+}
 
-printf "\n\n%sInformation on this test:%s\n\n" "${YELLOW}" "${NO_COLOR}"
+info "Information on this test:"
 
 echo "Distribution: ${TRAVIS_DIST}"
 docker --version
@@ -16,34 +17,21 @@ make debug
 make ping
 
 # Start up Stonehenge
-echo "#"
-echo "# Start up Stonehenge"
-echo "#"
+info "Start up Stonehenge"
 make up
 
-echo "#"
-echo "# Ping should resolve to 127.0.0.1 now"
-echo "#"
+info "Ping should resolve to 127.0.0.1 now"
 make ping
 
 # Check that we can connect to local Portainer
-#curl -Is https://portainer.docker.sh | head -1
-echo "#"
-echo "# CURL portainer for checking access starts"
-echo "#"
+info "CURL portainer for checking access starts"
 curl -s https://portainer.docker.sh | grep Portainer
-echo "#"
-echo "# CURL portainer for checking access ends"
-echo "#"
+info "CURL portainer for checking access ends"
 
 # Tear down Stonehenge
-echo "#"
-echo "# Tear down Stonehenge"
-echo "#"
+info "Tear down Stonehenge"
 make down
 
 # Check that DNS work still
-echo "#"
-echo "# Check that DNS works when curling Google. Expecting HTTP/2 200"
-echo "#"
+info "Check that DNS works when curling Google. Expecting HTTP/2 200"
 curl -Is https://www.google.com | head -1
