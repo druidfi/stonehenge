@@ -24,7 +24,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Requirements for a project
 
-- `docker-compose.yml` file(s)
+- `docker-compose.yml` file(s) - see [examples](#examples) how to use Stonehenge
 
 ## Stonehenge building blocks
 
@@ -102,7 +102,7 @@ You can add additional SSH keys with:
 $ make addkey KEY=mykey
 ```
 
-## Examples within this repository
+## Examples
 
 - [Contenta CMS](examples/contentacms/README.md)
 - [Drupal 8](examples/drupal8/README.md)
