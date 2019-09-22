@@ -3,13 +3,15 @@
 # exit when any command fails
 set -e
 
-# Print yellow info line
+# Get current url for Portainer
+PORTAINER_URL=$(make url)
+
+# Print blue info line
 info () {
-  printf '\n\e[1;33m%-6s\e[m\n\n' "$1"
+  printf '\n\e[1;34m%-6s\e[m\n\n' "$1"
 }
 
 info "Information on this test:"
-
 echo "Distribution: ${TRAVIS_DIST}"
 docker --version
 docker-compose --version
@@ -29,7 +31,7 @@ curl -Is https://www.google.com | head -1
 
 # Check that we can connect to local Portainer
 info "CURL portainer for checking access starts"
-curl -s https://portainer.docker.sh | grep Portainer
+curl -s "https://${PORTAINER_URL}" | grep Portainer
 info "CURL portainer for checking access ends"
 
 # Tear down Stonehenge
