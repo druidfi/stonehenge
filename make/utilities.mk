@@ -31,6 +31,11 @@ ping: ## Ping docker domain
 	$(call step,Setup domain $(DOCKER_DOMAIN) resolves to:)
 	@ping -q -c 1 -t 1 $(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
 
+PHONY += url
+url: SERVICE := portainer
+url:
+	@echo $(SERVICE).$(DOCKER_DOMAIN)
+
 PHONY += debug-arch
 debug-arch:
 	@make debug OS_RELEASE_FILE=tests/os-release.arch UNAME=Linux
