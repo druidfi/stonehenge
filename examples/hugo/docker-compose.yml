@@ -9,7 +9,8 @@ services:
   # Hugo container
   hugo:
     image: klakegg/hugo:0.58.3
-    command: "server --appendPort=false --baseUrl=${APP1_HOST} -D"
+    container_name: "${COMPOSE_PROJECT_NAME}-hugo"
+    command: "server --appendPort=false --baseUrl=${APP_HOST} -D"
     volumes:
     - ./site:/src
     ports:
@@ -20,7 +21,7 @@ services:
     labels:
       traefik.enable: true
       traefik.port: 1313
-      traefik.frontend.rule: "Host:${APP1_HOST}"
+      traefik.frontend.rule: "Host:${APP_HOST}"
     networks:
       - internal
       - dev-network

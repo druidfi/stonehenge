@@ -8,10 +8,10 @@ services:
 
   # Database container
   db:
-    image: mysql:8
+    image: mysql:5.7
+    container_name: "${COMPOSE_PROJECT_NAME}-db"
     volumes:
     - db_data:/var/lib/mysql
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
@@ -22,19 +22,15 @@ services:
 
   # Wordpress container
   wordpress:
-    depends_on:
-      - db
     image: wordpress:latest
-    container_name: "${PROJECT_NAME}-wordpress"
-    restart: always
+    container_name: "${COMPOSE_PROJECT_NAME}-wordpress"
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
     labels:
       traefik.enable: true
-      traefik.port: 80
-      traefik.frontend.rule: "Host:${APP1_HOST}"
+      traefik.frontend.rule: "Host:${APP_HOST}"
     networks:
     - dev-network
     - internal

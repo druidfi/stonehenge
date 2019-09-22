@@ -9,8 +9,8 @@ services:
   # Contenta CMS container
   contentacms:
     image: druidfi/docker-drupal:php71-basic
-    container_name: "${PROJECT_NAME}-contentacms"
-    hostname: &hostname ${APP1_HOST}
+    container_name: "${COMPOSE_PROJECT_NAME}-contentacms"
+    hostname: &hostname ${DRUPAL_URL}
     environment:
       VIRTUAL_HOST: *hostname
       WEBROOT: web
@@ -21,7 +21,7 @@ services:
       - ssh:/tmp/amazeeio_ssh-agent:ro
     labels:
       traefik.enable: true
-      traefik.frontend.rule: "Host:${APP1_HOST}"
+      traefik.frontend.rule: "Host:${DRUPAL_URL}"
     networks:
       - dev-network
 
