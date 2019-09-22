@@ -14,6 +14,8 @@ services:
     environment:
       VIRTUAL_HOST: *hostname
       WEBROOT: web
+      # Site URI for Drush 9
+      DRUSH_OPTIONS_URI: *hostname
     volumes:
       - ./drupal:/var/www/drupal/public_html:delegated
       - ssh:/tmp/amazeeio_ssh-agent:ro

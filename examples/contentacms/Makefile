@@ -5,7 +5,6 @@ DRUPAL_CONTAINER := contentacms
 DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 DRUPAL_PROFILE := contenta_jsonapi
 DRUPAL_SITENAME := Contenta CMS example
-DRUPAL_URL := https://contentacms.docker.sh
 NO_COLOR=\033[0m
 YELLOW=\033[0;33m
 
@@ -35,7 +34,7 @@ up: app ## Launch example Contenta CMS application
 		--site-name="$(DRUPAL_SITENAME)"
 	@docker-compose exec $(DRUPAL_CONTAINER) drush -y config:set system.file path.temporary /var/www/drupal/tmp
 	@docker-compose exec $(DRUPAL_CONTAINER) drush en -y recipes_magazin contentajs
-	$(call step,DONE! Check $(DRUPAL_URL) ...)
+	@docker-compose exec $(DRUPAL_CONTAINER) drush uli
 
 define step
 	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"

@@ -1,6 +1,7 @@
 .PHONY: app down help up
 .DEFAULT_GOAL := help
 
+DRUPAL_CONTAINER := drupal
 DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 DRUPAL_PROFILE := demo_umami
 DRUPAL_SITENAME := Drupal 8 example
@@ -10,14 +11,15 @@ YELLOW=\033[0;33m
 
 app:
 	$(call step,Create Drupal 8 project to drupal folder)
-	@docker run --rm --interactive --tty \
+	@test -d $(DRUPAL_CONTAINER) && echo "Project folder already exists" || docker run --rm --interactive --tty \
 		--volume $(shell pwd):/app \
-		composer create-project drupal-composer/drupal-project --no-interaction --stability dev --ignore-platform-reqs \
-		drupal
+		composer create-project drupal-composer/drupal-project \
+		--stability dev --no-interaction --remove-vcs --no-progress --prefer-dist --ignore-platform-reqs \
+		$(DRUPAL_CONTAINER)
 
 down: ## Tear down example Drupal 8 application
 	@docker-compose down -v
-	@chmod -R 0777 drupal && rm -rf drupal
+	@chmod -R 0777 $(DRUPAL_CONTAINER) && rm -rf $(DRUPAL_CONTAINER)
 
 help: ## Print this help
 	$(call step,Available commands:)
@@ -28,9 +30,10 @@ up: app ## Launch example Drupal 8 application
 	$(call step,Start Drupal 8 example application...)
 	@docker-compose up -d
 	$(call step,Install site with Drush...)
-	@docker-compose exec drupal drush -y site:install $(DRUPAL_PROFILE) \
+	@docker-compose exec $(DRUPAL_CONTAINER) drush -y si $(DRUPAL_PROFILE) \
 		--db-url=$(DRUPAL_DB_URL) \
 		--site-name="$(DRUPAL_SITENAME)"
+	@docker-compose exec $(DRUPAL_CONTAINER) drush -y cset system.file path.temporary /var/www/drupal/tmp
 	$(call step,DONE! Check $(DRUPAL_URL) ...)
 
 define step
