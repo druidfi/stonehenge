@@ -6,14 +6,27 @@ Local development environment toolset on Docker supporting multiple projects.
 
 [![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
 
-## Requirements
+## What does it do?
 
-- Latest macOS or Ubuntu LTS
-- Docker 18.06.0+
+Stonehenge aims to solve the basic problem for web developers: How to do development on local environment as easily as
+possible.
+
+Stonehenge provides you a shared development environment for multiple projects. It will handle the routing and local
+domains for your projects as well as SSL certificates for those domains out of the box.
+
+## Requirements for Stonehenge
+
+- Latest macOS or Ubuntu LTS - [Read more](#supported-operating-systems)
 - Make
+- Docker 18.06.0+
+- Docker Compose
 - No other services listening port 80 or 443
 
-## Included
+## Requirements for a project
+
+- `docker-compose.yml` file(s)
+
+## Stonehenge building blocks
 
 - `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
 - `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
@@ -89,7 +102,7 @@ You can add additional SSH keys with:
 $ make addkey KEY=mykey
 ```
 
-## Example applications
+## Examples within this repository
 
 - [Contenta CMS](examples/contentacms/README.md)
 - [Drupal 8](examples/drupal8/README.md)
