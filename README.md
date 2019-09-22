@@ -104,12 +104,12 @@ $ make addkey KEY=mykey
 
 ## Examples
 
-- [Contenta CMS](examples/contentacms/README.md)
-- [Drupal 8](examples/drupal8/README.md)
-- [Ghost](examples/ghost/README.md)
-- [Hugo](examples/hugo/README.md)
-- [Symfony 4](examples/symfony/README.md)
-- [Wordpress](examples/wordpress/README.md)
+- [Contenta CMS](examples/contentacms)
+- [Drupal 8](examples/drupal8)
+- [Ghost](examples/ghost)
+- [Hugo](examples/hugo)
+- [Symfony 4](examples/symfony)
+- [Wordpress](examples/wordpress)
 
 ## Supported operating systems
 
