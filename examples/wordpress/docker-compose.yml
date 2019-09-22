@@ -23,7 +23,7 @@ services:
   # Wordpress container
   wordpress:
     depends_on:
-    - db
+      - db
     image: wordpress:latest
     container_name: "${PROJECT_NAME}-wordpress"
     restart: always
