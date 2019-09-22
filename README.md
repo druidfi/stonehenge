@@ -119,9 +119,10 @@ $ make addkey KEY=mykey
 Also tested with at some point:
 
 - Arch Linux
-- macOS High Sierra 10.13.6
+- macOS High Sierra 10.13
 - macOS Mojave 10.14
-- Manjaro 17.1.6 (Arch Linux)
+- Manjaro 17.1 (Arch Linux)
+- Manjaro 18.1 (Arch Linux)
 - Ubuntu 16.04 LTS
 - Ubuntu 17.10
 

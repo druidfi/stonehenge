@@ -35,7 +35,7 @@ ifeq ($(OS_ID_LIKE),debian)
 	@sudo apt -y install $(MKCERT_REQS_DEBIAN)
 else ifeq ($(OS_ID_LIKE),arch)
 	$(call step,Install mkcert requirements: $(MKCERT_REQS_ARCH))
-	@sudo pacman -S $(MKCERT_REQS_ARCH)
+	@sudo pacman --noconfirm -S $(MKCERT_REQS_ARCH)
 endif
 	$(call step,Download mkcert binary and make it executable)
 	@sudo curl -# -L ${MKCERT_SOURCE} -o ${MKCERT_BIN_PATH}
