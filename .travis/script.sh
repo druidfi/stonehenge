@@ -3,41 +3,45 @@
 # exit when any command fails
 set -e
 
-echo "Distribution: ${TRAVIS_DIST}"
+echo "#"
+echo "# Information on this test:"
+echo "#"
 
+echo "Distribution: ${TRAVIS_DIST}"
 docker --version
 docker-compose --version
 make debug
 make ping
-cat /etc/resolv.conf
-cat /etc/systemd/resolved.conf
 
 # Start up Stonehenge
+echo "#"
+echo "# Start up Stonehenge"
+echo "#"
 make up
 
-# Install mkcert
-make mkcert-install
-
-# Install SSL-sertificate
-if [[ ${TRAVIS_DIST} == 'xenial' ]]; then
-  # See https://github.com/FiloSottile/mkcert/pull/193
-  sudo make certs
-else
-  make certs
-fi
-
+echo "#"
+echo "# Ping should resolve to 127.0.0.1 now"
+echo "#"
 make ping
-cat /etc/resolv.conf
-cat /etc/systemd/resolved.conf
 
 # Check that we can connect to local Portainer
 #curl -Is https://portainer.docker.sh | head -1
-echo "CURL portainer for checking access starts"
+echo "#"
+echo "# CURL portainer for checking access starts"
+echo "#"
 curl -s https://portainer.docker.sh | grep Portainer
-echo "CURL portainer for checking access ends"
+echo "#"
+echo "# CURL portainer for checking access ends"
+echo "#"
 
 # Tear down Stonehenge
+echo "#"
+echo "# Tear down Stonehenge"
+echo "#"
 make down
 
 # Check that DNS work still
+echo "#"
+echo "# Check that DNS works when curling Google. Expecting HTTP/2 200"
+echo "#"
 curl -Is https://www.google.com | head -1
