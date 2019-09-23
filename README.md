@@ -108,6 +108,7 @@ $ make addkey KEY=mykey
 - [Drupal 8](examples/drupal8)
 - [Ghost](examples/ghost)
 - [Hugo](examples/hugo)
+- [Laravel](examples/laravel)
 - [Symfony 4](examples/symfony)
 - [Wordpress](examples/wordpress)
 
