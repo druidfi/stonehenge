@@ -1,18 +1,39 @@
 #!/bin/bash
 
-if [[ ${TRAVIS_OS_NAME} == 'osx' ]]; then
+# exit when any command fails
+set -e
 
-    echo "Hello osx. Docker cannot be used with osx in Travis. Sorry."
+# Get current url for Portainer
+PORTAINER_URL=$(make url)
 
-else
+# Print blue info line
+info () {
+  printf '\n\e[1;34m%-6s\e[m\n\n' "$1"
+}
 
-    echo "Hello $TRAVIS_OS_NAME"
+info "Information on this test:"
+echo "Distribution: ${TRAVIS_DIST}"
+docker --version
+docker-compose --version
+make debug
+make ping
 
-    make -v
-    docker --version
-    docker-compose --version
-    docker network create "${STONEHENGE_NETWORK_NAME}"
-    docker-compose up -d
-    docker-compose ps
+# Start up Stonehenge
+info "Start up Stonehenge"
+make up
 
-fi
+info "Ping should resolve to 127.0.0.1 now"
+make ping
+
+# Check that DNS work still
+info "Check that DNS works when curling Google. Expecting HTTP/2 200"
+curl -Is https://www.google.com | head -1
+
+# Check that we can connect to local Portainer
+info "CURL portainer for checking access starts"
+curl -s "https://${PORTAINER_URL}" | grep Portainer
+info "CURL portainer for checking access ends"
+
+# Tear down Stonehenge
+info "Tear down Stonehenge"
+make down

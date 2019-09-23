@@ -1,8 +1,4 @@
-version: '3.2'
-
-#
-# SERVICES
-#
+version: '3.7'
 
 #
 # Variables are loaded from .env file in this folder.
@@ -10,43 +6,35 @@ version: '3.2'
 
 services:
 
-  # Drupal 8
-
+  # Drupal 8 container
   drupal:
     image: druidfi/docker-drupal:php71-basic
-    container_name: "${PROJECT_NAME}-drupal"
-    restart: always
-    hostname: &hostname ${APP1_HOST}
+    container_name: "${COMPOSE_PROJECT_NAME}-drupal"
+    hostname: &hostname ${DRUPAL_URL}
     environment:
       VIRTUAL_HOST: *hostname
       WEBROOT: web
+      # Site URI for Drush 9
+      DRUSH_OPTIONS_URI: *hostname
     volumes:
       - ./drupal:/var/www/drupal/public_html:delegated
+      - ssh:/tmp/amazeeio_ssh-agent:ro
     labels:
       traefik.enable: true
-      traefik.backend: "${PROJECT_NAME}-drupal8"
-      traefik.port: 80
-      traefik.docker.network: stonehenge-network
-      traefik.frontend.rule: "Host:${APP1_HOST}"
+      traefik.frontend.rule: "Host:${DRUPAL_URL}"
     networks:
-      - stonehenge-network
-      - internal
-
-#
-# VOLUMES
-#
-
-volumes: {}
-
-#
-# NETWORKS
-#
+      - dev-network
 
 networks:
-  # Internal network for project containers
-  internal:
-    external: false
 
   # Network from druidfi/stonehenge
-  stonehenge-network:
+  dev-network:
+    name: stonehenge-network
+    external: true
+
+volumes:
+
+  # Volume from druidfi/stonehenge
+  ssh:
+    name: stonehenge-ssh
     external: true

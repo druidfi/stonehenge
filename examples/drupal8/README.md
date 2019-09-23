@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in http://drupal8.docker.sh/
+Access the site in https://drupal8.docker.sh/
 
 ## CLI
 
@@ -40,4 +40,4 @@ This will put down the container and remove the drupal folder.
 ## References
 
 - Drupal container from Amazee.io - https://hub.docker.com/r/amazeeio/drupal/
-- Check also http://lagoon.readthedocs.io/en/stable/
+- Check also https://lagoon.readthedocs.io/en/stable/

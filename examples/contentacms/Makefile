@@ -1,40 +1,46 @@
 .PHONY: app down help up
 .DEFAULT_GOAL := help
 
+include .env
+
+DRUPAL_CONTAINER := contentacms
 DRUPAL_DB_URL := mysql\://drupal\:drupal@127.0.0.1\:3306/drupal
 DRUPAL_PROFILE := contenta_jsonapi
 DRUPAL_SITENAME := Contenta CMS example
-DRUPAL_URL := http://contentacms.docker.sh
+DRUSH := docker-compose exec $(DRUPAL_CONTAINER) drush
+SKELETON := contentacms/contenta-jsonapi-project
+NO_COLOR=\033[0m
+YELLOW=\033[0;33m
 
 app:
-	$(call colorecho, "\nCreate Contenta CMS project...")
-	@test -d contentacms && echo "Project folder already exists" || docker run --rm --interactive --tty \
-		--volume $(shell pwd):/app \
-		composer create-project contentacms/contenta-jsonapi-project \
+	$(call step,Create $(DRUPAL_SITENAME) project folder with Composer...)
+	@test -d $(DRUPAL_CONTAINER) && echo "Project folder already exists" || docker run --rm --interactive --tty \
+		--volume $(shell pwd):/app composer create-project $(SKELETON) \
 		--stability dev --no-interaction --remove-vcs --no-progress --prefer-dist --ignore-platform-reqs \
-		contentacms
+		$(DRUPAL_CONTAINER) && composer require drush/drush:^9
 
-down: ## Tear down example Contenta CMS application
+down: ## Tear down example
 	@docker-compose down -v
-	@chmod -R 0777 contentacms && rm -rf contentacms
+	@chmod -R 0777 $(DRUPAL_CONTAINER) && rm -rf $(DRUPAL_CONTAINER)
 
 help: ## Print this help
-	$(call colorecho, "\nAvailable commands:\n")
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	$(call step,Available commands:)
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 	@echo ""
 
-up: app ## Launch example Contenta CMS application
-	$(call colorecho, "\nStart Contenta CMS example application...")
+launch:
+	$(call step,Start $(DRUPAL_SITENAME) application...)
 	@docker-compose up -d
-	$(call colorecho, "\nInstall site with Drush...")
-	@docker-compose exec contentacms drush -y site:install $(DRUPAL_PROFILE) \
-		--db-url=$(DRUPAL_DB_URL) \
-		--site-name="$(DRUPAL_SITENAME)"
-	@docker-compose exec contentacms drush en -y recipes_magazin contentajs
-	$(call colorecho, "\nDONE! Check $(DRUPAL_URL) ...\n")
 
-define colorecho
-    @tput -T xterm setaf 3
-    @echo $1
-    @tput -T xterm sgr0
+site-install:
+	$(call step,Install site with Drush...)
+	@$(DRUSH) -y site:install $(DRUPAL_PROFILE) --db-url=$(DRUPAL_DB_URL) --site-name="$(DRUPAL_SITENAME)"
+	@$(DRUSH) -y config:set system.file path.temporary /var/www/drupal/tmp
+
+up: app launch site-install ## Launch example
+	@$(DRUSH) -y en recipes_magazin contentajs
+	@$(DRUSH) uli
+
+define step
+	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
 endef

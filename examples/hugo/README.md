@@ -11,7 +11,7 @@ $ cd examples/hugo
 $ make up
 ```
 
-Access the site in http://hugo.docker.sh/
+Access the site in https://hugo.docker.sh/
 
 ## Create a first post
 
@@ -21,7 +21,7 @@ Create a new post by:
 $ make hugo new posts/my-first-post.md
 ```
 
-And see it: http://hugo.docker.sh/
+And see it: https://hugo.docker.sh/posts/my-first-post
 
 ## Next steps
 

@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in http://contentacms.docker.sh/
+Access the site in https://contentacms.docker.sh/
 
 ## CLI
 

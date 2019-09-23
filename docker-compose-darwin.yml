@@ -13,7 +13,5 @@ services:
       - 8.8.4.4 # Google
       - 8.8.8.8 # Google
     ports:
-      # Bind to non 0.0.0.0 port on ubuntu to prevent port conflict with
-      # systemd-resolved.
-      - "127.0.0.48:53:53/tcp"
-      - "127.0.0.48:53:53/udp"
+      - "6053:53/tcp"
+      - "6053:53/udp"

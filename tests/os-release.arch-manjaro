@@ -1,0 +1,4 @@
+NAME="Arch Linux"
+PRETTY_NAME="Manjaro Linux"
+ID=manjaro
+ID_LIKE=arch

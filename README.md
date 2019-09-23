@@ -6,18 +6,33 @@ Local development environment toolset on Docker supporting multiple projects.
 
 [![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
 
-## Requirements
+## What does it do?
 
-- macOS, Arch Linux or Ubuntu
-- Docker 17.04.0+
+Stonehenge aims to solve the basic problem for web developers: How to do development on local environment as easily as
+possible.
+
+Stonehenge provides you a shared development environment for multiple projects. It will handle the routing and local
+domains for your projects as well as SSL certificates for those domains out of the box.
+
+## Requirements for Stonehenge
+
+- Latest macOS or Ubuntu LTS - [Read more](#supported-operating-systems)
+- Make
+- Docker 18.06.0+
+- Docker Compose
 - No other services listening port 80 or 443
 
-## Included containers
+## Requirements for a project
+
+- `docker-compose.yml` file(s) - see [examples](#examples) how to use Stonehenge
+
+## Stonehenge building blocks
 
 - `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
-- `mailhog/mailhog` in [mailhog.docker.sh](http://mailhog.docker.sh) to catch emails
-- `portainer/portainer` in [portainer.docker.sh](http://portainer.docker.sh) to manage your Docker
-- `traefik` in [traefik.docker.sh](http://traefik.docker.sh) to handle all our reverse proxy needs
+- `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
+- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker
+- `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
+- [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 
 ## Setup
 
@@ -37,17 +52,15 @@ $ cd ~/stonehenge
 $ make up
 ```
 
-## Local HTTPS
+### Using custom domain
 
-Requirements:
-
-- [mkcert](https://github.com/FiloSottile/mkcert)
-
-Create and install local CA and certs for Stonehenge:
+You can also use custom domain instead of `docker.sh`:
 
 ```
-$ make certs
+$ make up DOCKER_DOMAIN=docker.druid.fi
 ```
+
+Or alternatively change DOCKER_DOMAIN value in `.env` file.
 
 ## Stop or shutdown Stonehenge
 
@@ -79,24 +92,40 @@ Now you can run make targets from anywhere with the alias:
 $ stonehenge up
 ```
 
-## Example applications
+## SSH keys
 
-- [Contenta CMS](examples/contentacms/README.md)
-- [Drupal 8](examples/drupal8/README.md)
-- [Ghost](examples/ghost/README.md)
-- [Hugo](examples/hugo/README.md)
-- [Symfony 4](examples/symfony/README.md)
-- [Wordpress](examples/wordpress/README.md)
+By default Stonehenge tries to add key from `~/.ssh/id_rsa`.
 
-## Tested with
+You can add additional SSH keys with:
+
+```
+$ make addkey KEY=mykey
+```
+
+## Examples
+
+- [Contenta CMS](examples/contentacms)
+- [Drupal 8](examples/drupal8)
+- [Ghost](examples/ghost)
+- [Hugo](examples/hugo)
+- [Laravel](examples/laravel)
+- [Symfony 4](examples/symfony)
+- [Wordpress](examples/wordpress)
+
+## Supported operating systems
+
+- macOS Catalina 10.15
+- Ubuntu 18.04 LTS
+
+Also tested with at some point:
 
 - Arch Linux
-- macOS High Sierra 10.13.6
+- macOS High Sierra 10.13
 - macOS Mojave 10.14
-- Manjaro 17.1.6 (Arch Linux)
-- Ubuntu 16.04
+- Manjaro 17.1 (Arch Linux)
+- Manjaro 18.1 (Arch Linux)
+- Ubuntu 16.04 LTS
 - Ubuntu 17.10
-- Ubuntu 18.04
 
 ## Fork and modify
 
@@ -104,15 +133,25 @@ To brand the toolset for your organization:
 
 - Fork this repository
 - Modify `.env` file e.g. like follows:
-  - `COMPOSE_PROJECT_NAME=company_dev`
-  - `DOCKER_DOMAIN=docker.company_dev.com`
+  - `COMPOSE_PROJECT_NAME=company`
+  - `DOCKER_DOMAIN=docker.company.com`
   - `LOGO_URL=https://your-cool-logo.png`
-  - `NETWORK_NAME=company_dev-network`
-  - `PREFIX=company_dev`
+  - `PREFIX=company`
+- Point your `docker.company.com` and `*.docker.company.com` to `127.0.0.1`
 - IMPORTANT! Let us know! <3
+
+## Debug
+
+Use following command to see what data is detected:
+
+```
+$ make debug
+```
 
 ## TODO
 
+- Support for Debian and RHEL
+- Support for Windows (if feasible)
 - More examples
 - Shell detection and autocreate the alias
 
