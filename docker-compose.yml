@@ -69,6 +69,7 @@ services:
   catchall:
     image: nginx:1.17-alpine
     container_name: "${PREFIX}-catchall"
+    restart: unless-stopped
     volumes:
       - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
