@@ -27,6 +27,11 @@ config: ## Show Stonehenge container config
 	$(call step,Show Stonehenge container config on $(OS)...)
 	@${DOCKER_COMPOSE_CMD} config
 
+PHONY += keys
+keys: ## List SSH keys added
+	$(call step,SSH keys added)
+	@${DOCKER_COMPOSE_CMD} exec ssh-agent ssh-add -L
+
 PHONY += restart
 restart: ## Restart Stonehenge
 	$(call step,Restarting Stonehenge containers...)
