@@ -42,6 +42,7 @@ PHONY += status
 status: ## Show Stonehenge status
 	$(call step,Stonehenge status)
 	@${DOCKER_COMPOSE_CMD} ps
+	@make keys
 
 PHONY += stop
 stop: ## Stop Stonehenge
