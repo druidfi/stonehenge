@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   dnsmasq:
-    image: andyshinn/dnsmasq:2.78
+    image: druidfi/dnsmasq:latest
     container_name: "${PREFIX}-dnsmasq"
     restart: unless-stopped
     cap_add:
