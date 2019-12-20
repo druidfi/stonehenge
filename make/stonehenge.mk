@@ -14,13 +14,14 @@ endif
 
 PHONY += addkey
 addkey: KEY := .ssh/id_rsa
+addkey: IMAGE := amazeeio/ssh-agent
 addkey: ## Add SSH key
 	$(call step,Adding your SSH key...)
 	@test -f ~/$(KEY) && docker run --rm -it \
 		--volume=$$HOME/$(KEY):/$$HOME/$(KEY) \
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
-		amazeeio/ssh-agent ssh-add ~/$(KEY) || echo "No SSH key found"
+		$(IMAGE) ssh-add ~/$(KEY) || echo "No SSH key found"
 
 PHONY += config
 config: ## Show Stonehenge container config
