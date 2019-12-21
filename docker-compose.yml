@@ -9,10 +9,13 @@ services:
     command: |-
       --providers.docker.network="${PREFIX}-network"
       --providers.docker.defaultRule="${DOCKER_DOMAIN}"
+      --providers.docker.tls.cert="/ssl/${DOCKER_DOMAIN}.crt"
+      --providers.docker.tls.key="/ssl/${DOCKER_DOMAIN}.key"
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
+      treafik.http.routers.dashboard.service: api@internal
     ports:
       - "443:443"
       - "80:80"
@@ -34,6 +37,8 @@ services:
       traefik.enable: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
       traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.portainer.entrypoints: https
+      traefik.http.routers.portainer.tls: true
 
 #  mailhog:
 #    image: mailhog/mailhog
