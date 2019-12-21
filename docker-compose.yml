@@ -3,32 +3,22 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v1.7.20
+    image: traefik:v2.1
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     command: |-
-      --api
-      --logLevel=DEBUG
-      --docker
-      --docker.watch="true"
-      --docker.domain="${DOCKER_DOMAIN}"
-      --docker.network="${PREFIX}-network"
-      --docker.exposedbydefault="false"
-      --defaultentrypoints=http,https
-      --entrypoints="Name:http Address::80"
-      --entrypoints="Name:https Address::443 TLS:/ssl/${DOCKER_DOMAIN}.crt,/ssl/${DOCKER_DOMAIN}.key"
+      --providers.docker.network="${PREFIX}-network"
+      --providers.docker.defaultRule="${DOCKER_DOMAIN}"
     labels:
       traefik.enable: true
-      traefik.backend: traefik
-      traefik.port: 8080
-      traefik.frontend.rule: "Host:traefik.${DOCKER_DOMAIN}"
-      traefik.frontend.redirect.entryPoint: https
+      traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
     ports:
       - "443:443"
       - "80:80"
-      - "8080:8080" # The Web UI (enabled by --api)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./traefik.yml:/traefik.yml:ro
       - ./certs:/ssl # mkcert certs
 
   portainer:
@@ -42,43 +32,41 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       traefik.enable: true
-      traefik.backend: portainer
-      traefik.port: 9000
-      traefik.frontend.rule: "Host:portainer.${DOCKER_DOMAIN}"
-      traefik.frontend.redirect.entryPoint: https
+      traefik.http.services.portainer.loadbalancer.server.port: 9000
+      traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
 
-  mailhog:
-    image: mailhog/mailhog
-    container_name: "${PREFIX}-mailhog"
-    restart: unless-stopped
-    labels:
-      traefik.enable: true
-      traefik.backend: mailhog
-      traefik.port: 8025
-      traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
-      traefik.frontend.redirect.entryPoint: https
+#  mailhog:
+#    image: mailhog/mailhog
+#    container_name: "${PREFIX}-mailhog"
+#    restart: unless-stopped
+#    labels:
+#      traefik.enable: true
+#      traefik.backend: mailhog
+#      traefik.port: 8025
+#      traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
+#      traefik.frontend.redirect.entryPoint: https
+#
+#  ssh-agent:
+#    image: amazeeio/ssh-agent
+#    container_name: "${PREFIX}-ssh-agent"
+#    restart: unless-stopped
+#    volumes:
+#      - ~/.ssh:/ssh
+#      - ssh:/tmp/amazeeio_ssh-agent/
 
-  ssh-agent:
-    image: amazeeio/ssh-agent
-    container_name: "${PREFIX}-ssh-agent"
-    restart: unless-stopped
-    volumes:
-      - ~/.ssh:/ssh
-      - ssh:/tmp/amazeeio_ssh-agent/
-
-  catchall:
-    image: nginx:1.17-alpine
-    container_name: "${PREFIX}-catchall"
-    restart: unless-stopped
-    volumes:
-      - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
-    labels:
-      traefik.enable: true
-      traefik.backend: catchall
-      traefik.frontend.rule: "HostRegexp:{catchall:.*}"
-      traefik.frontend.priority: 1
-      traefik.frontend.redirect.entryPoint: https
+#  catchall:
+#    image: nginx:1.17-alpine
+#    container_name: "${PREFIX}-catchall"
+#    restart: unless-stopped
+#    volumes:
+#      - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+#      - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
+#    labels:
+#      traefik.enable: true
+#      traefik.backend: catchall
+#      traefik.frontend.rule: "HostRegexp:{catchall:.*}"
+#      traefik.frontend.priority: 1
+#      traefik.frontend.redirect.entryPoint: https
 
 networks:
   default:
