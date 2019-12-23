@@ -16,13 +16,15 @@ services:
       traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
       traefik.http.routers.traefik.service: api@internal
       traefik.http.services.traefik.loadbalancer.server.port: 8080
-      #traefik.http.routers.traefik.tls: true
+      traefik.http.routers.traefik.entrypoints: http,https
+      traefik.http.routers.traefik.tls: true
     ports:
       - "443:443"
       - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./traefik.yml:/traefik.yml:ro
+      - ./traefik_configuration/:/configuration/
       - ./certs:/ssl # mkcert certs
 
   portainer:
@@ -39,8 +41,7 @@ services:
       traefik.http.services.portainer.loadbalancer.server.port: 9000
       traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
       traefik.http.routers.portainer.entrypoints: http,https
-      #traefik.http.routers.portainer.entrypoints: https
-      #traefik.http.routers.portainer.tls: true
+      traefik.http.routers.portainer.tls: true
 
 #  mailhog:
 #    image: mailhog/mailhog
