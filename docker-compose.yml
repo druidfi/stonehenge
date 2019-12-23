@@ -3,26 +3,37 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v2.1
+    image: traefik:v2.1.1
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     command: |-
       --providers.docker.network="${PREFIX}-network"
       --providers.docker.defaultRule="${DOCKER_DOMAIN}"
-      --providers.docker.tls.cert="/ssl/${DOCKER_DOMAIN}.crt"
-      --providers.docker.tls.key="/ssl/${DOCKER_DOMAIN}.key"
     labels:
       traefik.enable: true
       traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
       traefik.http.routers.traefik.service: api@internal
       traefik.http.services.traefik.loadbalancer.server.port: 8080
-      traefik.http.routers.traefik.entrypoints: http,https
+      traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.tls: true
+
+      # global redirect to https
+      traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
+      traefik.http.routers.http-catchall.entrypoints: "http"
+      traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
+
+      # middleware redirect
+      traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
+
+      # middleware for errors
+      #traefik.http.middlewares.test-errorpage.errors.status: 500-503
+      #traefik.http.middlewares.test-errorpage.errors.service: errors
+      #traefik.http.middlewares.test-errorpage.errors.query: "/usr/share/nginx/html/index.html"
     ports:
       - "443:443"
       - "80:80"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yml:/traefik.yml:ro
       - ./traefik_configuration/:/configuration/
       - ./certs:/ssl # mkcert certs
@@ -38,31 +49,30 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       traefik.enable: true
-      traefik.http.services.portainer.loadbalancer.server.port: 9000
       traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.portainer.entrypoints: http,https
+      traefik.http.routers.portainer.entrypoints: https
       traefik.http.routers.portainer.tls: true
+      traefik.http.services.portainer.loadbalancer.server.port: 9000
 
-#  mailhog:
-#    image: mailhog/mailhog
-#    container_name: "${PREFIX}-mailhog"
-#    restart: unless-stopped
-#    labels:
-#      traefik.enable: true
-#      traefik.backend: mailhog
-#      traefik.port: 8025
-#      traefik.frontend.rule: "Host:mailhog.${DOCKER_DOMAIN}"
-#      traefik.frontend.redirect.entryPoint: https
-#
-#  ssh-agent:
-#    image: amazeeio/ssh-agent
-#    container_name: "${PREFIX}-ssh-agent"
-#    restart: unless-stopped
-#    volumes:
-#      - ~/.ssh:/ssh
-#      - ssh:/tmp/amazeeio_ssh-agent/
+  mailhog:
+    image: mailhog/mailhog
+    container_name: "${PREFIX}-mailhog"
+    restart: unless-stopped
+    labels:
+      traefik.enable: true
+      traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
+      traefik.http.services.mailhog.loadbalancer.server.port: 8025
+      traefik.http.routers.mailhog.tls: true
 
-#  catchall:
+  ssh-agent:
+    image: amazeeio/ssh-agent
+    container_name: "${PREFIX}-ssh-agent"
+    restart: unless-stopped
+    volumes:
+      - ~/.ssh:/ssh
+      - ssh:/tmp/amazeeio_ssh-agent/
+
+#  errors:
 #    image: nginx:1.17-alpine
 #    container_name: "${PREFIX}-catchall"
 #    restart: unless-stopped
@@ -71,10 +81,7 @@ services:
 #      - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
 #    labels:
 #      traefik.enable: true
-#      traefik.backend: catchall
-#      traefik.frontend.rule: "HostRegexp:{catchall:.*}"
-#      traefik.frontend.priority: 1
-#      traefik.frontend.redirect.entryPoint: https
+#      traefik.http.routers.errors.rule: "Host(`error.${DOCKER_DOMAIN}`)"
 
 networks:
   default:
