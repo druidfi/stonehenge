@@ -3,9 +3,16 @@ global:
 
 log:
   level: "DEBUG"
+#  filePath: debug.log
+#  format: json
+
+#accesslog:
+#  filePath: access.log
+#  bufferingSize: 100
 
 api:
   dashboard: true
+  debug: true
   insecure: false
 
 entryPoints:

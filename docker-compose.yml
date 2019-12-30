@@ -6,16 +6,17 @@ services:
     image: traefik:v2.1.1
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     command: |-
       --providers.docker.network="${PREFIX}-network"
-      --providers.docker.defaultRule="${DOCKER_DOMAIN}"
     labels:
       traefik.enable: true
+      traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.services.traefik.loadbalancer.server.port: 8080
-      traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.tls: true
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
 
       # global redirect to https
       traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
@@ -34,8 +35,8 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik.yml:/traefik.yml:ro
-      - ./traefik_configuration/:/configuration/
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/traefik.dynamic.yml:/configuration/traefik.dynamic.yml
       - ./certs:/ssl # mkcert certs
 
   portainer:
@@ -49,8 +50,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       traefik.enable: true
-      traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
       traefik.http.routers.portainer.entrypoints: https
+      traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
       traefik.http.routers.portainer.tls: true
       traefik.http.services.portainer.loadbalancer.server.port: 9000
 
@@ -60,9 +61,10 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: true
+      traefik.http.routers.mailhog.entrypoints: https
       traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
-      traefik.http.services.mailhog.loadbalancer.server.port: 8025
       traefik.http.routers.mailhog.tls: true
+      traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
     image: amazeeio/ssh-agent

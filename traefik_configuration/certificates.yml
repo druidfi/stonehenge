@@ -1,4 +1,0 @@
-tls:
-  certificates:
-    - certFile: /ssl/docker.sh.crt
-      keyFile: /ssl/docker.sh.key
