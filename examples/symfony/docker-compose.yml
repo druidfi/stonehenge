@@ -6,44 +6,38 @@ version: '3.7'
 
 services:
 
-  # Nginx container
-  nginx:
+  app:
     image: nginx:1.17-alpine
-    container_name: "${COMPOSE_PROJECT_NAME}-nginx"
-    restart: always
+    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    depends_on:
+      - php-fpm
     volumes:
       - ./nginx/includes/cache.conf:/etc/nginx/includes/cache.conf
       - ./nginx/includes/php.conf:/etc/nginx/includes/php.conf
       - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
       - "${APP_PATH}:/app"
     labels:
-      traefik.enable: true
-      traefik.port: 80
-      traefik.frontend.rule: "Host:${APP_HOST}"
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`${APP_HOST}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
+      - "traefik.docker.network=stonehenge-network"
     networks:
-      - dev-network
-      - internal
-
-  #
-  # PHP-FPM
-  #
+      - default
+      - stonehenge-network
 
   php-fpm:
-    image: php:7.3-fpm-alpine
+    image: php:7.4-fpm-alpine
     container_name: "${COMPOSE_PROJECT_NAME}-php-fpm"
-    restart: always
     volumes:
       - "${APP_PATH}:/app"
-    networks:
-      - internal
 
 networks:
 
-  # Network from druidfi/stonehenge
-  dev-network:
-    name: stonehenge-network
-    external: true
+  default:
+    internal: true
 
-  # Internal network for project containers
-  internal:
-    external: false
+  # Network from druidfi/stonehenge
+  stonehenge-network:
+    name: "stonehenge-network"
+    external: true
