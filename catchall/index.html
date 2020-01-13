@@ -36,20 +36,21 @@ version: '3.7'
 services:
   yourproject:
     image: someimage
-    container_name: "${COMPOSE_PROJECT_NAME}-yourproject"
+    container_name: "${COMPOSE_PROJECT_NAME}-app"
     labels:
-      traefik.enable: true
-      traefik.port: 80
-      traefik.frontend.rule: "Host:<span class="hostname"></span>"
-      # Add this to force https
-      traefik.frontend.redirect.entryPoint: https
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`<span class="hostname"></span>`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
+      - "traefik.docker.network=stonehenge-network"
     networks:
-      - dev-network
+      - default
+      - stonehenge-network
 
 networks:
 
   # Network from druidfi/stonehenge
-  dev-network:
+  stonehenge-network:
     name: stonehenge-network
     external: true
 </code>
