@@ -16,7 +16,7 @@ matrix:
 env:
   global:
     - DOCKER_COMPOSE_REPO=https://github.com/docker/compose
-    - DOCKER_COMPOSE_VERSION=1.24.1
+    - DOCKER_COMPOSE_VERSION=1.25.4
 
 install:
   - ./.travis/install.sh || travis_terminate 1;

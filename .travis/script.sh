@@ -31,11 +31,12 @@ curl -Is https://www.google.com | head -1
 
 # Check that we can connect to local Portainer
 info "CURL portainer for checking access starts"
-until $(curl -s "https://${PORTAINER_URL}" | grep Portainer); do
+until $(curl --output /dev/null --silent --head "https://${PORTAINER_URL}"); do
     printf '.'
     sleep 5
 done
 
+curl -s "https://${PORTAINER_URL}" | grep Portainer
 info "CURL portainer for checking access ends"
 
 # Tear down Stonehenge
