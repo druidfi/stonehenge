@@ -30,13 +30,14 @@ info "Check that DNS works when curling Google. Expecting HTTP/2 200"
 curl -Is https://www.google.com | head -1
 
 # Check that we can connect to local Portainer
-info "CURL portainer for checking access starts"
-until $(curl --output /dev/null --silent --head "https://${PORTAINER_URL}"); do
+info "CURL portainer for checking access to ${PORTAINER_URL} starts"
+
+until $(curl --output /dev/null --silent --head --fail "https://${PORTAINER_URL}"); do
     printf '.'
     sleep 5
 done
 
-curl -s "https://${PORTAINER_URL}" | grep Portainer
+curl --silent "https://${PORTAINER_URL}" | grep Portainer
 info "CURL portainer for checking access ends"
 
 # Tear down Stonehenge
