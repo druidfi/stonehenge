@@ -102,6 +102,23 @@ You can add additional SSH keys with:
 $ make addkey KEY=mykey
 ```
 
+## Mailhog
+
+If using `mhsendmail` which is included in the druidfi Docker images.
+
+Create e.g. file `conf/sendmail-mailhog.ini` with contents:
+
+```
+sendmail_path='/usr/local/bin/mhsendmail --smtp-addr="stonehenge-mailhog:1025"'
+```
+
+And mount it on volumes to container having PHP:
+
+```
+volumes:
+  - ./conf/sendmail-mailhog.ini:/etc/php7/conf.d/98-sendmail-mailhog.ini
+```
+
 ## Examples
 
 - [Contenta CMS](examples/contentacms)
