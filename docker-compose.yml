@@ -21,12 +21,7 @@ services:
       # catchall router
       traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
       traefik.http.routers.http-catchall.entrypoints: "http"
-      traefik.http.routers.http-catchall.middlewares: "test-errorpage,redirect-to-https"
-
-      # middleware for errors
-      traefik.http.middlewares.test-errorpage.errors.status: 400-503
-      traefik.http.middlewares.test-errorpage.errors.service: errors-stonehenge@docker
-      traefik.http.middlewares.test-errorpage.errors.query: "/index.html"
+      traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
 
       # middleware redirect
       traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
@@ -74,7 +69,7 @@ services:
       - ~/.ssh:/ssh
       - ssh:/tmp/amazeeio_ssh-agent/
 
-  errors:
+  catchall:
     image: nginx:1.17-alpine
     container_name: "${PREFIX}-catchall"
     restart: unless-stopped
@@ -83,8 +78,9 @@ services:
       - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.errors.rule: "Host(`error.${DOCKER_DOMAIN}`)"
       traefik.http.routers.errors.tls: true
+      traefik.http.routers.errors.priority: 1
+      traefik.http.routers.errors.rule: HostRegexp(`{catchall:.*}`)
 
 networks:
   default:

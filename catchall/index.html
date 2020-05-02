@@ -34,14 +34,15 @@
 version: '3.7'
 
 services:
-  yourproject:
-    image: someimage
+  app:
     container_name: "${COMPOSE_PROJECT_NAME}-app"
+    image: someimage
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`<span class="hostname"></span>`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-app.loadbalancer.server.port=8080"
       - "traefik.docker.network=stonehenge-network"
     networks:
       - default
@@ -51,7 +52,6 @@ networks:
 
   # Network from druidfi/stonehenge
   stonehenge-network:
-    name: stonehenge-network
     external: true
 </code>
 </pre>
