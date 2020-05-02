@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v2.1.1
+    image: traefik:v2.2.1
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     security_opt:
@@ -40,7 +40,7 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer:1.23.0
+    image: portainer/portainer:1.23.2
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
