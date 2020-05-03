@@ -1,6 +1,7 @@
 PHONY += debug
 debug:
 	$(call step,Debug:)
+	$(call val,Stonehenge version,$(STONEHENGE_VERSION))
 	$(call val,OS,$(OS))
 	$(call val,OS_ID,$(OS_ID))
 	$(call val,OS_ID_LIKE,$(OS_ID_LIKE))
