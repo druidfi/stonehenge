@@ -12,16 +12,24 @@ else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
 	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
 
+SSH_KEYS := id_ed25519 id_rsa
+
+PHONY += addkeys
+addkeys: $(SSH_KEYS)
+
+$(SSH_KEYS):
+	@$(MAKE) addkey KEY=$$HOME/.ssh/$@
+
 PHONY += addkey
-addkey: KEY := .ssh/id_rsa
+addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
 addkey: IMAGE := amazeeio/ssh-agent
 addkey: ## Add SSH key
-	$(call step,Adding your SSH key...)
-	@test -f ~/$(KEY) && docker run --rm -it \
-		--volume=$$HOME/$(KEY):/$$HOME/$(KEY) \
+	$(call step,Adding SSH key "$(KEY)"...)
+	@test -f $(KEY) && docker run --rm -it \
+		--volume=$(KEY):$(KEY) \
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
-		$(IMAGE) ssh-add ~/$(KEY) || echo "No SSH key found"
+		$(IMAGE) ssh-add $(KEY) || echo "No SSH key found"
 
 PHONY += config
 config: ## Show Stonehenge container config

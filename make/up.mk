@@ -1,4 +1,4 @@
-UP_TARGETS := --up-title mkcert-install certs --up-pre-actions --up-create-network --up-create-volume --up addkey --up-post-actions
+UP_TARGETS := --up-title mkcert-install certs --up-pre-actions --up-create-network --up-create-volume --up addkeys --up-post-actions
 
 ifeq ($(OS_ID_LIKE),darwin)
 RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolver/${DOCKER_DOMAIN} && echo yes || echo no)
