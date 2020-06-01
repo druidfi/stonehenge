@@ -62,12 +62,12 @@ services:
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
-    image: amazeeio/ssh-agent
+    image: druidfi/ssh-agent:alpine3.12
     container_name: "${PREFIX}-ssh-agent"
     restart: unless-stopped
     volumes:
       - ~/.ssh:/ssh
-      - ssh:/tmp/amazeeio_ssh-agent/
+      - ssh:/tmp/druid_ssh-agent/
 
   catchall:
     image: nginx:1.17-alpine
