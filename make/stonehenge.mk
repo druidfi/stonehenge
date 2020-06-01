@@ -22,7 +22,7 @@ $(SSH_KEYS):
 
 PHONY += addkey
 addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
-addkey: IMAGE := amazeeio/ssh-agent
+addkey: IMAGE := druidfi/ssh-agent:alpine3.12
 addkey: ## Add SSH key
 	$(call step,Adding SSH key "$(KEY)"...)
 	@test -f $(KEY) && docker run --rm -it \
@@ -39,7 +39,7 @@ config: ## Show Stonehenge container config
 PHONY += keys
 keys: ## List SSH keys added
 	$(call step,SSH keys added)
-	@${DOCKER_COMPOSE_CMD} exec ssh-agent ssh-add -L
+	@${DOCKER_COMPOSE_CMD} exec ssh-agent ssh-add -l
 
 PHONY += restart
 restart: ## Restart Stonehenge
