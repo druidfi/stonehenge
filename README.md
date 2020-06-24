@@ -1,5 +1,7 @@
 # Stonehenge
 
+### NOTE! There is a `2.x` version of Stonehenge: https://github.com/druidfi/stonehenge/tree/2.x
+
 ![Stonehenge logo](logos/stonehenge_logo_wide.svg)
 
 Local development environment toolset on Docker supporting multiple projects.
