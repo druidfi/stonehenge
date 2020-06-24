@@ -71,7 +71,7 @@ upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 PHONY += switch-to-1
 switch-to-1: --down
 	$(call step,Change to Stonehenge v1\n\n- Pull the latest code...)
-	@git checkout master && git pull
+	@git checkout 1.x && git pull
 	@$(MAKE) up
 
 PHONY += switch-to-2

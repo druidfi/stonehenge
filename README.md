@@ -4,7 +4,7 @@
 
 Local development environment toolset on Docker supporting multiple projects.
 
-[![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=master)](https://travis-ci.org/druidfi/stonehenge)
+[![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=1.x)](https://travis-ci.org/druidfi/stonehenge)
 
 ## What does it do?
 
@@ -41,13 +41,13 @@ Note: in some systems setup will prompt once for your password as it will setup 
 ### Oneliner
 
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/master/install.sh)"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/1.x/install.sh)"
 ```
 
 ### Or manually with Git
 
 ```
-$ git clone -b master https://github.com/druidfi/stonehenge.git ~/stonehenge
+$ git clone -b 1.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 $ cd ~/stonehenge
 $ make up
 ```
