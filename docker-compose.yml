@@ -70,7 +70,7 @@ services:
       - ssh:/tmp/druid_ssh-agent/
 
   catchall:
-    image: nginx:1.17-alpine
+    image: nginx:1.19-alpine
     container_name: "${PREFIX}-catchall"
     restart: unless-stopped
     volumes:
