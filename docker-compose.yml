@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v2.2.1
+    image: traefik:v2.2.8
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     security_opt:
@@ -35,7 +35,7 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer:1.24.0
+    image: portainer/portainer:1.24.1-alpine
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
@@ -70,7 +70,7 @@ services:
       - ssh:/tmp/druid_ssh-agent/
 
   catchall:
-    image: nginx:1.19-alpine
+    image: nginx:1.18-alpine
     container_name: "${PREFIX}-catchall"
     restart: unless-stopped
     volumes:
