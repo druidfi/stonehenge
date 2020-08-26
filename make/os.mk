@@ -10,7 +10,9 @@ UNAME := $(shell uname | tr A-Z a-z)
 ifeq ($(UNAME),darwin)
 	OS_ID := macos
 	OS_VERSION := $(shell sw_vers -productVersion | cut -c1-5)
-ifeq ($(OS_VERSION),10.15)
+ifeq ($(OS_VERSION),11.0)
+	OS := macOS Big Sur
+else ifeq ($(OS_VERSION),10.15)
 	OS := macOS Catalina
 else ifeq ($(OS_VERSION),10.14)
 	OS := macOS Mojave
