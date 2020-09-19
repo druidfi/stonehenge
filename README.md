@@ -30,7 +30,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
 - `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
-- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker
+- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker (username: `admin`, password: `admin`)
 - `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 
