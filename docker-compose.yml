@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v2.2.8
+    image: traefik:v2.2.11
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     security_opt:
@@ -35,14 +35,16 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer:1.24.1-alpine
+    image: portainer/portainer-ce:2.0.0-alpine
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
-      --no-auth -H unix:///var/run/docker.sock
+      -H unix:///var/run/docker.sock
       --logo "${LOGO_URL}"
+      --admin-password-file /tmp/portainer_password
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_admin_password:/tmp/portainer_password
     labels:
       traefik.enable: true
       traefik.http.routers.portainer.entrypoints: https
