@@ -16,9 +16,9 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Requirements for Stonehenge
 
-- Latest macOS or Ubuntu LTS - [Read more](#supported-operating-systems)
+- macOS, Ubuntu LTS or Windows 10 + WSL2 - [Read more](#supported-operating-systems)
 - Make
-- Docker 18.06.0+
+- Docker Desktop 18.06.0+
 - Docker Compose
 - No other services listening port 80 or 443
 
@@ -37,6 +37,8 @@ domains for your projects as well as SSL certificates for those domains out of t
 ## Setup
 
 Note: in some systems setup will prompt once for your password as it will setup DNS.
+
+If on Windows, check these [general install instructions](WSL2.md) if you don't have WSL2 yet.
 
 ### Oneliner
 
@@ -116,6 +118,7 @@ $ make addkey KEY=mykey
 
 - macOS Catalina 10.15
 - Ubuntu 18.04 LTS
+- Windows 10 + WSL2 (Debian or Ubuntu)
 
 Also tested with at some point:
 
@@ -151,7 +154,6 @@ $ make debug
 ## TODO
 
 - Support for Debian and RHEL
-- Support for Windows (if feasible)
 - More examples
 - Shell detection and autocreate the alias
 
