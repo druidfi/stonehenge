@@ -49,6 +49,15 @@ else
 endif
 
 #
+# WSL
+#
+ifneq ($(WSL_INTEROP),)
+	WSL := yes
+else
+	WSL := no
+endif
+
+#
 # Not supported!
 #
 ifeq ($(OS_ID),UNKNOWN)

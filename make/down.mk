@@ -26,6 +26,8 @@ PHONY += --down-post-actions
 ifeq ($(OS_ID_LIKE),darwin)
 	$(call step,Remove resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+else ifeq ($(WSL),yes)
+	$(call step,WSL detected - skip resolver removal...)
 else ifeq ($(OS_ID_LIKE),arch)
 	$(call step,Restore resolver file $(RESOLV_CONF)...)
 	@sudo cp $(RESOLV_CONF).default $(RESOLV_CONF)

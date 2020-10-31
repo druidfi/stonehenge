@@ -2,7 +2,7 @@
 
 ## Install
 
-- First install WSL2 with istructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+- First install WSL2 with instructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
 - Next in Microsoft Store search and install `Ubuntu` or `Debian`.
 
@@ -38,7 +38,7 @@ $ Get-DnsClientServerAddress
 
 Check correct Interface Index
 
-Usually when you have a wired connection it is `Ethernet` and with wireless it's `Wi-Fi`.
+Usually when you have a wired connection it is `Ethernet` and with wireless it's `WiFi`.
 
 When you have the correct Interface Index, run this command:
 
@@ -53,3 +53,25 @@ Finally flush your DNS with:
 ```
 $ ipconfig -flushdns
 ```
+
+## Certificate
+
+In WSL terminal open Stonehenge certs folder on Explorer:
+
+```
+$ cd ~/stonehenge/certs && explorer.exe .
+```
+
+Copy the path from Explorer.
+
+In PowerShell terminal add Stonehenge rootCA.pem certificate:
+
+```
+$ Import-Certificate -Filepath '\\wsl$\Ubuntu-20.04\home\markokorhonen\stonehenge\certs\rootCA.pem' -CertStoreLocation cert:\CurrentUser\Root
+```
+
+# Whole process with wsl cli:
+
+wsl sh -c "sudo apt update && sudo apt upgrade && sudo apt install build-essential"
+wsl git clone -b 2.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+wsl make -C ~/stonehenge/ up
