@@ -12,7 +12,7 @@
 ### Oneliner:
 
 ```
-$ iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/druidfi/stonehenge/305db60b886606470f9b6b2e322714ad936501a4/install.ps1'))
+$ iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/druidfi/stonehenge/3e9e7d0a757a35e5b3092a5f20dd779b88455d28/install.ps1'))
 ```
 
 ### Or manually with Git
