@@ -3,7 +3,7 @@
 ## Install WSL2 and Docker
 
 - First install WSL2 with instructions: https://docs.microsoft.com/en-us/windows/wsl/install-win10
-- Next in Microsoft Store search and install `Ubuntu` or `Debian`.
+- Next in Microsoft Store search and install `Ubuntu LTS` or `Debian`.
 - Then you need to install Docker Desktop. You can download it from https://hub.docker.com/editions/community/docker-ce-desktop-windows
 - Make sure that you check `Use the WSL2 based engine` option in Docker Desktop settings.
 

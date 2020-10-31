@@ -118,7 +118,7 @@ $ make addkey KEY=mykey
 
 - macOS Catalina 10.15
 - Ubuntu 18.04 LTS
-- Windows 10 + WSL2 (Debian or Ubuntu)
+- Windows 10 + WSL2 (Debian or Ubuntu LTS)
 
 Also tested with at some point:
 
