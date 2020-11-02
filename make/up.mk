@@ -2,6 +2,9 @@ UP_TARGETS := --up-title mkcert-install certs --up-pre-actions --up-create-netwo
 
 ifeq ($(OS_ID_LIKE),darwin)
 RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolver/${DOCKER_DOMAIN} && echo yes || echo no)
+else ifeq ($(OS_ID),ubuntu)
+RESOLVE_FOLDER_EXISTS := $(shell test -d /run/systemd/resolve && echo yes || echo no)
+RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolv.conf && echo yes || echo no)
 endif
 
 define RESOLVER_BODY_DARWIN
@@ -57,16 +60,24 @@ PHONY += --up-post-actions
 --up-post-actions: RESOLV_CONF := /etc/resolv.conf
 --up-post-actions: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
 --up-post-actions:
+ifeq ($(WSL),yes)
+	$(call step,WSL detected - skip resolver setup...)
 #
-# Resolver for Ubuntu is made in post actions so dnsmasq is available in 127.0.0.48:53
+# Resolver for some Linux is made in post actions so dnsmasq is available in 127.0.0.48:53
 #
-ifeq ($(OS_ID_LIKE),arch)
+else ifeq ($(OS_ID_LIKE),arch)
 	$(call step,Modify resolver file $(RESOLV_CONF)...)
 	@sudo cp $(RESOLV_CONF) $(RESOLV_CONF).default
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > $(RESOLV_CONF)"
 else ifeq ($(OS_ID),ubuntu)
+ifeq ($(RESOLVE_FOLDER_EXISTS),yes)
 	$(call step,Create resolver file /run/systemd/resolve/resolv-stonehenge.conf...)
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
 	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf $(RESOLV_CONF)
+else ifeq ($(RESOLVER_FILE_EXISTS),yes)
+	$(call step,Resolver file /etc/resolv.conf found, appending...)
+else
+	$(call step,Folder /run/systemd/resolve does not exist - skipping...)
+endif
 endif
 	$(call success,SUCCESS! Open https://portainer.${DOCKER_DOMAIN} ...)
