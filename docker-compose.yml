@@ -53,7 +53,7 @@ services:
       traefik.http.services.portainer.loadbalancer.server.port: 9000
 
   mailhog:
-    image: mailhog/mailhog:v1.0.1
+    image: druidfi/mailhog:1.0.1
     container_name: "${PREFIX}-mailhog"
     restart: unless-stopped
     labels:
