@@ -4,7 +4,7 @@
 
 Local development environment toolset on Docker supporting multiple projects.
 
-[![Build Status](https://travis-ci.org/druidfi/stonehenge.svg?branch=2.x)](https://travis-ci.org/druidfi/stonehenge)
+![Tests](https://github.com/druidfi/stonehenge/workflows/Tests/badge.svg)
 
 ## What does it do?
 
