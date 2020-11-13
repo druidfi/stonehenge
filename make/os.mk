@@ -43,7 +43,7 @@ endif
 # Others
 #
 else
-	OS := $(UNAME)
+	OS := $(shell uname -s)
 	OS_ID := UNKNOWN
 	OS_ID_LIKE := UNKNOWN
 	OS_VERSION := UNKNOWN
