@@ -23,8 +23,6 @@ jobs:
 
       - name: Show debug info
         run: |
-          docker --version
-          docker-compose --version
           make debug
           make ping
 
@@ -36,3 +34,12 @@ jobs:
 
       - name: Check that DNS works when curling Google. Expecting HTTP/2 200
         run: curl -Is https://www.google.com | head -1
+
+      - name: Check if Portainer can be accessed
+        run: |
+          printf "CURL portainer for checking access starts"
+          until curl -s "https://portainer.docker.sh" | grep Portainer; do true; done > /dev/null
+          printf "CURL portainer for checking access ends"
+
+      - name: Tear down Stonehenge
+        run: make down
