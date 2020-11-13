@@ -9,7 +9,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, macos-latest ]
+        #os: [ ubuntu-latest, macos-latest ]
+        os: [ ubuntu-latest ]
 
     runs-on: ${{ matrix.os }}
 
@@ -20,11 +21,12 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Show make version
-        run: make --version
+      - name: Show debug info
+        run: |
+          docker --version
+          docker-compose --version
+          make debug
+          make ping
 
-      - name: Show docker version
-        run: docker --version
-
-      - name: Show docker-compose version
-        run: docker-compose --version
+      - name: Start up Stonehenge
+        run: make up
