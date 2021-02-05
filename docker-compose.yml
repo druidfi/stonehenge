@@ -35,7 +35,7 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer-ce:2.1.0-alpine
+    image: portainer/portainer-ce:2.0.1-alpine
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
@@ -62,19 +62,6 @@ services:
       traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
       traefik.http.routers.mailhog.tls: true
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
-
-  mercure:
-    image: dunglas/mercure:latest
-    container_name: "${PREFIX}-mercure"
-    environment:
-      MERCURE_PUBLISHER_JWT_KEY: stonehenge
-      MERCURE_SUBSCRIBER_JWT_KEY: stonehenge
-    labels:
-      traefik.enable: true
-      traefik.http.routers.mercure.entrypoints: https
-      traefik.http.routers.mercure.rule: "Host(`mercure.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.mercure.tls: true
-      traefik.http.services.mercure.loadbalancer.server.port: 443
 
   ssh-agent:
     image: druidfi/ssh-agent:alpine3.13
