@@ -19,7 +19,7 @@ services:
       traefik.http.services.traefik.loadbalancer.server.port: 8080
 
       # catchall router
-      traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
+      traefik.http.routers.http-catchall.rule: "hostregexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)"
       traefik.http.routers.http-catchall.entrypoints: "http"
       traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
 
@@ -82,7 +82,7 @@ services:
       traefik.enable: true
       traefik.http.routers.errors.tls: true
       traefik.http.routers.errors.priority: 1
-      traefik.http.routers.errors.rule: HostRegexp(`{catchall:.*}`)
+      traefik.http.routers.errors.rule: hostregexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)
 
 networks:
   default:
