@@ -1,23 +1,15 @@
-.PHONY: down help up
 .DEFAULT_GOAL := help
 
+include ../utils.mk
+
 WP_URL := https://wordpress.docker.sh
-NO_COLOR=\033[0m
-YELLOW=\033[0;33m
 
-down: ## Tear down example Wordpress site
-	@docker-compose down -v
-
-help: ## Print this help
-	$(call step,Available commands:)
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""
-
+PHONY += up
 up: ## Launch example Wordpress site
 	$(call step,Start Wordpress example site...)
 	@docker-compose up -d
-	$(call step,DONE! Check $(WP_URL) ...)
+	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
+	$(call step,DONE! Check https://wordpress.docker.sh or https://wordpress.traefik.me ...)
 
-define step
-	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
-endef
+down: ## Tear down example Wordpress site
+	@docker-compose down -v

@@ -1,14 +1,10 @@
 version: '3.7'
 
-#
-# Variables are loaded from .env file in this folder.
-#
-
 services:
 
   app:
     image: wordpress:latest
-    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    container_name: "wordpress-example-app"
     depends_on:
       - db
     environment:
@@ -17,34 +13,27 @@ services:
       WORDPRESS_DB_PASSWORD: wordpress
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`${APP_HOST}`)"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
+      - "traefik.http.routers.wordpress-example-app.entrypoints=https"
+      - "traefik.http.routers.wordpress-example-app.rule=Host(`wordpress.docker.sh`,`wordpress.traefik.me`)"
+      - "traefik.http.routers.wordpress-example-app.tls=true"
       - "traefik.docker.network=stonehenge-network"
     networks:
-      - default
+      - internal
       - stonehenge-network
 
   db:
-    image: mysql:5.7
-    container_name: "${COMPOSE_PROJECT_NAME}-db"
-    volumes:
-      - db_data:/var/lib/mysql
+    image: mysql:8.0
+    container_name: "wordpress-example-db"
     environment:
       MYSQL_ROOT_PASSWORD: somewordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
+    networks:
+      - internal
 
 networks:
-
-  default:
-    internal: true
-
-  # Network from druidfi/stonehenge
+  internal:
+    external: false
   stonehenge-network:
-    name: stonehenge-network
     external: true
-
-volumes:
-  db_data:

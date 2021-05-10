@@ -35,4 +35,4 @@ You can teardown the whole example by:
 $ make down
 ```
 
-This will put down the container and remove the drupal folder.
+This will put down the containers.

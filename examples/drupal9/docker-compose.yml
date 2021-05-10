@@ -1,9 +1,5 @@
 version: '3.7'
 
-#
-# Variables are loaded from .env file in this folder.
-#
-
 services:
 
   app:
