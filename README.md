@@ -104,8 +104,7 @@ $ make addkey KEY=mykey
 
 ## Examples
 
-- [Contenta CMS](examples/contentacms)
-- [Drupal 8](examples/drupal8)
+- [Drupal 9](examples/drupal9)
 - [Ghost](examples/ghost)
 - [Hugo](examples/hugo)
 - [Laravel](examples/laravel)
