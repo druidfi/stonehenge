@@ -27,17 +27,8 @@ jobs:
           make debug
           make ping
 
-      - name: Create test SSH keys
-        run: |
-          mkdir -p .ssh
-          ssh-keygen -q -t rsa -N '' -b 4096 -f .ssh/id_rsa -C "rsa key"
-          ssh-keygen -q -t ed25519 -N '' -f .ssh/id_ed25519 -C "ed25519 key"
-          chmod 0400 .ssh/id_rsa .ssh/id_ed25519
-          chmod +wx .ssh/id_rsa .ssh/id_ed25519
-          ls -lah .ssh/
-
       - name: Start up Stonehenge
-        run: HOME=$GITHUB_WORKSPACE make up
+        run: make up
 
       - name: Ping should resolve to 127.0.0.1 now
         run: make ping
