@@ -64,7 +64,7 @@ services:
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
-    image: druidfi/ssh-agent:alpine3.13
+    image: "druidfi/ssh-agent:${SSH_IMAGE_VERSION}"
     container_name: "${PREFIX}-ssh-agent"
     restart: unless-stopped
     volumes:

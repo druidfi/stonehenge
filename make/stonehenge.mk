@@ -43,7 +43,6 @@ PHONY += --up-pre-actions
 PHONY += --up-title
 --up-title:
 	$(call step,\nStart Stonehenge on $(OS))
-	$(call step,$(UP_PRE_TARGETS))
 
 PHONY += --up-create-network
 --up-create-network:
@@ -105,7 +104,7 @@ $(SSH_KEYS):
 
 PHONY += addkey
 addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
-addkey: IMAGE := druidfi/ssh-agent:alpine3.12
+addkey: IMAGE := druidfi/ssh-agent:$(SSH_IMAGE_VERSION)
 addkey: ## Add SSH key
 	$(call step,Adding SSH key "$(KEY)"...)
 	@test -f $(KEY) && docker run --rm -t \
