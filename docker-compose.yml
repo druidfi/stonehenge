@@ -11,11 +11,11 @@ services:
     command: |-
       --providers.docker.network="${PREFIX}-network"
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.tls: true
+      traefik.http.routers.traefik.tls: "true"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
 
       # catchall router
@@ -46,10 +46,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_admin_password:/tmp/portainer_password
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.portainer.entrypoints: https
       traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.portainer.tls: true
+      traefik.http.routers.portainer.tls: "true"
       traefik.http.services.portainer.loadbalancer.server.port: 9000
 
   mailhog:
@@ -57,10 +57,10 @@ services:
     container_name: "${PREFIX}-mailhog"
     restart: unless-stopped
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.mailhog.entrypoints: https
       traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.mailhog.tls: true
+      traefik.http.routers.mailhog.tls: "true"
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
@@ -79,8 +79,8 @@ services:
       - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
     labels:
-      traefik.enable: true
-      traefik.http.routers.errors.tls: true
+      traefik.enable: "true"
+      traefik.http.routers.errors.tls: "true"
       traefik.http.routers.errors.priority: 1
       traefik.http.routers.errors.rule: hostregexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)
 
