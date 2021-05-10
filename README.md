@@ -94,12 +94,12 @@ $ stonehenge up
 
 ## SSH keys
 
-By default Stonehenge tries to add key from `~/.ssh/id_rsa`.
+By default Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`.
 
 You can add additional SSH keys with:
 
 ```
-$ make addkey KEY=mykey
+$ make addkey KEY=/path/to/mykey
 ```
 
 ## Examples
