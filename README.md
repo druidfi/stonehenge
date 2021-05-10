@@ -105,9 +105,9 @@ $ make addkey KEY=mykey
 ## Examples
 
 - [Drupal 9](examples/drupal9)
-- [Ghost](examples/ghost)
+- [Ghost 4](examples/ghost)
 - [Hugo](examples/hugo)
-- [Laravel](examples/laravel)
+- [Laravel 8](examples/laravel)
 - [Symfony 5](examples/symfony)
 - [Wordpress](examples/wordpress)
 

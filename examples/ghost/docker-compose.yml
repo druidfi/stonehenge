@@ -1,14 +1,10 @@
 version: '3.7'
 
-#
-# Variables are loaded from .env file in this folder.
-#
-
 services:
 
   app:
-    image: ghost:3-alpine
-    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    image: ghost:4-alpine
+    container_name: ghost-example-app
     depends_on:
       - db
     environment:
@@ -18,33 +14,31 @@ services:
       database__connection__user: ghost
       database__connection__password: ghost
       database__connection__database: ghost
-      url: https://${APP_HOST}
+      url: https://ghost.traefik.me
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`${APP_HOST}`)"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
-      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-app.loadbalancer.server.port=2368"
-      - "traefik.docker.network=stonehenge-network"
+      traefik.enable: "true"
+      traefik.http.routers.ghost-example-app.entrypoints: https
+      traefik.http.routers.ghost-example-app.rule: Host(`ghost.traefik.me`)
+      traefik.http.routers.ghost-example-app.tls: "true"
+      traefik.http.services.ghost-example-app.loadbalancer.server.port: 2368
+      traefik.docker.network: stonehenge-network
     networks:
-      - default
+      - internal
       - stonehenge-network
 
   db:
     image: mysql:5.7
-    container_name: "${COMPOSE_PROJECT_NAME}-db"
+    container_name: ghost-example-db
     environment:
       MYSQL_ROOT_PASSWORD: someghost
       MYSQL_DATABASE: ghost
       MYSQL_USER: ghost
       MYSQL_PASSWORD: ghost
+    networks:
+      - internal
 
 networks:
-
-  default:
-    internal: true
-
-  # Network from druidfi/stonehenge
+  internal:
+    external: false
   stonehenge-network:
-    name: "stonehenge-network"
     external: true

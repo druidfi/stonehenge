@@ -12,6 +12,7 @@ up: app ## Launch example Laravel application
 	@docker-compose up -d
 	$(call step,DONE! Check https://laravel.docker.sh or https://laravel.traefik.me ...)
 
+PHONY += down
 down: ## Tear down example Laravel application
 	@docker-compose down -v
 	@chmod -R 0777 app && rm -rf app
