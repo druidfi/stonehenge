@@ -26,6 +26,11 @@ jobs:
           make debug
           make ping
 
+      - name: Create test SSH keys
+        run: |
+          ssh-keygen -q -t rsa -N '' -b 4096 -C "rsa key"
+          ssh-keygen -q -t ed25519 -N '' -C "ed25519 key"
+
       - name: Start up Stonehenge
         run: make up
 
