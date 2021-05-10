@@ -1,38 +1,31 @@
 version: '3.7'
 
-#
-# Variables are loaded from .env file in this folder.
-#
-
 services:
 
-  # Hugo container
-  hugo:
-    image: klakegg/hugo:0.58.3
-    container_name: "${COMPOSE_PROJECT_NAME}-hugo"
-    command: "server --appendPort=false --baseUrl=${APP_HOST} -D"
+  app:
+    image: klakegg/hugo:latest
+    container_name: hugo-example-hugo
+    command: server --appendPort=false --baseUrl=hugo.traefik.me -D
     volumes:
-    - ./site:/src
+      - ./site:/src
     ports:
-    - 1313:1313
+      - 1313:1313
     restart: always
     environment:
       HUGO_ENV: DEV
     labels:
-      traefik.enable: true
-      traefik.port: 1313
-      traefik.frontend.rule: "Host:${APP_HOST}"
+      traefik.enable: "true"
+      traefik.http.routers.ghost-example-app.entrypoints: https
+      traefik.http.routers.ghost-example-app.rule: Host(`hugo.traefik.me`)
+      traefik.http.routers.ghost-example-app.tls: "true"
+      traefik.http.services.ghost-example-app.loadbalancer.server.port: 1313
+      traefik.docker.network: stonehenge-network
     networks:
       - internal
-      - dev-network
+      - stonehenge-network
 
 networks:
-
-  # Network from druidfi/stonehenge
-  dev-network:
-    name: stonehenge-network
-    external: true
-
-  # Internal network for project containers
   internal:
     external: false
+  stonehenge-network:
+    external: true
