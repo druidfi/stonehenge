@@ -28,8 +28,8 @@ jobs:
 
       - name: Create test SSH keys
         run: |
-          ssh-keygen -q -t rsa -N '' -b 4096 -f ~/.ssh/id_rsa -C "rsa key"
-          ssh-keygen -q -t ed25519 -N '' -f ~/.ssh/id_ed25519 -C "ed25519 key"
+          ssh-keygen -q -t rsa -N '' -b 4096 -f /home/runner/.ssh/id_rsa -C "rsa key"
+          ssh-keygen -q -t ed25519 -N '' -f /home/runner/.ssh/id_ed25519 -C "ed25519 key"
 
       - name: Start up Stonehenge
         run: make up

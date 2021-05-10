@@ -108,7 +108,7 @@ addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
 addkey: IMAGE := druidfi/ssh-agent:alpine3.12
 addkey: ## Add SSH key
 	$(call step,Adding SSH key "$(KEY)"...)
-	@test -f $(KEY) && docker run --rm -it \
+	@test -f $(KEY) && docker run --rm -t \
 		--volume=$(KEY):$(KEY) \
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
