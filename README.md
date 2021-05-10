@@ -114,18 +114,19 @@ $ make addkey KEY=mykey
 
 ## Supported operating systems
 
-- macOS Catalina 10.15
-- Ubuntu 18.04 LTS
+- macOS Big Sur 11
+- Ubuntu 20.04 LTS
 
 Also tested with at some point:
 
 - Arch Linux
 - macOS High Sierra 10.13
 - macOS Mojave 10.14
+- macOS Catalina 10.15
 - Manjaro 17.1 (Arch Linux)
 - Manjaro 18.1 (Arch Linux)
 - Ubuntu 16.04 LTS
-- Ubuntu 17.10
+- Ubuntu 18.04 LTS
 
 ## Fork and modify
 
