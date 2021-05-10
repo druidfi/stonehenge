@@ -29,12 +29,13 @@ jobs:
       - name: Create test SSH keys
         run: |
           mkdir -p .ssh
-          ssh-keygen -q -t rsa -N '' -b 4096 -f ~/.ssh/id_rsa -C "rsa key"
-          ssh-keygen -q -t ed25519 -N '' -f ~/.ssh/id_ed25519 -C "ed25519 key"
+          ssh-keygen -q -t rsa -N '' -b 4096 -f .ssh/id_rsa -C "rsa key"
+          ssh-keygen -q -t ed25519 -N '' -f .ssh/id_ed25519 -C "ed25519 key"
+          ls -lah .ssh/
 
       - name: Start up Stonehenge
         env:
-          HOME: $GITHUB_WORKSPACE
+          HOME: "$GITHUB_WORKSPACE"
         run: make up
 
       - name: Ping should resolve to 127.0.0.1 now
