@@ -46,19 +46,23 @@ PHONY += --up-title
 	$(call step,Start Stonehenge on $(OS))
 
 PHONY += --up-create-network
---up-create-network: EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null && echo "yes" || echo "no")
+--up-create-network: EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 --up-create-network:
 ifeq ($(EXISTS),no)
 	$(call step,Create network ${NETWORK_NAME}...)
 	@docker network create ${NETWORK_NAME} && echo "- Network created"
+else
+	@echo $(EXISTS)
 endif
 
 PHONY += --up-create-volume
---up-create-volume: EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null && echo "yes" || echo "no")
+--up-create-volume: EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 --up-create-volume:
 ifeq ($(EXISTS),no)
 	$(call step,Create volume ${SSH_VOLUME_NAME}...)
 	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+else
+	@echo $(EXISTS)
 endif
 
 PHONY += --up
