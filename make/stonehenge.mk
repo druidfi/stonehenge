@@ -2,17 +2,100 @@ include $(PROJECT_DIR)/make/os.mk
 
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
+DOCKER_COMPOSE_CMD_NATIVE := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
 NETWORK_NAME := $(PREFIX)-network
 SSH_VOLUME_NAME := $(PREFIX)-ssh
+SSH_KEYS := id_ed25519 id_rsa
+UP_TARGETS := --up-pre-actions --up --up-post-actions
+UP_PRE_TARGETS := --up-title --up-create-network --up-create-volume
+UP_POST_TARGETS := addkeys
+DOWN_TARGETS := --down-title --down --down-post-actions
+POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
+
+ifeq ($(DOCKER_COMPOSE_CMD_NATIVE),yes)
+	DCC := docker compose
+else
+	DCC := docker-compose
+endif
 
 # Set OS/distro specific variables
 ifeq ($(OS_ID_LIKE),darwin)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
+	DOCKER_COMPOSE_CMD := $(DCC) -f docker-compose.yml -f docker-compose-darwin.yml
 else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
+	DOCKER_COMPOSE_CMD := $(DCC) -f docker-compose.yml -f docker-compose-linux.yml
 endif
 
-SSH_KEYS := id_ed25519 id_rsa
+#
+# Include plugins
+#
+-include $(PROJECT_DIR)/make/plugins/*.mk
+
+#
+# Launching Stonehenge
+#
+
+PHONY += up
+up: $(UP_TARGETS) ## Launch Stonehenge
+
+PHONY += --up-pre-actions
+--up-pre-actions: $(UP_PRE_TARGETS)
+
+PHONY += --up-title
+--up-title:
+	$(call step,\nStart Stonehenge on $(OS))
+	$(call step,$(UP_PRE_TARGETS))
+
+PHONY += --up-create-network
+--up-create-network:
+	$(call step,Create network ${NETWORK_NAME}...)
+	@docker network inspect ${NETWORK_NAME} > /dev/null || \
+		docker network create ${NETWORK_NAME} && echo "Network created"
+
+PHONY += --up-create-volume
+--up-create-volume:
+	$(call step,Create volume ${SSH_VOLUME_NAME}...)
+	@docker volume inspect ${SSH_VOLUME_NAME} > /dev/null || \
+		docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+
+PHONY += --up
+--up:
+	$(call step,Start the containers...)
+	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+
+PHONY += --up-post-actions
+--up-post-actions: $(UP_POST_TARGETS)
+	$(call success,SUCCESS!\n\n- https://traefik.${DOCKER_DOMAIN}\n- https://portainer.${DOCKER_DOMAIN}\n- https://mailhog.${DOCKER_DOMAIN})
+
+#
+# Tearing down Stonehenge
+#
+
+PHONY += down
+down: $(DOWN_TARGETS) ## Tear down Stonehenge
+
+PHONY += --down-title
+--down-title:
+	$(call step,Tear down Stonehenge on $(OS))
+
+PHONY += --down
+--down:
+	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans
+
+PHONY += --down-remove-network
+--down-remove-network:
+	@docker network remove ${NETWORK_NAME} || docker network inspect ${NETWORK_NAME}
+
+PHONY += --down-remove-volume
+--down-remove-volume:
+	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
+
+PHONY += --down-post-actions
+--down-post-actions: $(POST_DOWN_ACTIONS)
+	$(call success,DONE!)
+
+#
+# SSH keys
+#
 
 PHONY += addkeys
 addkeys: $(SSH_KEYS)
@@ -30,6 +113,10 @@ addkey: ## Add SSH key
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
 		$(IMAGE) ssh-add $(KEY) || echo "No SSH key found"
+
+#
+# Commands
+#
 
 PHONY += config
 config: ## Show Stonehenge container config
@@ -68,10 +155,10 @@ update: ## Update Stonehenge
 PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 
-include $(PROJECT_DIR)/make/mkcert.mk
-include $(PROJECT_DIR)/make/ssl.mk
-include $(PROJECT_DIR)/make/up.mk
-include $(PROJECT_DIR)/make/down.mk
+#
+# Includes
+#
+
 include $(PROJECT_DIR)/make/utilities.mk
 
 #

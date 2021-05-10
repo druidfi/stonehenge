@@ -1,7 +1,9 @@
-UP_TARGETS := --up-title mkcert-install certs --up-pre-actions --up-create-network --up-create-volume --up addkeys --up-post-actions
-
 ifeq ($(OS_ID_LIKE),darwin)
+UP_PRE_TARGETS += --create-resolver-file-mac
+POST_DOWN_ACTIONS += --remove-resolver-file-mac
 RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolver/${DOCKER_DOMAIN} && echo yes || echo no)
+else
+UP_POST_TARGETS += --create-resolver-file-linux
 endif
 
 define RESOLVER_BODY_DARWIN
@@ -15,17 +17,9 @@ define RESOLVER_BODY_LINUX
 nameserver 127.0.0.48
 endef
 
-PHONY += up
-up: $(UP_TARGETS) ## Launch Stonehenge
-
-PHONY += --up-title
---up-title:
-	$(call step,\nStart Stonehenge on $(OS))
-
 export RESOLVER_BODY_DARWIN
-PHONY += --up-pre-actions
---up-pre-actions:
-ifeq ($(OS_ID_LIKE),darwin)
+PHONY += --create-resolver-file-mac
+--create-resolver-file-mac:
 	$(call step,Create resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
 ifeq ($(RESOLVER_FILE_EXISTS),no)
@@ -33,30 +27,12 @@ ifeq ($(RESOLVER_FILE_EXISTS),no)
 else
 	@printf "Resolver file already exists\n"
 endif
-endif
-
-PHONY += --up-create-network
---up-create-network:
-	$(call step,Create network ${NETWORK_NAME}...)
-	@docker network inspect ${NETWORK_NAME} > /dev/null || \
-		docker network create ${NETWORK_NAME} && echo "Network created"
-
-PHONY += --up-create-volume
---up-create-volume:
-	$(call step,Create volume ${SSH_VOLUME_NAME}...)
-	@docker volume inspect ${SSH_VOLUME_NAME} > /dev/null || \
-		docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
-
-PHONY += --up
---up:
-	$(call step,Start the containers...)
-	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
 
 export RESOLVER_BODY_LINUX
-PHONY += --up-post-actions
---up-post-actions: RESOLV_CONF := /etc/resolv.conf
---up-post-actions: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
---up-post-actions:
+PHONY += --create-resolver-file-linux
+--create-resolver-file-linux: RESOLV_CONF := /etc/resolv.conf
+--create-resolver-file-linux: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
+--create-resolver-file-linux:
 #
 # Resolver for Ubuntu is made in post actions so dnsmasq is available in 127.0.0.48:53
 #
@@ -69,4 +45,21 @@ else ifeq ($(OS_ID),ubuntu)
 	@sudo sh -c "printf '$$RESOLVER_BODY_LINUX' > /run/systemd/resolve/resolv-stonehenge.conf"
 	@sudo ln -nsf /run/systemd/resolve/resolv-stonehenge.conf $(RESOLV_CONF)
 endif
-	$(call success,SUCCESS! Open https://portainer.${DOCKER_DOMAIN} ...)
+
+PHONY += --remove-resolver-file-mac
+--remove-resolver-file-mac:
+	$(call step,Remove resolver file /etc/resolver/${DOCKER_DOMAIN}...)
+	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+
+PHONY += --remove-resolver-file-linux
+--remove-resolver-file-linux: RESOLV_CONF := /etc/resolv.conf
+--remove-resolver-file-linux: RESOLV_STUB := /run/systemd/resolve/stub-resolv.conf
+--remove-resolver-file-linux:
+ifeq ($(OS_ID_LIKE),arch)
+	$(call step,Restore resolver file $(RESOLV_CONF)...)
+	@sudo cp $(RESOLV_CONF).default $(RESOLV_CONF)
+else ifeq ($(OS_ID),ubuntu)
+	$(call step,Restore resolver symlink to $(RESOLV_STUB)...)
+	@sudo ln -nsf $(RESOLV_STUB) $(RESOLV_CONF)
+	@sudo rm /run/systemd/resolve/resolv-stonehenge.conf
+endif
