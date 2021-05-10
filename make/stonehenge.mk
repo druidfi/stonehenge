@@ -109,7 +109,7 @@ addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
 addkey: IMAGE := druidfi/ssh-agent:$(SSH_IMAGE_VERSION)
 addkey: ## Add SSH key
 	$(call step,Adding SSH key "$(KEY)"...)
-	@test -f $(KEY) && docker run --rm -t \
+	@test -f $(KEY) && docker run --rm -it \
 		--volume=$(KEY):$(KEY) \
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
