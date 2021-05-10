@@ -30,17 +30,23 @@ jobs:
       - name: Start up Stonehenge
         run: make up
 
-      - name: Ping should resolve to 127.0.0.1 now
+      - name: Ping docker.sh (resolver based) should resolve to 127.0.0.1 now
         run: make ping
 
       - name: Check that DNS works when curling Google. Expecting HTTP/2 200
         run: curl -Is https://www.google.com | head -1
 
-      - name: Check if Portainer can be accessed
+      - name: Check if Portainer can be accessed from portainer.docker.sh
         run: |
-          printf "CURL portainer for checking access starts"
+          printf "CURL portainer.docker.sh for checking access starts"
           until curl -s "https://portainer.docker.sh" | grep Portainer; do true; done > /dev/null
-          printf "CURL portainer for checking access ends"
+          printf "CURL portainer.docker.sh for checking access ends"
+
+      - name: Check if Portainer can be accessed from portainer.traefik.me
+        run: |
+          printf "CURL portainer.traefik.me for checking access starts"
+          until curl -s "https://portainer.traefik.me" | grep Portainer; do true; done > /dev/null
+          printf "CURL portainer.traefik.me for checking access ends"
 
       - name: Tear down Stonehenge
         run: make down
