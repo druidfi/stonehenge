@@ -1,9 +1,9 @@
 ifeq ($(OS_ID_LIKE),darwin)
-UP_PRE_TARGETS += --create-resolver-file-mac
-POST_DOWN_ACTIONS += --remove-resolver-file-mac
-RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolver/${DOCKER_DOMAIN} && echo yes || echo no)
+	UP_PRE_TARGETS += --create-resolver-file-mac
+	POST_DOWN_ACTIONS += --remove-resolver-file-mac
+	RESOLVER_FILE_EXISTS := $(shell test -f /etc/resolver/${DOCKER_DOMAIN} && echo yes || echo no)
 else
-UP_POST_TARGETS += --create-resolver-file-linux
+	UP_POST_TARGETS += --create-resolver-file-linux
 endif
 
 define RESOLVER_BODY_DARWIN
@@ -20,12 +20,10 @@ endef
 export RESOLVER_BODY_DARWIN
 PHONY += --create-resolver-file-mac
 --create-resolver-file-mac:
+ifeq ($(RESOLVER_FILE_EXISTS),no)
 	$(call step,Create resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@test -d /etc/resolver || sudo mkdir -p /etc/resolver
-ifeq ($(RESOLVER_FILE_EXISTS),no)
 	@sudo sh -c "printf '$$RESOLVER_BODY_DARWIN' > /etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file created"
-else
-	@printf "Resolver file already exists\n"
 endif
 
 export RESOLVER_BODY_LINUX
@@ -48,8 +46,10 @@ endif
 
 PHONY += --remove-resolver-file-mac
 --remove-resolver-file-mac:
+ifeq ($(RESOLVER_FILE_EXISTS),yes)
 	$(call step,Remove resolver file /etc/resolver/${DOCKER_DOMAIN}...)
 	@sudo rm -f "/etc/resolver/${DOCKER_DOMAIN}" && echo "Resolver file removed" || echo "Already removed"
+endif
 
 PHONY += --remove-resolver-file-linux
 --remove-resolver-file-linux: RESOLV_CONF := /etc/resolv.conf
