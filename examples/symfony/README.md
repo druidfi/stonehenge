@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Symfony 4 application with Composer:
+Install Symfony 5 application with Composer:
 
 ```
 $ cd examples/symfony

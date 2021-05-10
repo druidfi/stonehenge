@@ -1,33 +1,17 @@
-.PHONY: app down help up
 .DEFAULT_GOAL := help
 
-include .env
-
-SKELETON := laravel/laravel
-NO_COLOR=\033[0m
-YELLOW=\033[0;33m
+include ../utils.mk
 
 app:
 	$(call step,Create Laravel project folder with Composer...)
-	@test -d $(APP_PATH) && echo "Project folder already exists" || docker run --rm --interactive --tty \
-		--volume $$HOME/.composer:/tmp \
-		--volume $(shell pwd):/app \
-		composer create-project $(SKELETON) --no-interaction --prefer-dist --ignore-platform-reqs $(APP_PATH)
+	@docker run --rm -it -v $(shell pwd):/app composer create-project laravel/laravel app
 
-down: ## Tear down example
-	@docker-compose down -v
-	@chmod -R 0777 $(APP_PATH) && rm -rf $(APP_PATH)
-
-help: ## Print this help
-	$(call step,Available commands:)
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-	@echo ""
-
-up: app ## Launch example
+PHONY += up
+up: app ## Launch example Laravel application
 	$(call colorecho,Start Laravel example application...)
 	@docker-compose up -d
-	$(call step,DONE! Check https://$(APP_HOST) ...)
+	$(call step,DONE! Check https://laravel.docker.sh or https://laravel.traefik.me ...)
 
-define step
-	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
-endef
+down: ## Tear down example Laravel application
+	@docker-compose down -v
+	@chmod -R 0777 app && rm -rf app
