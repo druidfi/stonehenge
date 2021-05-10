@@ -108,7 +108,7 @@ $ make addkey KEY=mykey
 - [Ghost](examples/ghost)
 - [Hugo](examples/hugo)
 - [Laravel](examples/laravel)
-- [Symfony 4](examples/symfony)
+- [Symfony 5](examples/symfony)
 - [Wordpress](examples/wordpress)
 
 ## Supported operating systems

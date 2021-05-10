@@ -13,12 +13,12 @@ services:
       DRUPAL_ROUTES: "https://drupal9.docker.sh,https://drupal9.traefik.me"
       PHP_SENDMAIL_PATH: "/usr/sbin/sendmail -S stonehenge-mailhog:1025"
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.drupal9-example-app.entrypoints=https"
-      - "traefik.http.routers.drupal9-example-app.rule=Host(`drupal9.docker.sh`,`drupal9.traefik.me`)"
-      - "traefik.http.routers.drupal9-example-app.tls=true"
-      - "traefik.http.services.drupal9-example-app.loadbalancer.server.port=8080"
-      - "traefik.docker.network=stonehenge-network"
+      traefik.enable: "true"
+      traefik.http.routers.drupal9-example-app.entrypoints: https
+      traefik.http.routers.drupal9-example-app.rule: Host(`drupal9.docker.sh`,`drupal9.traefik.me`)
+      traefik.http.routers.drupal9-example-app.tls: "true"
+      traefik.http.services.drupal9-example-app.loadbalancer.server.port: 8080
+      traefik.docker.network: stonehenge-network
     networks:
       - internal
       - stonehenge-network

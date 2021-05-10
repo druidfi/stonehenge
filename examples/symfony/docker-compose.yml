@@ -7,37 +7,35 @@ version: '3.7'
 services:
 
   app:
-    image: nginx:1.17-alpine
-    container_name: "${COMPOSE_PROJECT_NAME}-app"
+    image: nginx:1.20-alpine
+    container_name: symfony-example-app
     depends_on:
       - php-fpm
     volumes:
       - ./nginx/includes/cache.conf:/etc/nginx/includes/cache.conf
       - ./nginx/includes/php.conf:/etc/nginx/includes/php.conf
       - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
-      - "${APP_PATH}:/app"
+      - ./app:/app
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`${APP_HOST}`)"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
-      - "traefik.docker.network=stonehenge-network"
+      traefik.enable: "true"
+      traefik.http.routers.symfony-example-app.entrypoints: https
+      traefik.http.routers.symfony-example-app.rule: Host(`symfony.docker.sh`,`symfony.traefik.me`)
+      traefik.http.routers.symfony-example-app.tls: "true"
+      traefik.docker.network: stonehenge-network
     networks:
-      - default
+      - internal
       - stonehenge-network
 
   php-fpm:
-    image: php:7.4-fpm-alpine
-    container_name: "${COMPOSE_PROJECT_NAME}-php-fpm"
+    image: php:8.0-fpm-alpine
+    container_name: symfony-example-php-fpm
     volumes:
-      - "${APP_PATH}:/app"
+      - ./app:/app
+    networks:
+      - internal
 
 networks:
-
-  default:
-    internal: true
-
-  # Network from druidfi/stonehenge
+  internal:
+    external: false
   stonehenge-network:
-    name: "stonehenge-network"
     external: true

@@ -43,14 +43,14 @@ PHONY += --up-title
 PHONY += --up-create-network
 --up-create-network:
 ifeq ($(NETWORK_EXISTS),no)
-	$(call step,Create network ${NETWORK_NAME} $(NETWORK_EXISTS) ...)
+	$(call step,Create network ${NETWORK_NAME}...)
 	@docker network create ${NETWORK_NAME} && echo "- Network created"
 endif
 
 PHONY += --up-create-volume
 --up-create-volume:
 ifeq ($(SSH_VOLUME_EXISTS),no)
-	$(call step,Create volume ${SSH_VOLUME_NAME} $(SSH_VOLUME_EXISTS) ...)
+	$(call step,Create volume ${SSH_VOLUME_NAME}...)
 	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
 endif
 

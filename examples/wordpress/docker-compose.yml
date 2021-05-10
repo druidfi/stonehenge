@@ -12,11 +12,11 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.wordpress-example-app.entrypoints=https"
-      - "traefik.http.routers.wordpress-example-app.rule=Host(`wordpress.docker.sh`,`wordpress.traefik.me`)"
-      - "traefik.http.routers.wordpress-example-app.tls=true"
-      - "traefik.docker.network=stonehenge-network"
+      traefik.enable: "true"
+      traefik.http.routers.wordpress-example-app.entrypoints: https
+      traefik.http.routers.wordpress-example-app.rule: Host(`wordpress.docker.sh`,`wordpress.traefik.me`)
+      traefik.http.routers.wordpress-example-app.tls: "true"
+      traefik.docker.network: stonehenge-network
     networks:
       - internal
       - stonehenge-network

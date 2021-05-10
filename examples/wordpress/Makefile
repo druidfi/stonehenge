@@ -11,5 +11,6 @@ up: ## Launch example Wordpress site
 	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
 	$(call step,DONE! Check https://wordpress.docker.sh or https://wordpress.traefik.me ...)
 
+PHONY += down
 down: ## Tear down example Wordpress site
 	@docker-compose down -v
