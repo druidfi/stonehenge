@@ -13,7 +13,8 @@ DOWN_TARGETS := --down-title --down --down-post-actions
 POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
 
 ifeq ($(DOCKER_COMPOSE_CMD_NATIVE),yes)
-	DCC := docker compose
+	DCC := docker-compose
+	#DCC := docker compose
 else
 	DCC := docker-compose
 endif
@@ -42,19 +43,23 @@ PHONY += --up-pre-actions
 
 PHONY += --up-title
 --up-title:
-	$(call step,\nStart Stonehenge on $(OS))
+	$(call step,Start Stonehenge on $(OS))
 
 PHONY += --up-create-network
+--up-create-network: EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null && echo "yes" || echo "no")
 --up-create-network:
+ifeq ($(EXISTS),no)
 	$(call step,Create network ${NETWORK_NAME}...)
-	@docker network inspect ${NETWORK_NAME} > /dev/null || \
-		docker network create ${NETWORK_NAME} && echo "Network created"
+	@docker network create ${NETWORK_NAME} && echo "- Network created"
+endif
 
 PHONY += --up-create-volume
+--up-create-volume: EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null && echo "yes" || echo "no")
 --up-create-volume:
+ifeq ($(EXISTS),no)
 	$(call step,Create volume ${SSH_VOLUME_NAME}...)
-	@docker volume inspect ${SSH_VOLUME_NAME} > /dev/null || \
-		docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+endif
 
 PHONY += --up
 --up:
@@ -63,7 +68,11 @@ PHONY += --up
 
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
-	$(call success,SUCCESS!\n\n- https://traefik.${DOCKER_DOMAIN}\n- https://portainer.${DOCKER_DOMAIN}\n- https://mailhog.${DOCKER_DOMAIN})
+	$(call step,You can now access Stonehenge service with these URLs:)
+	$(call item,https://traefik.${DOCKER_DOMAIN} OR https://dashboard.traefik.me)
+	$(call item,https://portainer.${DOCKER_DOMAIN} OR https://portainer.traefik.me)
+	$(call item,https://mailhog.${DOCKER_DOMAIN} OR https://mailhog.traefik.me)
+	$(call success,SUCCESS! Happy Developing!)
 
 #
 # Tearing down Stonehenge

@@ -13,13 +13,13 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.traefik.entrypoints: https
-      traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.traefik.rule: Host(`traefik.${DOCKER_DOMAIN}`,`dashboard.traefik.me`)
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.tls: "true"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
 
       # catchall router
-      traefik.http.routers.http-catchall.rule: "hostregexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.http-catchall.rule: "HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`,`{subdomain:[A-Za-z0-9-]+}.traefik.me`)"
       traefik.http.routers.http-catchall.entrypoints: "http"
       traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
 
@@ -48,7 +48,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.portainer.entrypoints: https
-      traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.portainer.rule: Host(`portainer.${DOCKER_DOMAIN}`,`portainer.traefik.me`)
       traefik.http.routers.portainer.tls: "true"
       traefik.http.services.portainer.loadbalancer.server.port: 9000
 
@@ -59,7 +59,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.mailhog.entrypoints: https
-      traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.mailhog.rule: Host(`mailhog.${DOCKER_DOMAIN}`,`mailhog.traefik.me`)
       traefik.http.routers.mailhog.tls: "true"
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
@@ -82,7 +82,7 @@ services:
       traefik.enable: "true"
       traefik.http.routers.errors.tls: "true"
       traefik.http.routers.errors.priority: 1
-      traefik.http.routers.errors.rule: hostregexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)
+      traefik.http.routers.errors.rule: HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`,`{subdomain:[A-Za-z0-9-]+}.traefik.me`)
 
 networks:
   default:
