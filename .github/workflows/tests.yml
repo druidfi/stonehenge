@@ -32,6 +32,8 @@ jobs:
           mkdir -p .ssh
           ssh-keygen -q -t rsa -N '' -b 4096 -f .ssh/id_rsa -C "rsa key"
           ssh-keygen -q -t ed25519 -N '' -f .ssh/id_ed25519 -C "ed25519 key"
+          chmod 0400 .ssh/id_rsa .ssh/id_ed25519
+          chmod +wx .ssh/id_rsa .ssh/id_ed25519
           ls -lah .ssh/
 
       - name: Start up Stonehenge
