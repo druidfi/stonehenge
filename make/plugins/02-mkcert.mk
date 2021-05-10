@@ -17,7 +17,7 @@ PHONY += mkcert-install
 mkcert-install: ## Install mkcert
 ifeq ($(MKCERT_BIN),$(MKCERT_BIN_PATH))
 	$(call step,Install mkcert)
-	@printf "mkcert is already installed\n"
+	$(call item,mkcert is already installed 👍)
 else
 # macOS starts
 ifeq ($(OS_ID_LIKE),darwin)
@@ -76,5 +76,5 @@ PHONY += --certs-create-certs
 --certs-create-certs: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
 --certs-create-certs:
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
-	@test -f $(CERT).crt && echo "- already exists" || \
+	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
