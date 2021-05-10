@@ -42,11 +42,11 @@ jobs:
           until curl -s "https://portainer.docker.sh" | grep Portainer; do true; done > /dev/null
           printf "CURL portainer.docker.sh for checking access ends"
 
-      - name: Check if Portainer can be accessed from portainer.traefik.me
-        run: |
-          printf "CURL portainer.traefik.me for checking access starts"
-          until curl -s "https://portainer.traefik.me" | grep Portainer; do true; done > /dev/null
-          printf "CURL portainer.traefik.me for checking access ends"
+#      - name: Check if Portainer can be accessed from portainer.traefik.me
+#        run: |
+#          printf "CURL portainer.traefik.me for checking access starts"
+#          until curl -s "https://portainer.traefik.me" | grep Portainer; do true; done > /dev/null
+#          printf "CURL portainer.traefik.me for checking access ends"
 
       - name: Tear down Stonehenge
         run: make down
