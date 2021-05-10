@@ -27,10 +27,16 @@ jobs:
           make ping
 
       - name: Create test SSH keys
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
-          ssh-keygen -q -t rsa -N '' -b 4096 -f /home/runner/.ssh/id_rsa -C "rsa key"
-          ssh-keygen -q -t ed25519 -N '' -f /home/runner/.ssh/id_ed25519 -C "ed25519 key"
-          chmod og-rw ~
+          mkdir -p /home/runner/.ssh
+          ssh-keygen -q -t rsa -N '' -b 4096 -f ~/.ssh/id_rsa -C "rsa key"
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keygen -q -t ed25519 -N '' -f ~/.ssh/id_ed25519 -C "ed25519 key"
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add
 
       - name: Start up Stonehenge
         run: make up
