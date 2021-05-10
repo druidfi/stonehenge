@@ -2,28 +2,23 @@ include $(PROJECT_DIR)/make/os.mk
 
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
-DOCKER_COMPOSE_CMD_NATIVE := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
 NETWORK_NAME := $(PREFIX)-network
+NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_VOLUME_NAME := $(PREFIX)-ssh
+SSH_VOLUME_EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_KEYS := id_ed25519 id_rsa
+
 UP_TARGETS := --up-pre-actions --up --up-post-actions
 UP_PRE_TARGETS := --up-title --up-create-network --up-create-volume
 UP_POST_TARGETS := addkeys
 DOWN_TARGETS := --down-title --down --down-post-actions
 POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
 
-ifeq ($(DOCKER_COMPOSE_CMD_NATIVE),yes)
-	DCC := docker-compose
-	#DCC := docker compose
-else
-	DCC := docker-compose
-endif
-
 # Set OS/distro specific variables
 ifeq ($(OS_ID_LIKE),darwin)
-	DOCKER_COMPOSE_CMD := $(DCC) -f docker-compose.yml -f docker-compose-darwin.yml
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
 else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
-	DOCKER_COMPOSE_CMD := $(DCC) -f docker-compose.yml -f docker-compose-linux.yml
+	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
 endif
 
 #
@@ -46,23 +41,17 @@ PHONY += --up-title
 	$(call step,Start Stonehenge on $(OS))
 
 PHONY += --up-create-network
---up-create-network: EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 --up-create-network:
-ifeq ($(EXISTS),no)
-	$(call step,Create network ${NETWORK_NAME}...)
+ifeq ($(NETWORK_EXISTS),no)
+	$(call step,Create network ${NETWORK_NAME} $(NETWORK_EXISTS) ...)
 	@docker network create ${NETWORK_NAME} && echo "- Network created"
-else
-	@echo $(EXISTS)
 endif
 
 PHONY += --up-create-volume
---up-create-volume: EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 --up-create-volume:
-ifeq ($(EXISTS),no)
-	$(call step,Create volume ${SSH_VOLUME_NAME}...)
+ifeq ($(SSH_VOLUME_EXISTS),no)
+	$(call step,Create volume ${SSH_VOLUME_NAME} $(SSH_VOLUME_EXISTS) ...)
 	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
-else
-	@echo $(EXISTS)
 endif
 
 PHONY += --up
