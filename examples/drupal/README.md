@@ -9,7 +9,7 @@
 Install Drupal 9 application with Composer:
 
 ```
-$ cd examples/drupal9
+$ cd examples/drupal
 $ make up
 ```
 

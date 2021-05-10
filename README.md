@@ -104,7 +104,7 @@ $ make addkey KEY=mykey
 
 ## Examples
 
-- [Drupal 9](examples/drupal9)
+- [Drupal 9](examples/drupal)
 - [Ghost 4](examples/ghost)
 - [Hugo](examples/hugo)
 - [Laravel 8](examples/laravel)
