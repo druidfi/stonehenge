@@ -29,8 +29,10 @@ check-scripts:
 
 PHONY += ping
 ping: ## Ping docker.so domain
-	$(call step,Setup domain $(DOCKER_DOMAIN) resolves to:)
+	$(call step,Domain $(DOCKER_DOMAIN) resolves to:)
 	@ping -q -c 1 -t 1 $(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
+	$(call step,Domain foobar.$(DOCKER_DOMAIN) resolves to:)
+	@ping -q -c 1 -t 1 foobar.$(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
 
 PHONY += url
 url: SERVICE := portainer
