@@ -15,7 +15,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.symfony-example-app.entrypoints: https
-      traefik.http.routers.symfony-example-app.rule: Host(`symfony.docker.sh`,`symfony.traefik.me`)
+      traefik.http.routers.symfony-example-app.rule: Host(`symfony.docker.so`,`symfony.traefik.me`)
       traefik.http.routers.symfony-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:

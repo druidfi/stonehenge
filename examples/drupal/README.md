@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://drupal9.docker.sh/ or in https://drupal9.traefik.me/
+Access the site in https://drupal9.docker.so/ or in https://drupal9.traefik.me/
 
 ## CLI
 

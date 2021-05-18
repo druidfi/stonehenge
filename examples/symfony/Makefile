@@ -10,7 +10,7 @@ PHONY += up
 up: app ## Launch example Symfony application
 	$(call colorecho,Start Symfony example application...)
 	@docker-compose up -d
-	$(call step,DONE! Check https://symfony.docker.sh or https://symfony.traefik.me ...)
+	$(call step,DONE! Check https://symfony.docker.so or https://symfony.traefik.me ...)
 
 PHONY += down
 down: ## Tear down example Symfony application

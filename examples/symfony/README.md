@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://symfony.docker.sh/ or in https://symfony.traefik.me/
+Access the site in https://symfony.docker.so/ or in https://symfony.traefik.me/
 
 ## Teardown
 

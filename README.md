@@ -28,9 +28,9 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Stonehenge building blocks
 
-- `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
-- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker (username: `admin`, password: `admin`)
-- `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
+- `mailhog/mailhog` in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
+- `portainer/portainer` in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
+- `traefik` in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 
 ## Setup
@@ -53,7 +53,7 @@ $ make up
 
 ### Using custom domain
 
-You can also use custom domain instead of `docker.sh`:
+You can also use custom domain instead of `docker.so`:
 
 ```
 $ make up DOCKER_DOMAIN=docker.druid.fi

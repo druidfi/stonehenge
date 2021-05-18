@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://laravel.docker.sh/ or in https://laravel.traefik.me/
+Access the site in https://laravel.docker.so/ or in https://laravel.traefik.me/
 
 ## Teardown
 

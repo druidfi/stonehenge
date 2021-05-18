@@ -1,6 +1,6 @@
 tls:
   certificates:
-    - certFile: /ssl/docker.sh.crt
-      keyFile: /ssl/docker.sh.key
+    - certFile: /ssl/docker.so.crt
+      keyFile: /ssl/docker.so.key
     - certFile: /ssl/traefikme/cert.pem
       keyFile: /ssl/traefikme/privkey.pem

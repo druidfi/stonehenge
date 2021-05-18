@@ -28,7 +28,7 @@ check-scripts:
 	@shellcheck install.sh .travis/*.sh && echo "All good"
 
 PHONY += ping
-ping: ## Ping docker.sh domain
+ping: ## Ping docker.so domain
 	$(call step,Setup domain $(DOCKER_DOMAIN) resolves to:)
 	@ping -q -c 1 -t 1 $(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
 
