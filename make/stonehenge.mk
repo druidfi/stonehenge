@@ -2,6 +2,7 @@ include $(PROJECT_DIR)/make/os.mk
 
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
+DOCKER_COMPOSE_CMD := docker-compose
 NETWORK_NAME := $(PREFIX)-network
 NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_VOLUME_NAME := $(PREFIX)-ssh
@@ -13,13 +14,6 @@ UP_PRE_TARGETS := --up-title --up-create-network --up-create-volume
 UP_POST_TARGETS := addkeys
 DOWN_TARGETS := --down-title --down --down-post-actions
 POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
-
-# Set OS/distro specific variables
-ifeq ($(OS_ID_LIKE),darwin)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
-else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
-endif
 
 #
 # Include plugins

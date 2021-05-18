@@ -28,7 +28,6 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Stonehenge building blocks
 
-- `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
 - `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
 - `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker (username: `admin`, password: `admin`)
 - `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
@@ -157,7 +156,6 @@ $ make debug
 
 ## References
 
-- [https://github.com/andyshinn/docker-dnsmasq](https://github.com/andyshinn/docker-dnsmasq)
 - [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
 - [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
 - [https://portainer.io/](https://portainer.io/)
