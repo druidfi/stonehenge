@@ -41,13 +41,13 @@ Note: in some systems setup will prompt once for your password as it will setup 
 ### Oneliner
 
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/2.x/install.sh)"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/install.sh)"
 ```
 
 ### Or manually with Git
 
 ```
-$ git clone -b 2.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+$ git clone -b 3.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 $ cd ~/stonehenge
 $ make up
 ```

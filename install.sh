@@ -8,7 +8,7 @@ shopt -s xpg_echo
 
 REPO_FOLDER=~/stonehenge
 REPO_URL=https://github.com/druidfi/stonehenge.git
-REPO_BRANCH=2.x
+REPO_BRANCH=3.x
 
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
