@@ -156,6 +156,12 @@ update: ## Update Stonehenge
 PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 
+PHONY += switch-to-3
+switch-to-3: --down
+	$(call step,Change to Stonehenge v3\n\n- Pull the latest code...)
+	@git checkout 3.x && git pull
+	@$(MAKE) up
+
 #
 # Includes
 #
