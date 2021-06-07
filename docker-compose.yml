@@ -56,6 +56,8 @@ services:
     image: druidfi/mailhog:1.0.1
     container_name: "${PREFIX}-mailhog"
     restart: unless-stopped
+    ports:
+      - 1025:1025
     labels:
       traefik.enable: "true"
       traefik.http.routers.mailhog.entrypoints: https
