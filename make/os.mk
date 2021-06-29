@@ -43,17 +43,26 @@ endif
 # Others
 #
 else
-	OS := $(UNAME)
+	OS := $(shell uname -s)
 	OS_ID := UNKNOWN
 	OS_ID_LIKE := UNKNOWN
 	OS_VERSION := UNKNOWN
 endif
 
 #
+# WSL
+#
+ifneq ($(WSL_INTEROP),)
+	WSL := yes
+else
+	WSL := no
+endif
+
+#
 # Not supported!
 #
 ifeq ($(OS_ID),UNKNOWN)
-$(error OS $(OS) not supported)
+$(error OS $(OS) not supported wsl is $(WSL_INTEROP))
 endif
 
 #

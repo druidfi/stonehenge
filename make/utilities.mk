@@ -6,6 +6,7 @@ debug:
 	$(call val,OS_ID,$(OS_ID))
 	$(call val,OS_ID_LIKE,$(OS_ID_LIKE))
 	$(call val,OS_VERSION,$(OS_VERSION))
+	$(call val,WSL,$(WSL))
 	$(call val,Docker installed,$(DOCKER_BIN))
 	$(call val,Docker version,$(shell docker --version))
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
