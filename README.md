@@ -42,15 +42,15 @@ If on Windows, check these [general install instructions](WSL2.md) if you don't 
 ### Oneliner
 
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/install.sh)"
 ```
 
 ### Or manually with Git
 
 ```
-$ git clone -b 3.x https://github.com/druidfi/stonehenge.git ~/stonehenge
-$ cd ~/stonehenge
-$ make up
+git clone -b 3.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+cd ~/stonehenge
+make up
 ```
 
 ### Using custom domain
@@ -58,7 +58,7 @@ $ make up
 You can also use custom domain instead of `docker.so`:
 
 ```
-$ make up DOCKER_DOMAIN=docker.druid.fi
+make up DOCKER_DOMAIN=docker.druid.fi
 ```
 
 Or alternatively change DOCKER_DOMAIN value in `.env` file.
@@ -70,13 +70,13 @@ Note: Stonehenge will be started on boot by default if not stopped before.
 To stop Stonehenge:
 
 ```
-$ make stop
+make stop
 ```
 
 Or totally to stop and remove Stonehenge:
 
 ```
-$ make down
+make down
 ```
 
 ## Add alias
@@ -90,7 +90,7 @@ alias stonehenge='make -C ~/stonehenge'
 Now you can run make targets from anywhere with the alias:
 
 ```
-$ stonehenge up
+stonehenge up
 ```
 
 ## SSH keys
@@ -100,7 +100,7 @@ By default Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_r
 You can add additional SSH keys with:
 
 ```
-$ make addkey KEY=/path/to/mykey
+make addkey KEY=/path/to/mykey
 ```
 
 ## Examples
@@ -147,7 +147,7 @@ To brand the toolset for your organization:
 Use following command to see what data is detected:
 
 ```
-$ make debug
+make debug
 ```
 
 ## TODO
