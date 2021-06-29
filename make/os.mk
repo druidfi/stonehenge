@@ -62,7 +62,11 @@ endif
 # Not supported!
 #
 ifeq ($(OS_ID),UNKNOWN)
-$(error OS $(OS) not supported wsl is $(WSL_INTEROP))
+ifeq ($(WSL),yes)
+$(error OS $(OS) not supported. WSL_INTEROP is $(WSL_INTEROP))
+else
+$(error OS $(OS) not supported)
+endif
 endif
 
 #
