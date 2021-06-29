@@ -1,6 +1,6 @@
 $REPO_FOLDER=~/stonehenge
 $REPO_URL=https://github.com/druidfi/stonehenge.git
-$REPO_BRANCH=2.x
+$REPO_BRANCH=3.x
 $WSL_NAME = $(wsl sh -c 'echo $WSL_DISTRO_NAME')
 $WSL_USER = $(wsl whoami)
 
