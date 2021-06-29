@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Symfony 4 application with Composer:
+Install Symfony 5 application with Composer:
 
 ```
 $ cd examples/symfony
@@ -15,7 +15,7 @@ $ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://symfony.docker.sh/
+Access the site in https://symfony.docker.so/ or in https://symfony.traefik.me/
 
 ## Teardown
 

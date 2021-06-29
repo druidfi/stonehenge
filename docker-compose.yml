@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   traefik:
-    image: traefik:v2.3.2
+    image: "traefik:v${TRAEFIK_VERSION}"
     container_name: "${PREFIX}-traefik"
     restart: unless-stopped
     security_opt:
@@ -11,15 +11,15 @@ services:
     command: |-
       --providers.docker.network="${PREFIX}-network"
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.traefik.entrypoints: https
-      traefik.http.routers.traefik.rule: "Host(`traefik.${DOCKER_DOMAIN}`)"
+      traefik.http.routers.traefik.rule: Host(`traefik.${DOCKER_DOMAIN}`,`dashboard.traefik.me`)
       traefik.http.routers.traefik.service: api@internal
-      traefik.http.routers.traefik.tls: true
+      traefik.http.routers.traefik.tls: "true"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
 
       # catchall router
-      traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
+      traefik.http.routers.http-catchall.rule: "HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`,`{subdomain:[A-Za-z0-9-]+}.traefik.me`)"
       traefik.http.routers.http-catchall.entrypoints: "http"
       traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
 
@@ -35,7 +35,7 @@ services:
       - ./certs:/ssl # mkcert certs
 
   portainer:
-    image: portainer/portainer-ce:2.0.0-alpine
+    image: "portainer/portainer-ce:${PORTAINER_VERSION}-alpine"
     container_name: "${PREFIX}-portainer"
     restart: unless-stopped
     command: |-
@@ -46,25 +46,27 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_admin_password:/tmp/portainer_password
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.portainer.entrypoints: https
-      traefik.http.routers.portainer.rule: "Host(`portainer.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.portainer.tls: true
+      traefik.http.routers.portainer.rule: Host(`portainer.${DOCKER_DOMAIN}`,`portainer.traefik.me`)
+      traefik.http.routers.portainer.tls: "true"
       traefik.http.services.portainer.loadbalancer.server.port: 9000
 
   mailhog:
     image: druidfi/mailhog:1.0.1
     container_name: "${PREFIX}-mailhog"
     restart: unless-stopped
+    ports:
+      - 1025:1025
     labels:
-      traefik.enable: true
+      traefik.enable: "true"
       traefik.http.routers.mailhog.entrypoints: https
-      traefik.http.routers.mailhog.rule: "Host(`mailhog.${DOCKER_DOMAIN}`)"
-      traefik.http.routers.mailhog.tls: true
+      traefik.http.routers.mailhog.rule: Host(`mailhog.${DOCKER_DOMAIN}`,`mailhog.traefik.me`)
+      traefik.http.routers.mailhog.tls: "true"
       traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
-    image: druidfi/ssh-agent:alpine3.12
+    image: "druidfi/ssh-agent:${SSH_IMAGE_VERSION}"
     container_name: "${PREFIX}-ssh-agent"
     restart: unless-stopped
     volumes:
@@ -72,17 +74,17 @@ services:
       - ssh:/tmp/druid_ssh-agent/
 
   catchall:
-    image: nginx:1.18-alpine
+    image: nginx:stable-alpine
     container_name: "${PREFIX}-catchall"
     restart: unless-stopped
     volumes:
       - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
     labels:
-      traefik.enable: true
-      traefik.http.routers.errors.tls: true
+      traefik.enable: "true"
+      traefik.http.routers.errors.tls: "true"
       traefik.http.routers.errors.priority: 1
-      traefik.http.routers.errors.rule: HostRegexp(`{catchall:.*}`)
+      traefik.http.routers.errors.rule: HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`,`{subdomain:[A-Za-z0-9-]+}.traefik.me`)
 
 networks:
   default:

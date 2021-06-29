@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+
+  app:
+    hostname: "drupal9.docker.so"
+    container_name: "drupal9-example-app"
+    image: "druidfi/drupal:7.4-test"
+    depends_on:
+      - db
+    environment:
+      APP_ENV: "prod"
+      DRUPAL_ROUTES: "https://drupal9.docker.so,https://drupal9.traefik.me"
+      PHP_SENDMAIL_PATH: "/usr/sbin/sendmail -S stonehenge-mailhog:1025"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.drupal9-example-app.entrypoints: https
+      traefik.http.routers.drupal9-example-app.rule: Host(`drupal9.docker.so`,`drupal9.traefik.me`)
+      traefik.http.routers.drupal9-example-app.tls: "true"
+      traefik.http.services.drupal9-example-app.loadbalancer.server.port: 8080
+      traefik.docker.network: stonehenge-network
+    networks:
+      - internal
+      - stonehenge-network
+
+  db:
+    container_name: "drupal9-example-db"
+    image: druidfi/db:mysql8.0-drupal
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: false
+  stonehenge-network:
+    external: true

@@ -2,17 +2,95 @@ include $(PROJECT_DIR)/make/os.mk
 
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
+DOCKER_COMPOSE_CMD := docker-compose
 NETWORK_NAME := $(PREFIX)-network
+NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_VOLUME_NAME := $(PREFIX)-ssh
+SSH_VOLUME_EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
+SSH_KEYS := id_ed25519 id_rsa
 
-# Set OS/distro specific variables
-ifeq ($(OS_ID_LIKE),darwin)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-darwin.yml
-else ifeq ($(OS_RELEASE_FILE_EXISTS),yes)
-	DOCKER_COMPOSE_CMD := docker-compose -f docker-compose.yml -f docker-compose-linux.yml
+UP_TARGETS := --up-pre-actions --up --up-post-actions
+UP_PRE_TARGETS := --up-title --up-create-network --up-create-volume
+UP_POST_TARGETS := addkeys
+DOWN_TARGETS := --down-title --down --down-post-actions
+POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
+
+#
+# Include plugins
+#
+-include $(PROJECT_DIR)/make/plugins/*.mk
+
+#
+# Launching Stonehenge
+#
+
+PHONY += up
+up: $(UP_TARGETS) ## Launch Stonehenge
+
+PHONY += --up-pre-actions
+--up-pre-actions: $(UP_PRE_TARGETS)
+
+PHONY += --up-title
+--up-title:
+	$(call step,Start Stonehenge on $(OS))
+
+PHONY += --up-create-network
+--up-create-network:
+ifeq ($(NETWORK_EXISTS),no)
+	$(call step,Create network ${NETWORK_NAME}...)
+	@docker network create ${NETWORK_NAME} && echo "- Network created"
 endif
 
-SSH_KEYS := id_ed25519 id_rsa
+PHONY += --up-create-volume
+--up-create-volume:
+ifeq ($(SSH_VOLUME_EXISTS),no)
+	$(call step,Create volume ${SSH_VOLUME_NAME}...)
+	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+endif
+
+PHONY += --up
+--up:
+	$(call step,Start the containers...)
+	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+
+PHONY += --up-post-actions
+--up-post-actions: $(UP_POST_TARGETS)
+	$(call step,You can now access Stonehenge services with these URLs:)
+	$(call item,https://traefik.${DOCKER_DOMAIN} OR https://dashboard.traefik.me)
+	$(call item,https://portainer.${DOCKER_DOMAIN} OR https://portainer.traefik.me)
+	$(call item,https://mailhog.${DOCKER_DOMAIN} OR https://mailhog.traefik.me)
+	$(call success,SUCCESS! Happy Developing!)
+
+#
+# Tearing down Stonehenge
+#
+
+PHONY += down
+down: $(DOWN_TARGETS) ## Tear down Stonehenge
+
+PHONY += --down-title
+--down-title:
+	$(call step,Tear down Stonehenge on $(OS))
+
+PHONY += --down
+--down:
+	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans
+
+PHONY += --down-remove-network
+--down-remove-network:
+	@docker network remove ${NETWORK_NAME} || docker network inspect ${NETWORK_NAME}
+
+PHONY += --down-remove-volume
+--down-remove-volume:
+	@docker volume remove ${SSH_VOLUME_NAME} || docker volume inspect ${SSH_VOLUME_NAME}
+
+PHONY += --down-post-actions
+--down-post-actions: $(POST_DOWN_ACTIONS)
+	$(call success,DONE!)
+
+#
+# SSH keys
+#
 
 PHONY += addkeys
 addkeys: $(SSH_KEYS)
@@ -22,7 +100,7 @@ $(SSH_KEYS):
 
 PHONY += addkey
 addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
-addkey: IMAGE := druidfi/ssh-agent:alpine3.12
+addkey: IMAGE := druidfi/ssh-agent:$(SSH_IMAGE_VERSION)
 addkey: ## Add SSH key
 	$(call step,Adding SSH key "$(KEY)"...)
 	@test -f $(KEY) && docker run --rm -it \
@@ -30,6 +108,10 @@ addkey: ## Add SSH key
 		--volumes-from=${PREFIX}-ssh-agent \
 		--name=${PREFIX}-ssh-agent-add-key \
 		$(IMAGE) ssh-add $(KEY) || echo "No SSH key found"
+
+#
+# Commands
+#
 
 PHONY += config
 config: ## Show Stonehenge container config
@@ -68,22 +150,16 @@ update: ## Update Stonehenge
 PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 
-PHONY += switch-to-1
-switch-to-1: --down
-	$(call step,Change to Stonehenge v1\n\n- Pull the latest code...)
-	@git checkout 1.x && git pull
-	@$(MAKE) up
-
 PHONY += switch-to-2
-switch-to-2: --down
+switch-to-2: --down ## Switch to Stonehenge 2
 	$(call step,Change to Stonehenge v2\n\n- Pull the latest code...)
 	@git checkout 2.x && git pull
 	@$(MAKE) up
 
-include $(PROJECT_DIR)/make/mkcert.mk
-include $(PROJECT_DIR)/make/ssl.mk
-include $(PROJECT_DIR)/make/up.mk
-include $(PROJECT_DIR)/make/down.mk
+#
+# Includes
+#
+
 include $(PROJECT_DIR)/make/utilities.mk
 
 #

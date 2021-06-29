@@ -28,3 +28,6 @@ providers:
   file:
     directory: "/configuration"
     watch: true
+
+pilot:
+  dashboard: false

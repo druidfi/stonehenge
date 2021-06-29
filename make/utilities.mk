@@ -29,9 +29,11 @@ check-scripts:
 	@shellcheck install.sh .travis/*.sh && echo "All good"
 
 PHONY += ping
-ping: ## Ping docker domain
-	$(call step,Setup domain $(DOCKER_DOMAIN) resolves to:)
+ping: ## Ping docker.so domain
+	$(call step,Domain $(DOCKER_DOMAIN) resolves to:)
 	@ping -q -c 1 -t 1 $(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
+	$(call step,Domain foobar.$(DOCKER_DOMAIN) resolves to:)
+	@ping -q -c 1 -t 1 foobar.$(DOCKER_DOMAIN) | grep PING | sed -e "s/).*//" | sed -e "s/.*(//"
 
 PHONY += url
 url: SERVICE := portainer
@@ -52,8 +54,16 @@ GREEN=\033[0;32m
 RED=\033[0;31m
 YELLOW=\033[0;33m
 
+define download
+	@curl -s -# -L ${1} -o ${2} && test -f ${2} && echo "Downloaded ${2} from ${1}" || echo "Error: Downloading ${1} failed"
+endef
+
 define step
-	@printf "\n${YELLOW}${1}${NO_COLOR}\n\n"
+	@printf "\n${YELLOW}⚡ ${1}${NO_COLOR}\n\n"
+endef
+
+define item
+	@echo "${1}"
 endef
 
 define success

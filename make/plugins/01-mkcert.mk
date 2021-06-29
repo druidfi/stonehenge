@@ -5,6 +5,8 @@ MKCERT_REQS_ARCH := nss
 MKCERT_REQS_DEBIAN := libnss3-tools
 MKCERT_VERSION := v1.4.0
 
+UP_PRE_TARGETS += mkcert-install certs
+
 ifeq ($(OS_ID_LIKE),darwin)
 	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-darwin-amd64
 else
@@ -15,7 +17,7 @@ PHONY += mkcert-install
 mkcert-install: ## Install mkcert
 ifeq ($(MKCERT_BIN),$(MKCERT_BIN_PATH))
 	$(call step,Install mkcert)
-	@printf "mkcert is already installed\n"
+	$(call item,mkcert is already installed 👍)
 else
 # macOS starts
 ifeq ($(OS_ID_LIKE),darwin)
@@ -43,3 +45,36 @@ endif
 endif
 # Linux ends
 endif
+
+#
+# SSL related targets
+#
+
+MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
+MKCERT_CAROOT := $(shell pwd)/certs
+SH_CERTS_PATH := certs
+SH_CERT_FILENAME := $(DOCKER_DOMAIN)
+
+PHONY += certs
+certs: --certs-install-ca --certs-create-certs ## Install certs
+
+PHONY += certs-uninstall
+certs-uninstall: export CAROOT = $(MKCERT_CAROOT)
+certs-uninstall: ## Uninstall certs
+	$(call step,Uninstall local CA...)
+	@mkcert -uninstall || echo "No CA found..."
+	@rm -rf $(SH_CERTS_PATH)/*.crt $(SH_CERTS_PATH)/*.key $(SH_CERTS_PATH)/*.pem
+
+PHONY += --certs-install-ca
+--certs-install-ca: export CAROOT = $(MKCERT_CAROOT)
+--certs-install-ca:
+	$(call step,Create local CA...)
+	@mkcert -install
+
+PHONY += --certs-create-certs
+--certs-create-certs: export CAROOT = $(MKCERT_CAROOT)
+--certs-create-certs: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
+--certs-create-certs:
+	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
+	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
+		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"

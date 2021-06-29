@@ -16,9 +16,9 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Requirements for Stonehenge
 
-- macOS, Ubuntu LTS or Windows 10 + WSL2 - [Read more](#supported-operating-systems)
+- Latest macOS, Ubuntu LTS or Windows 10 + WSL2 - [Read more](#supported-operating-systems)
 - Make
-- Docker Desktop 18.06.0+
+- Docker 18.06.0+
 - Docker Compose
 - No other services listening port 80 or 443
 
@@ -28,10 +28,9 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Stonehenge building blocks
 
-- `andyshinn/dnsmasq` to route `*.docker.sh` to localhost
-- `mailhog/mailhog` in [mailhog.docker.sh](https://mailhog.docker.sh) to catch emails
-- `portainer/portainer` in [portainer.docker.sh](https://portainer.docker.sh) to manage your Docker (username: `admin`, password: `admin`)
-- `traefik` in [traefik.docker.sh](https://traefik.docker.sh) to handle all traffic to containers
+- `mailhog/mailhog` in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
+- `portainer/portainer` in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
+- `traefik` in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 
 ## Setup
@@ -43,20 +42,20 @@ If on Windows, check these [general install instructions](WSL2.md) if you don't 
 ### Oneliner
 
 ```
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/2.x/install.sh)"
+$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/install.sh)"
 ```
 
 ### Or manually with Git
 
 ```
-$ git clone -b 2.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+$ git clone -b 3.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 $ cd ~/stonehenge
 $ make up
 ```
 
 ### Using custom domain
 
-You can also use custom domain instead of `docker.sh`:
+You can also use custom domain instead of `docker.so`:
 
 ```
 $ make up DOCKER_DOMAIN=docker.druid.fi
@@ -96,28 +95,27 @@ $ stonehenge up
 
 ## SSH keys
 
-By default Stonehenge tries to add key from `~/.ssh/id_rsa`.
+By default Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`.
 
 You can add additional SSH keys with:
 
 ```
-$ make addkey KEY=mykey
+$ make addkey KEY=/path/to/mykey
 ```
 
 ## Examples
 
-- [Contenta CMS](examples/contentacms)
-- [Drupal 8](examples/drupal8)
-- [Ghost](examples/ghost)
+- [Drupal 9](examples/drupal)
+- [Ghost 4](examples/ghost)
 - [Hugo](examples/hugo)
-- [Laravel](examples/laravel)
-- [Symfony 4](examples/symfony)
+- [Laravel 8](examples/laravel)
+- [Symfony 5](examples/symfony)
 - [Wordpress](examples/wordpress)
 
 ## Supported operating systems
 
-- macOS Catalina 10.15
-- Ubuntu 18.04 LTS
+- macOS Big Sur 11
+- Ubuntu 20.04 LTS
 - Windows 10 + WSL2 (Debian or Ubuntu LTS)
 
 Also tested with at some point:
@@ -125,10 +123,11 @@ Also tested with at some point:
 - Arch Linux
 - macOS High Sierra 10.13
 - macOS Mojave 10.14
+- macOS Catalina 10.15
 - Manjaro 17.1 (Arch Linux)
 - Manjaro 18.1 (Arch Linux)
 - Ubuntu 16.04 LTS
-- Ubuntu 17.10
+- Ubuntu 18.04 LTS
 
 ## Fork and modify
 
@@ -159,10 +158,11 @@ $ make debug
 
 ## References
 
-- [https://github.com/andyshinn/docker-dnsmasq](https://github.com/andyshinn/docker-dnsmasq)
 - [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
+- [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
 - [https://portainer.io/](https://portainer.io/)
 - [https://traefik.io/](https://traefik.io/)
+- [https://traefik.me/](https://traefik.me/)
 
 ## License
 
