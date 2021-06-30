@@ -28,6 +28,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Stonehenge building blocks
 
+- [druidfi/ssh-agent](https://hub.docker.com/r/druidfi/ssh-agent) for handling SSH keys
 - `mailhog/mailhog` in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
 - `portainer/portainer` in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
 - `traefik` in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
@@ -114,7 +115,7 @@ make addkey KEY=/path/to/mykey
 
 ## Supported operating systems
 
-- macOS Big Sur 11
+- macOS Big Sur 11 - Works also on Silicon/M1!
 - Ubuntu 20.04 LTS
 - Windows 10 + WSL2 (Debian or Ubuntu LTS)
 
