@@ -28,11 +28,11 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Stonehenge building blocks
 
-- [druidfi/ssh-agent](https://hub.docker.com/r/druidfi/ssh-agent) for handling SSH keys
-- `mailhog/mailhog` in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
-- `portainer/portainer` in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
-- `traefik` in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
+- [Traefik](https://traefik.io/traefik/) in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
+- [Portainer](https://www.portainer.io/) in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
+- [druidfi/ssh-agent](https://hub.docker.com/r/druidfi/ssh-agent) for handling SSH keys
+- [MailHog](https://github.com/mailhog/MailHog) in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
 
 ## Setup
 
