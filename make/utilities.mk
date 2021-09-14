@@ -26,7 +26,7 @@ help: ## Print this help
 
 PHONY += check-scripts
 check-scripts:
-	@shellcheck install.sh .travis/*.sh && echo "All good"
+	@shellcheck install.sh && echo "All good"
 
 PHONY += ping
 ping: ## Ping docker.so domain
