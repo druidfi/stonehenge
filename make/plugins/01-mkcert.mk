@@ -3,7 +3,7 @@ MKCERT_BIN_PATH := /usr/local/bin/mkcert
 MKCERT_REPO := https://github.com/FiloSottile/mkcert
 MKCERT_REQS_ARCH := nss
 MKCERT_REQS_DEBIAN := libnss3-tools
-MKCERT_VERSION := v1.4.0
+MKCERT_VERSION := v1.4.3
 
 UP_PRE_TARGETS += mkcert-install certs
 
