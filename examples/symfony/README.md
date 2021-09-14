@@ -9,20 +9,20 @@
 Install Symfony 5 application with Composer:
 
 ```
-$ cd examples/symfony
-$ make up
+cd examples/symfony
+make up
 ```
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://symfony.docker.so/ or in https://symfony.traefik.me/
+Access the site in https://symfony.docker.so/
 
 ## Teardown
 
 You can teardown the whole example by:
 
 ```
-$ make down
+make down
 ```
 
 This will put down the container and remove the Symfony app folder.

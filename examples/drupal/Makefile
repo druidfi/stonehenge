@@ -13,7 +13,7 @@ up: ## Launch example
 	@$(EXECUTE) sudo chmod -R 0777 /app/public/sites/default/files
 	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
 	@$(EXECUTE) drush -y site:install demo_umami --account-name="admin" --site-name="$(DRUPAL_SITENAME)"
-	$(call step,DONE! Open https://drupal9.docker.so OR https://drupal9.traefik.me ... Also check for admin credentials ^^)
+	$(call step,DONE! Open https://drupal9.docker.so ... Also check for admin credentials ^^)
 
 PHONY += down
 down: ## Tear down example

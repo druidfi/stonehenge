@@ -6,7 +6,7 @@ PHONY += up
 up: ## Launch example Ghost application
 	$(call step,Start Ghost example application...)
 	@docker-compose up -d
-	$(call step,DONE! Check https://ghost.traefik.me ...)
+	$(call step,DONE! Check https://ghost.docker.so ...)
 
 PHONY += down
 down: ## Tear down example Ghost application

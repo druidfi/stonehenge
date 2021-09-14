@@ -16,7 +16,7 @@ PHONY += up
 up: site ## Launch example Hugo site
 	$(call step,Start Hugo example site...)
 	@docker-compose up -d
-	$(call step,DONE! Check https://hugo.traefik.me ...)
+	$(call step,DONE! Check https://hugo.docker.so ...)
 
 PHONY += site
 site: ## Create Hugo quickstart site

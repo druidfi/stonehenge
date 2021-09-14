@@ -10,7 +10,7 @@ PHONY += up
 up: app ## Launch example Laravel application
 	$(call colorecho,Start Laravel example application...)
 	@docker-compose up -d
-	$(call step,DONE! Check https://laravel.docker.so or https://laravel.traefik.me ...)
+	$(call step,DONE! Check https://laravel.docker.so ...)
 
 PHONY += down
 down: ## Tear down example Laravel application

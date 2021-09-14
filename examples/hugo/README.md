@@ -7,21 +7,21 @@
 ## Setup
 
 ```
-$ cd examples/hugo
-$ make up
+cd examples/hugo
+make up
 ```
 
-Access the site in https://hugo.traefik.me/
+Access the site in https://hugo.docker.so/
 
 ## Create a first post
 
 Create a new post by:
 
 ```
-$ make hugo new posts/my-first-post.md
+make hugo new posts/my-first-post.md
 ```
 
-And see it: https://hugo.traefik.me/posts/my-first-post
+And see it: https://hugo.docker.so/posts/my-first-post
 
 ## Next steps
 

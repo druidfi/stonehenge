@@ -14,11 +14,11 @@ services:
       database__connection__user: ghost
       database__connection__password: ghost
       database__connection__database: ghost
-      url: https://ghost.traefik.me
+      url: https://ghost.docker.so
     labels:
       traefik.enable: "true"
       traefik.http.routers.ghost-example-app.entrypoints: https
-      traefik.http.routers.ghost-example-app.rule: Host(`ghost.traefik.me`)
+      traefik.http.routers.ghost-example-app.rule: Host(`ghost.docker.so`)
       traefik.http.routers.ghost-example-app.tls: "true"
       traefik.http.services.ghost-example-app.loadbalancer.server.port: 2368
       traefik.docker.network: stonehenge-network

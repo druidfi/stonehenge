@@ -9,20 +9,20 @@
 Install Drupal 9 application with Composer:
 
 ```
-$ cd examples/drupal
-$ make up
+cd examples/drupal
+make up
 ```
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://drupal9.docker.so/ or in https://drupal9.traefik.me/
+Access the site in https://drupal9.docker.so/
 
 ## CLI
 
 Login to container:
 
 ```
-$ docker-compose exec app bash
+docker-compose exec app bash
 ```
 
 Then you can use e.g. Drush
@@ -32,7 +32,7 @@ Then you can use e.g. Drush
 You can teardown the whole example by:
 
 ```
-$ make down
+make down
 ```
 
 This will put down the containers.

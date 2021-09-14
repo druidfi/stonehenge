@@ -56,9 +56,9 @@ PHONY += --up
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
 	$(call step,You can now access Stonehenge services with these URLs:)
-	$(call item,https://traefik.${DOCKER_DOMAIN} OR https://dashboard.traefik.me)
-	$(call item,https://portainer.${DOCKER_DOMAIN} OR https://portainer.traefik.me)
-	$(call item,https://mailhog.${DOCKER_DOMAIN} OR https://mailhog.traefik.me)
+	$(call item,- https://traefik.${DOCKER_DOMAIN})
+	$(call item,- https://portainer.${DOCKER_DOMAIN})
+	$(call item,- https://mailhog.${DOCKER_DOMAIN})
 	$(call success,SUCCESS! Happy Developing!)
 
 #

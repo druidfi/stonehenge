@@ -14,7 +14,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.wordpress-example-app.entrypoints: https
-      traefik.http.routers.wordpress-example-app.rule: Host(`wordpress.docker.so`,`wordpress.traefik.me`)
+      traefik.http.routers.wordpress-example-app.rule: Host(`wordpress.docker.so`)
       traefik.http.routers.wordpress-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:

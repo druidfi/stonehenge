@@ -10,12 +10,12 @@ services:
       - db
     environment:
       APP_ENV: "prod"
-      DRUPAL_ROUTES: "https://drupal9.docker.so,https://drupal9.traefik.me"
+      DRUPAL_ROUTES: "https://drupal9.docker.so"
       PHP_SENDMAIL_PATH: "/usr/sbin/sendmail -S stonehenge-mailhog:1025"
     labels:
       traefik.enable: "true"
       traefik.http.routers.drupal9-example-app.entrypoints: https
-      traefik.http.routers.drupal9-example-app.rule: Host(`drupal9.docker.so`,`drupal9.traefik.me`)
+      traefik.http.routers.drupal9-example-app.rule: Host(`drupal9.docker.so`)
       traefik.http.routers.drupal9-example-app.tls: "true"
       traefik.http.services.drupal9-example-app.loadbalancer.server.port: 8080
       traefik.docker.network: stonehenge-network
@@ -25,7 +25,7 @@ services:
 
   db:
     container_name: "drupal9-example-db"
-    image: druidfi/db:mysql8.0-drupal
+    image: druidfi/mariadb:10.5-drupal
     networks:
       - internal
 
