@@ -30,7 +30,7 @@
 <p>You should have something like this on your project:</p>
 
 <pre>
-<code class="yaml">
+<code id="example" class="yaml">
 version: '3.7'
 
 services:
@@ -40,7 +40,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.entrypoints=https"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`<span class="hostname"></span>`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.rule=Host(`[HOSTNAME]`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-app.tls=true"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}-app.loadbalancer.server.port=8080"
       - "traefik.docker.network=stonehenge-network"
@@ -60,15 +60,21 @@ networks:
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/languages/yaml.min.js"></script>
 <script>
 
-hljs.initHighlightingOnLoad();
+    const example = document.getElementById("example");
+    const parser = document.createElement("a");
 
-const parser = document.createElement('a');
-parser.href = window.location.href;
+    parser.href = window.location.href;
 
-let hostnames = document.getElementsByClassName("hostname");
-for(let i = 0; i < hostnames.length; i++) {
-    hostnames.item(i).innerHTML = parser.hostname;
-}
+    example.innerHTML = example.innerHTML.replace("[HOSTNAME]", parser.hostname);
+
+    let hostnames = document.getElementsByClassName("hostname");
+
+    for (let i = 0; i < hostnames.length; i++) {
+        hostnames.item(i).innerHTML = parser.hostname;
+    }
+
+    hljs.highlightAll();
+
 </script>
 </body>
 </html>
