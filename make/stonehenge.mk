@@ -1,8 +1,14 @@
 include $(PROJECT_DIR)/make/os.mk
 
 DOCKER_BIN := $(shell which docker || echo no)
-DOCKER_COMPOSE_BIN := $(shell which docker-compose || echo no)
-DOCKER_COMPOSE_CMD := docker-compose
+DOCKER_COMPOSE_V2 := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
+
+ifeq ($(DOCKER_COMPOSE_V2),yes)
+	DOCKER_COMPOSE_CMD := docker compose
+else
+	DOCKER_COMPOSE_CMD := docker-compose
+endif
+
 NETWORK_NAME := $(PREFIX)-network
 NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_VOLUME_NAME := $(PREFIX)-ssh
@@ -75,7 +81,7 @@ PHONY += --down-title
 
 PHONY += --down
 --down:
-	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans
+	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans --rmi all
 
 PHONY += --down-remove-network
 --down-remove-network:
@@ -172,10 +178,6 @@ include $(PROJECT_DIR)/make/utilities.mk
 
 ifeq ($(DOCKER_BIN),no)
 $(error docker is required)
-endif
-
-ifeq ($(DOCKER_COMPOSE_BIN),no)
-$(error docker-compose is required)
 endif
 
 ifeq ($(DOCKER_DOMAIN),)
