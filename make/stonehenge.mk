@@ -58,7 +58,7 @@ endif
 PHONY += --up
 --up:
 	$(call step,Start the containers...)
-	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans --quiet-pull
 
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
