@@ -115,8 +115,8 @@ make addkey KEY=/path/to/mykey
 
 ## Supported operating systems
 
-- macOS Monterey 12 Beta - Works also on Silicon/M1!
-- macOS Big Sur 11 - Works also on Silicon/M1!
+- macOS Monterey 12 (Intel and M1)
+- macOS Big Sur 11 (Intel and M1)
 - Ubuntu 20.04 LTS
 - Windows 10 + WSL2 (Debian or Ubuntu LTS)
 
