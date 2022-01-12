@@ -9,14 +9,8 @@ else
 endif
 
 DOCKER_BIN := $(shell command -v docker || echo no)
-DOCKER_COMPOSE := $(shell docker-compose > /dev/null 2>&1 && echo "yes" || echo "no")
-#DOCKER_COMPOSE_V2 := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
-
-#ifeq ($(DOCKER_COMPOSE_V2),yes)
-#	DOCKER_COMPOSE_CMD := docker compose
-#else
-	DOCKER_COMPOSE_CMD := docker-compose
-#endif
+DOCKER_COMPOSE_BIN := $(shell command -v docker-compose || echo no)
+DOCKER_COMPOSE_CMD := docker-compose
 
 NETWORK_NAME := $(PREFIX)-network
 NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
@@ -193,7 +187,7 @@ ifeq ($(DOCKER_BIN),no)
 $(error docker is required)
 endif
 
-ifeq ($(DOCKER_COMPOSE),no)
+ifeq ($(DOCKER_COMPOSE_BIN),no)
 $(error docker compose is required)
 endif
 
