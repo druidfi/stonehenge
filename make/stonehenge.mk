@@ -9,7 +9,7 @@ else
 endif
 
 DOCKER_BIN := $(shell command -v docker || echo no)
-DOCKER_COMPOSE_V1 := $(shell docker-compose > /dev/null 2>&1 && echo "yes" || echo "no")
+DOCKER_COMPOSE := $(shell docker-compose > /dev/null 2>&1 && echo "yes" || echo "no")
 #DOCKER_COMPOSE_V2 := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
 
 #ifeq ($(DOCKER_COMPOSE_V2),yes)
@@ -191,6 +191,10 @@ endif
 
 ifeq ($(DOCKER_BIN),no)
 $(error docker is required)
+endif
+
+ifeq ($(DOCKER_COMPOSE),no)
+$(error docker compose is required)
 endif
 
 ifeq ($(DOCKER_DOMAIN),)

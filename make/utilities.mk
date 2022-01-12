@@ -9,7 +9,7 @@ debug:
 	$(call val,OS_VERSION,$(OS_VERSION))
 	$(call val,WSL,$(WSL))
 	$(call val,Docker installed,$(DOCKER_BIN))
-	$(call val,Docker Compose installed,$(DOCKER_COMPOSE_V1))
+	$(call val,Docker Compose installed,$(DOCKER_COMPOSE))
 	$(call val,Docker version,$(shell docker --version))
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
 	$(call val,Docker network name,$(NETWORK_NAME))
