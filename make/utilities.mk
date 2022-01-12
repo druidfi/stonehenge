@@ -9,15 +9,16 @@ debug:
 	$(call val,OS_VERSION,$(OS_VERSION))
 	$(call val,WSL,$(WSL))
 	$(call val,Docker installed,$(DOCKER_BIN))
+	$(call val,Docker Compose installed,$(DOCKER_COMPOSE_V1))
 	$(call val,Docker version,$(shell docker --version))
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
 	$(call val,Docker network name,$(NETWORK_NAME))
-	$(call val,Docker Compose V2,$(DOCKER_COMPOSE_V2))
+#	$(call val,Docker Compose V2,$(DOCKER_COMPOSE_V2))
 	$(call val,Docker Compose V1,$(shell docker-compose > /dev/null 2>&1 && echo "yes" || echo "no"))
 	$(call val,docker-compose command,$(DOCKER_COMPOSE_CMD))
 	$(call val,mkcert installed,$(MKCERT_BIN))
 ifeq ($(OS_ID_LIKE),darwin)
-	$(call val,brew installed,$(BREW_BIN))
+	$(call val,Homebrew installed,$(BREW_BIN))
 endif
 
 PHONY += help

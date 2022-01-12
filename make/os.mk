@@ -75,5 +75,5 @@ endif
 # macOS additions
 #
 ifeq ($(OS_ID_LIKE),darwin)
-	BREW_BIN := $(shell which brew || echo no)
+	BREW_BIN := $(shell command -v brew || echo no)
 endif
