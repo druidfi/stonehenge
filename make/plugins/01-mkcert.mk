@@ -10,7 +10,7 @@ UP_PRE_TARGETS += mkcert-install certs
 ifeq ($(OS_ID_LIKE),darwin)
 	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-darwin-amd64
 else
-	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-amd64
+	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-$(CURRENT_ARCH)
 endif
 
 PHONY += mkcert-install

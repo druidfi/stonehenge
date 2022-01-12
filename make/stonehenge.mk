@@ -1,5 +1,11 @@
 include $(PROJECT_DIR)/make/os.mk
 
+ifeq ($(shell uname -m),arm64)
+	CURRENT_ARCH := arm64
+else
+	CURRENT_ARCH := amd64
+endif
+
 DOCKER_BIN := $(shell which docker || echo no)
 DOCKER_COMPOSE_V2 := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
 
