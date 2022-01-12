@@ -13,7 +13,6 @@ debug:
 	$(call val,Docker version,$(shell docker --version))
 	$(call val,Docker domain,$(DOCKER_DOMAIN))
 	$(call val,Docker network name,$(NETWORK_NAME))
-#	$(call val,Docker Compose V2,$(DOCKER_COMPOSE_V2))
 	$(call val,Docker Compose V1,$(shell docker-compose > /dev/null 2>&1 && echo "yes" || echo "no"))
 	$(call val,docker-compose command,$(DOCKER_COMPOSE_CMD))
 	$(call val,mkcert installed,$(MKCERT_BIN))
