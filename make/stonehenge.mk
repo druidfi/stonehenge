@@ -1,13 +1,16 @@
 include $(PROJECT_DIR)/make/os.mk
 
-DOCKER_BIN := $(shell which docker || echo no)
-DOCKER_COMPOSE_V2 := $(shell docker compose > /dev/null 2>&1 && echo "yes" || echo "no")
-
-ifeq ($(DOCKER_COMPOSE_V2),yes)
-	DOCKER_COMPOSE_CMD := docker compose
+ifeq ($(shell uname -m),arm64)
+	CURRENT_ARCH := arm64
+else ifeq ($(shell uname -m),aarch64)
+	CURRENT_ARCH := arm64
 else
-	DOCKER_COMPOSE_CMD := docker-compose
+	CURRENT_ARCH := amd64
 endif
+
+DOCKER_BIN := $(shell command -v docker || echo no)
+DOCKER_COMPOSE_BIN := $(shell command -v docker-compose || echo no)
+DOCKER_COMPOSE_CMD := docker-compose
 
 NETWORK_NAME := $(PREFIX)-network
 NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
@@ -39,7 +42,7 @@ PHONY += --up-pre-actions
 PHONY += --up-title
 --up-title:
 	$(call step,Start Stonehenge)
-	@echo "Startup Stonehenge on $(OS)"
+	@echo "Startup Stonehenge on $(OS) ($(CURRENT_ARCH))"
 
 PHONY += --up-create-network
 --up-create-network:
@@ -178,6 +181,14 @@ include $(PROJECT_DIR)/make/utilities.mk
 
 ifeq ($(DOCKER_BIN),no)
 $(error docker is required)
+endif
+
+ifeq ($(DOCKER_BIN),no)
+$(error docker is required)
+endif
+
+ifeq ($(DOCKER_COMPOSE_BIN),no)
+$(error docker compose is required)
 endif
 
 ifeq ($(DOCKER_DOMAIN),)

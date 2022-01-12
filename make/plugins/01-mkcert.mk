@@ -1,4 +1,4 @@
-MKCERT_BIN := $(shell which mkcert || echo no)
+MKCERT_BIN := $(shell command -v mkcert || echo no)
 MKCERT_BIN_PATH := /usr/local/bin/mkcert
 MKCERT_REPO := https://github.com/FiloSottile/mkcert
 MKCERT_REQS_ARCH := nss
@@ -10,15 +10,12 @@ UP_PRE_TARGETS += mkcert-install certs
 ifeq ($(OS_ID_LIKE),darwin)
 	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-darwin-amd64
 else
-	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-amd64
+	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-linux-$(CURRENT_ARCH)
 endif
 
 PHONY += mkcert-install
 mkcert-install: ## Install mkcert
-ifeq ($(MKCERT_BIN),$(MKCERT_BIN_PATH))
-	$(call step,Install mkcert)
-	$(call item,mkcert is already installed 👍)
-else
+ifeq ($(MKCERT_BIN),no)
 # macOS starts
 ifeq ($(OS_ID_LIKE),darwin)
 ifeq ($(BREW_BIN),no)
@@ -26,7 +23,7 @@ ifeq ($(BREW_BIN),no)
 	@curl -# -L ${MKCERT_SOURCE} -o ${MKCERT_BIN_PATH}
 	@chmod +x ${MKCERT_BIN_PATH}
 else
-	$(call step,Install mkcert with brew)
+	$(call step,Install mkcert with brew $(MKCERT_BIN))
 	@brew install mkcert
 endif
 # macOS ends
@@ -44,6 +41,9 @@ endif
 	@sudo chmod +x ${MKCERT_BIN_PATH}
 endif
 # Linux ends
+else
+	$(call step,Install mkcert)
+	$(call item,mkcert is already installed 👍)
 endif
 
 #
