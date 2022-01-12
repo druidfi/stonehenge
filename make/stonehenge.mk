@@ -2,6 +2,8 @@ include $(PROJECT_DIR)/make/os.mk
 
 ifeq ($(shell uname -m),arm64)
 	CURRENT_ARCH := arm64
+else ifeq ($(shell uname -m),aarch64)
+	CURRENT_ARCH := arm64
 else
 	CURRENT_ARCH := amd64
 endif
