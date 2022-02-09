@@ -1,4 +1,4 @@
-# Symfony example
+# Symfony 6 example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Symfony 5 application with Composer:
+Install Symfony 6 application with Composer:
 
 ```
 cd examples/symfony

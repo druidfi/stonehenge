@@ -109,8 +109,8 @@ make addkey KEY=/path/to/mykey
 - [Drupal 9](examples/drupal)
 - [Ghost 4](examples/ghost)
 - [Hugo](examples/hugo)
-- [Laravel 8](examples/laravel)
-- [Symfony 5](examples/symfony)
+- [Laravel 9](examples/laravel)
+- [Symfony 6](examples/symfony)
 - [Wordpress](examples/wordpress)
 
 ## Supported operating systems

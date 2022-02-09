@@ -1,4 +1,4 @@
-# Laravel example
+# Laravel 9 example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Laravel application with Composer:
+Install Laravel 9 application with Composer:
 
 ```
 cd examples/laravel
