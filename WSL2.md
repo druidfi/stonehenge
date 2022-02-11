@@ -1,4 +1,4 @@
-# WSL2 on Windows 10
+# WSL2 on Windows 10 or 11
 
 ## Install WSL2 and Docker
 

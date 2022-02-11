@@ -16,7 +16,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Requirements for Stonehenge
 
-- Latest macOS, Ubuntu LTS or Windows 10 + WSL2 - [Read more](#supported-operating-systems)
+- Latest macOS, Ubuntu LTS or Windows 10/11 + WSL2 - [Read more](#supported-operating-systems)
 - Make
 - Docker 18.06.0+
 - Docker Compose
@@ -118,7 +118,7 @@ make addkey KEY=/path/to/mykey
 - macOS Monterey 12 (Intel and M1)
 - macOS Big Sur 11 (Intel and M1)
 - Ubuntu 20.04 LTS
-- Windows 10 + WSL2 (Debian or Ubuntu LTS)
+- [Windows 10/11 + WSL2](WSL2.md) (Debian or Ubuntu LTS)
 
 Also tested with at some point:
 
