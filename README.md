@@ -18,7 +18,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - Latest macOS, Ubuntu LTS or Windows 10/11 + WSL2 - [Read more](#supported-operating-systems)
 - Make
-- Docker 18.06.0+
+- Docker 20+
 - Docker Compose
 - No other services listening port 80 or 443
 
@@ -29,7 +29,6 @@ domains for your projects as well as SSL certificates for those domains out of t
 ## Stonehenge building blocks
 
 - [Traefik](https://traefik.io/traefik/) in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
-- [Portainer](https://www.portainer.io/) in [portainer.docker.so](https://portainer.docker.so) to manage your Docker (username: `admin`, password: `admin`)
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
 - [druidfi/ssh-agent](https://hub.docker.com/r/druidfi/ssh-agent) for handling SSH keys
 - [MailHog](https://github.com/mailhog/MailHog) in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
@@ -123,13 +122,6 @@ make addkey KEY=/path/to/mykey
 Also tested with at some point:
 
 - Arch Linux
-- macOS High Sierra 10.13
-- macOS Mojave 10.14
-- macOS Catalina 10.15
-- Manjaro 17.1 (Arch Linux)
-- Manjaro 18.1 (Arch Linux)
-- Ubuntu 16.04 LTS
-- Ubuntu 18.04 LTS
 
 ## Fork and modify
 
@@ -162,7 +154,6 @@ make debug
 
 - [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
 - [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
-- [https://portainer.io/](https://portainer.io/)
 - [https://traefik.io/](https://traefik.io/)
 
 ## License

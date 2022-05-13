@@ -34,24 +34,6 @@ services:
       - ./traefik/traefik.dynamic.yml:/configuration/traefik.dynamic.yml
       - ./certs:/ssl # mkcert certs
 
-  portainer:
-    image: "portainer/portainer-ce:${PORTAINER_VERSION}-alpine"
-    container_name: "${PREFIX}-portainer"
-    restart: unless-stopped
-    command: |-
-      -H unix:///var/run/docker.sock
-      --logo "${LOGO_URL}"
-      --admin-password-file /tmp/portainer_password
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer_admin_password:/tmp/portainer_password
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.portainer.entrypoints: https
-      traefik.http.routers.portainer.rule: Host(`portainer.${DOCKER_DOMAIN}`)
-      traefik.http.routers.portainer.tls: "true"
-      traefik.http.services.portainer.loadbalancer.server.port: 9000
-
   mailhog:
     image: druidfi/mailhog:1.0.1
     container_name: "${PREFIX}-mailhog"

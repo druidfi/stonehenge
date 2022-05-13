@@ -10,7 +10,7 @@ UNAME := $(shell uname | tr A-Z a-z)
 ifeq ($(UNAME),darwin)
 	OS_ID := macos
 	OS_VERSION_MAJOR := $(shell sw_vers -productVersion | cut -c1-2)
-	OS_VERSION := $(shell sw_vers -productVersion | cut -c1-5)
+	OS_VERSION := $(shell sw_vers -productVersion | cut -c1-6)
 ifeq ($(OS_VERSION_MAJOR),12)
 	OS := macOS Monterey
 else ifeq ($(OS_VERSION_MAJOR),11)
