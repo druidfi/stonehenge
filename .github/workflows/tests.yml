@@ -36,11 +36,11 @@ jobs:
       - name: Check that DNS works when curling Google. Expecting HTTP/2 200
         run: curl -Is https://www.google.com | head -1
 
-      - name: Check if Portainer can be accessed from portainer.docker.so
+      - name: Check if Traefik can be accessed from traefik.docker.so
         run: |
-          printf "CURL portainer.docker.so for checking access starts"
-          until curl -s "https://portainer.docker.so" | grep Portainer; do true; done > /dev/null
-          printf "CURL portainer.docker.so for checking access ends"
+          printf "CURL traefik.docker.so for checking access starts"
+          until curl -s "https://traefik.docker.so" | grep /dashboard/; do true; done > /dev/null
+          printf "CURL traefik.docker.so for checking access ends"
 
       - name: Tear down Stonehenge
         run: make down
