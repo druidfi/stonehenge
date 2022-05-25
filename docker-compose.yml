@@ -28,10 +28,12 @@ services:
     ports:
       - "443:443"
       - "80:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/traefik.yml:/traefik.yml:ro
-      - ./traefik/traefik.dynamic.yml:/configuration/traefik.dynamic.yml
+      - ./traefik/dynamic:/configuration
       - ./certs:/ssl # mkcert certs
 
   mailhog:

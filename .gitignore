@@ -1,3 +1,5 @@
 .DS_Store
 .idea
 /certs/*
+/traefik/dynamic/*
+!/traefik/dynamic/traefik.dynamic.yml
