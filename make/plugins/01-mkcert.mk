@@ -3,7 +3,7 @@ MKCERT_BIN_PATH := /usr/local/bin/mkcert
 MKCERT_REPO := https://github.com/FiloSottile/mkcert
 MKCERT_REQS_ARCH := nss
 MKCERT_REQS_DEBIAN := libnss3-tools
-MKCERT_VERSION := v1.4.3
+MKCERT_VERSION := v1.4.4
 
 UP_PRE_TARGETS += mkcert-install certs
 
@@ -53,10 +53,9 @@ endif
 MKCERT_ERROR := mkcert is not installed, see installation instructions: https://github.com/FiloSottile/mkcert#installation
 MKCERT_CAROOT := $(shell pwd)/certs
 SH_CERTS_PATH := certs
-SH_CERT_FILENAME := $(DOCKER_DOMAIN)
 
 PHONY += certs
-certs: --certs-install-ca --certs-create-certs ## Install certs
+certs: --certs-install-ca --certs-dockerso --certs-traefikme ## Install certs
 
 PHONY += certs-uninstall
 certs-uninstall: export CAROOT = $(MKCERT_CAROOT)
@@ -71,10 +70,20 @@ PHONY += --certs-install-ca
 	$(call step,Create local CA...)
 	@mkcert -install
 
-PHONY += --certs-create-certs
---certs-create-certs: export CAROOT = $(MKCERT_CAROOT)
---certs-create-certs: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
---certs-create-certs:
+PHONY += --certs-dockerso
+--certs-dockerso: export CAROOT = $(MKCERT_CAROOT)
+--certs-dockerso: SH_CERT_FILENAME := $(DOCKER_DOMAIN)
+--certs-dockerso: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
+--certs-dockerso:
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
 	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
+
+PHONY += --certs-traefikme
+--certs-traefikme: export CAROOT = $(MKCERT_CAROOT)
+--certs-traefikme: SH_CERT_FILENAME := traefikme
+--certs-traefikme: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
+--certs-traefikme:
+	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
+	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
+		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.traefik.me"
