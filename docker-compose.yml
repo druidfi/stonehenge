@@ -35,6 +35,7 @@ services:
       - ./traefik/traefik.yml:/traefik.yml:ro
       - ./traefik/dynamic:/configuration
       - ./certs:/ssl # mkcert certs
+      - ./traefik/add-service.sh:/usr/local/bin/add-service
 
   mailhog:
     image: druidfi/mailhog:1.0.1
