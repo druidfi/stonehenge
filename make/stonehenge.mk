@@ -173,6 +173,7 @@ upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 #
 
 include $(PROJECT_DIR)/make/utilities.mk
+include $(PROJECT_DIR)/make/docker.mk
 
 #
 # Check requirements
