@@ -5,8 +5,27 @@ tls:
     - certFile: /ssl/traefikme.crt
       keyFile: /ssl/traefikme.key
 
-
 http:
+
+  routers:
+
+    mailhoghttp:
+      entrypoints: http
+      rule: Host(`{{ env "MAILHOG_HOST" }}`,`mailhog.traefik.me`)
+      service: "mailhog@file"
+      middlewares: redirect-to-https@file
+    mailhog:
+      entrypoints: https
+      rule: Host(`{{ env "MAILHOG_HOST" }}`,`mailhog.traefik.me`)
+      service: "mailhog@file"
+      tls: "true"
+
+  services:
+
+    mailhog:
+      loadBalancer:
+        servers:
+          - url: "http://stonehenge:8025"
 
   middlewares:
 

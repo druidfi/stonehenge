@@ -2,38 +2,25 @@ version: '3.7'
 
 services:
 
-  traefik:
+  stonehenge:
     image: "druidfi/stonehenge:4.0"
-    container_name: "${PREFIX}-stonehenge"
+    container_name: "stonehenge"
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     command: |-
       --providers.docker.network="${PREFIX}-network"
     labels:
-
       traefik.enable: "true"
 
       # Traefik
-      traefik.http.routers.traefik.entrypoints: http,https
+      traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.rule: Host(`traefik.${DOCKER_DOMAIN}`)
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.tls: "true"
-      traefik.http.routers.traefik.middlewares: "redirect-to-https@file"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
-
-      # Mailhog
-      traefik.http.routers.mailhog.entrypoints: http,https
-      traefik.http.routers.mailhog.rule: Host(`mailhog.${DOCKER_DOMAIN}`)
-      traefik.http.routers.mailhog.service: mailhog@docker
-      traefik.http.routers.mailhog.tls: "true"
-      traefik.http.routers.mailhog.middlewares: "redirect-to-https@file"
-      traefik.http.services.mailhog.loadbalancer.server.port: 8025
-
-      # catchall router
-      #traefik.http.routers.http-catchall.rule: "HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)"
-      #traefik.http.routers.http-catchall.entrypoints: "http"
-
+    environment:
+      MAILHOG_HOST: "mailhog.${DOCKER_DOMAIN}"
     ports:
       - "443:443"
       - "80:80"
@@ -52,19 +39,6 @@ services:
     volumes:
       - ~/.ssh:/ssh
       - ssh:/tmp/druid_ssh-agent/
-
-#  catchall:
-#    image: nginx:stable-alpine
-#    container_name: "${PREFIX}-catchall"
-#    restart: unless-stopped
-#    volumes:
-#      - ./catchall/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-#      - ./catchall/index.html:/usr/share/nginx/html/index.html:ro
-#    labels:
-#      traefik.enable: "true"
-#      traefik.http.routers.errors.tls: "true"
-#      traefik.http.routers.errors.priority: 1
-#      traefik.http.routers.errors.rule: HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)
 
 networks:
   default:
