@@ -9,7 +9,17 @@ http:
 
   routers:
 
-    mailhoghttp:
+    traefik_http:
+      entrypoints: http
+      rule: Host(`{{ env "TRAEFIK_HOST" }}`,`traefik.traefik.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: "mailhog@file"
+      middlewares: redirect-to-https@file
+    traefik:
+      entrypoints: https
+      rule: Host(`{{ env "TRAEFIK_HOST" }}`,`traefik.traefik.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      service: api@internal
+      tls: "true"
+    mailhog_http:
       entrypoints: http
       rule: Host(`{{ env "MAILHOG_HOST" }}`,`mailhog.traefik.me`)
       service: "mailhog@file"
@@ -21,6 +31,11 @@ http:
       tls: "true"
 
   services:
+
+    traefik:
+      loadBalancer:
+        servers:
+          - url: "http://stonehenge:8080"
 
     mailhog:
       loadBalancer:
