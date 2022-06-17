@@ -4,3 +4,20 @@ tls:
       keyFile: /ssl/docker.so.key
     - certFile: /ssl/traefikme.crt
       keyFile: /ssl/traefikme.key
+
+
+http:
+
+  middlewares:
+
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: false
+
+    error-page:
+      errors:
+        status:
+          - "400-599"
+        service: serviceError
+        query: "/{status}.html"
