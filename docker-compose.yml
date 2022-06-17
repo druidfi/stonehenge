@@ -3,20 +3,30 @@ version: '3.7'
 services:
 
   traefik:
-    image: "druidfi/stonehenge-traefik:3.0"
-    container_name: "${PREFIX}-traefik"
+    image: "druidfi/stonehenge:4.0"
+    container_name: "${PREFIX}-stonehenge"
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
     command: |-
       --providers.docker.network="${PREFIX}-network"
     labels:
+
       traefik.enable: "true"
+
+      # Traefik
       traefik.http.routers.traefik.entrypoints: https
       traefik.http.routers.traefik.rule: Host(`traefik.${DOCKER_DOMAIN}`)
       traefik.http.routers.traefik.service: api@internal
       traefik.http.routers.traefik.tls: "true"
       traefik.http.services.traefik.loadbalancer.server.port: 8080
+
+      # Mailhog
+      traefik.http.routers.mailhog.entrypoints: https
+      traefik.http.routers.mailhog.rule: Host(`mailhog.${DOCKER_DOMAIN}`)
+      traefik.http.routers.mailhog.service: mailhog@docker
+      traefik.http.routers.mailhog.tls: "true"
+      traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
       # catchall router
       traefik.http.routers.http-catchall.rule: "HostRegexp(`{subdomain:[A-Za-z0-9-]+}.${DOCKER_DOMAIN}`)"
@@ -25,30 +35,16 @@ services:
 
       # middleware redirect
       traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: https
+
     ports:
       - "443:443"
       - "80:80"
+      - "1025:1025"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.yml:/traefik.yml:ro
-      - ./traefik/dynamic:/configuration
       - ./certs:/ssl # mkcert certs
-      - ./traefik/add-service.sh:/usr/local/bin/add-service
-
-  mailhog:
-    image: druidfi/mailhog:1.0.1
-    container_name: "${PREFIX}-mailhog"
-    restart: unless-stopped
-    ports:
-      - 1025:1025
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.mailhog.entrypoints: https
-      traefik.http.routers.mailhog.rule: Host(`mailhog.${DOCKER_DOMAIN}`)
-      traefik.http.routers.mailhog.tls: "true"
-      traefik.http.services.mailhog.loadbalancer.server.port: 8025
 
   ssh-agent:
     image: "druidfi/ssh-agent:${SSH_IMAGE_VERSION}"

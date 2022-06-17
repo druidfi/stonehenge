@@ -1,5 +1,5 @@
 variable "REPO_NAME" {
-    default = "druidfi/stonehenge-traefik"
+    default = "druidfi/stonehenge"
 }
 
 variable "TRAEFIK_VERSION" {
@@ -24,5 +24,5 @@ target "traefik" {
     args = {
         TRAEFIK_VERSION = "${TRAEFIK_VERSION}"
     }
-    tags = ["${REPO_NAME}:3", "${REPO_NAME}:3.0", "${REPO_NAME}:latest"]
+    tags = ["${REPO_NAME}:4", "${REPO_NAME}:4.0", "${REPO_NAME}:latest"]
 }
