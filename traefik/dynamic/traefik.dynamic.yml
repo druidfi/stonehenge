@@ -2,8 +2,8 @@ tls:
   certificates:
     - certFile: /ssl/docker.so.crt
       keyFile: /ssl/docker.so.key
-    - certFile: /ssl/traefikme.crt
-      keyFile: /ssl/traefikme.key
+    - certFile: /ssl/traefik.me.crt
+      keyFile: /ssl/traefik.me.key
 
 http:
 

@@ -81,7 +81,7 @@ PHONY += --certs-dockerso
 
 PHONY += --certs-traefikme
 --certs-traefikme: export CAROOT = $(MKCERT_CAROOT)
---certs-traefikme: SH_CERT_FILENAME := traefikme
+--certs-traefikme: SH_CERT_FILENAME := traefik.me
 --certs-traefikme: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
 --certs-traefikme:
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
