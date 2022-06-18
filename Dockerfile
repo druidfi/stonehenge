@@ -16,7 +16,7 @@ ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
 
 RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
 
-RUN apk --update --no-cache add openssh socat sudo && \
+RUN apk --update --no-cache add nginx openssh socat sudo && \
     adduser -D -u ${UID} ${USER} && \
     mkdir ${SOCKET_DIR} && chown ${USER} ${SOCKET_DIR} && \
     chmod +x /usr/local/bin/mkcert && \
@@ -36,6 +36,10 @@ COPY traefik/remove-service.sh /usr/local/bin/remove-service
 
 # Copy Mailhog binary
 COPY --from=druidfi/mailhog:1.0.1 /bin/MailHog /usr/local/bin/
+
+# Copy Catch-all confs
+COPY catchall/nginx.conf /etc/nginx/http.d/default.conf
+COPY catchall/index.html /usr/share/nginx/html/index.html
 
 # Expose the SMTP and HTTP ports used by default by MailHog:
 EXPOSE 1025 8025

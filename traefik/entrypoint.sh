@@ -20,10 +20,19 @@ create_ssh_proxy(){
     sudo -u druid /usr/bin/ssh-agent -a "${SSH_AUTH_SOCK}" -d
 }
 
-create_ssh_proxy &
+start_nginx(){
+    echo "Start up Nginx..."
+    exec nginx -g 'daemon off;'
+}
 
-echo "Start up MailHog..."
-exec MailHog &
+start_mailhog(){
+    echo "Start up MailHog..."
+    exec MailHog &
+}
+
+create_ssh_proxy &
+start_nginx &
+start_mailhog &
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
