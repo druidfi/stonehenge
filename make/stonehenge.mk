@@ -60,7 +60,7 @@ endif
 
 PHONY += --up
 --up:
-	$(call step,Start the containers...)
+	$(call step,Start Stonehenge...)
 	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
 
 PHONY += --up-post-actions
@@ -113,11 +113,11 @@ $(SSH_KEYS):
 
 PHONY += addkey
 addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
-addkey: IMAGE := druidfi/ssh-agent:$(SSH_IMAGE_VERSION)
+addkey: IMAGE := druidfi/stonehenge:$(STONEHENGE_TAG)
 addkey: ## Add SSH key
-	@test -f $(KEY) && docker run --rm -it \
+	@test -f $(KEY) && docker run --rm -it -u druid \
 		--volume=$(KEY):$(KEY) \
-		--volumes-from=${PREFIX}-ssh-agent \
+		--volumes-from=stonehenge \
 		--name=${PREFIX}-ssh-agent-add-key \
 		$(IMAGE) ssh-add $(KEY) || echo "No SSH key found"
 

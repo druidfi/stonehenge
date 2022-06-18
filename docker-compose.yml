@@ -1,7 +1,7 @@
 services:
 
   stonehenge:
-    image: "druidfi/stonehenge:4.0"
+    image: "druidfi/stonehenge:4"
     container_name: "stonehenge"
     restart: unless-stopped
     security_opt:
@@ -23,13 +23,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./certs:/ssl # mkcert certs
       - ./traefik/dynamic:/configuration
-
-  ssh-agent:
-    image: "druidfi/ssh-agent:${SSH_IMAGE_VERSION}"
-    container_name: "${PREFIX}-ssh-agent"
-    restart: unless-stopped
-    volumes:
-      - ~/.ssh:/ssh
       - ssh:/tmp/druid_ssh-agent/
 
 networks:

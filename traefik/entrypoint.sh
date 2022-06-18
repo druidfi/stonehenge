@@ -1,8 +1,29 @@
 #!/bin/sh
 set -e
 
+if [ "$1" = "ssh-add" ]; then
+
+    exec "$@"
+
+else
+
+create_ssh_proxy(){
+    # Clean up previous socket files
+    sudo -u druid rm -f "${SSH_AUTH_SOCK}" "${SSH_AUTH_PROXY_SOCK}"
+
+    # Create proxy-socket for ssh-agent (to give anyone access to the ssh-agent socket)
+    echo "Creating proxy socket..."
+    sudo -u druid socat UNIX-LISTEN:"${SSH_AUTH_PROXY_SOCK}",perm=0666,fork UNIX-CONNECT:"${SSH_AUTH_SOCK}" &
+
+    # Start ssh-agent
+    echo "Launching ssh-agent..."
+    sudo -u druid /usr/bin/ssh-agent -a "${SSH_AUTH_SOCK}" -d
+}
+
+create_ssh_proxy &
+
 echo "Start up MailHog..."
-MailHog &
+exec MailHog &
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
@@ -19,3 +40,5 @@ else
 fi
 
 exec "$@"
+
+fi
