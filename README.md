@@ -30,7 +30,6 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - [Traefik](https://traefik.io/traefik/) in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
-- [druidfi/ssh-agent](https://hub.docker.com/r/druidfi/ssh-agent) for handling SSH keys
 - [MailHog](https://github.com/mailhog/MailHog) in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
 
 ## Setup
@@ -48,7 +47,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/ins
 ### Or manually with Git
 
 ```
-git clone -b 3.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+git clone -b 4.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 cd ~/stonehenge
 make up
 ```
@@ -131,7 +130,6 @@ To brand the toolset for your organization:
 - Modify `.env` file e.g. like follows:
   - `COMPOSE_PROJECT_NAME=company`
   - `DOCKER_DOMAIN=docker.company.com`
-  - `LOGO_URL=https://your-cool-logo.png`
   - `PREFIX=company`
 - Point your `docker.company.com` and `*.docker.company.com` to `127.0.0.1`
 - IMPORTANT! Let us know! <3
