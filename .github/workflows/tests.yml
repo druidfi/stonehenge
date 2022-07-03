@@ -33,7 +33,7 @@ jobs:
       - name: Start up Stonehenge
         run: make up
 
-      - name: Ping docker.so (resolver based) should resolve to 127.0.0.1 now
+      - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
 
       - name: Check that DNS works when curling Google. Expecting HTTP/2 200
@@ -42,7 +42,7 @@ jobs:
       - name: Check if Traefik can be accessed from traefik.docker.so
         run: |
           printf "CURL traefik.docker.so for checking access starts"
-          until curl -s "https://traefik.docker.so" | grep /dashboard/; do true; done > /dev/null
+          until curl -s "https://traefik.docker.so/dashboard/#/" | grep -o "<title>Traefik[^<]*" | tail -c+8; do true; done > /dev/null
           printf "CURL traefik.docker.so for checking access ends"
 
       - name: Tear down Stonehenge
