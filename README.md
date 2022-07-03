@@ -41,7 +41,7 @@ If on Windows, check these [general install instructions](WSL2.md) if you don't 
 ### Oneliner
 
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/3.x/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/4.x/install.sh)"
 ```
 
 ### Or manually with Git
