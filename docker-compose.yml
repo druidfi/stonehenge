@@ -7,8 +7,8 @@ services:
     image: druidfi/stonehenge:${STONEHENGE_TAG}
     container_name: stonehenge
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+#    security_opt:
+#      - no-new-privileges:true
     command: |-
       --providers.docker.network="${PREFIX}-network"
     environment:
