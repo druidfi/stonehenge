@@ -76,7 +76,7 @@ PHONY += --certs-dockerso
 --certs-dockerso: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
 --certs-dockerso:
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
-	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
+	@test -f $(CERT).crt && echo "Certificates already exist 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.${DOCKER_DOMAIN}"
 
 PHONY += --certs-traefikme
@@ -85,7 +85,7 @@ PHONY += --certs-traefikme
 --certs-traefikme: CERT := $(SH_CERTS_PATH)/$(SH_CERT_FILENAME)
 --certs-traefikme:
 	$(call step,Create $(SH_CERT_FILENAME).crt & $(SH_CERT_FILENAME).crt to ./$(SH_CERTS_PATH) folder...)
-	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
+	@test -f $(CERT).crt && echo "Certificates already exist 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.traefik.me"
 
 PHONY += create-custom-certs
@@ -93,5 +93,5 @@ create-custom-certs: export CAROOT = $(MKCERT_CAROOT)
 create-custom-certs: CERT := $(SH_CERTS_PATH)/$(DOMAIN)
 create-custom-certs:
 	$(call step,Create $(DOMAIN).crt & $(DOMAIN).crt to ./$(DOMAIN) folder...)
-	@test -f $(CERT).crt && echo "Certificates already exists 👍" || \
+	@test -f $(CERT).crt && echo "Certificates already exist 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.$(DOMAIN)"
