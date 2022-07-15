@@ -146,6 +146,7 @@ make debug
 
 ## TODO
 
+- Remove Docker Compose requirement
 - Support for Debian and RHEL
 - More examples
 - Shell detection and autocreate the alias
