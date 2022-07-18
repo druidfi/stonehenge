@@ -9,8 +9,9 @@ else
 endif
 
 DOCKER_BIN := $(shell command -v docker || echo no)
-DOCKER_COMPOSE_BIN := $(shell command -v docker-compose || echo no)
-DOCKER_COMPOSE_CMD := docker-compose
+STONEHENGE_IMAGE := druidfi/stonehenge
+
+CONTAINER_NAME := stonehenge
 
 NETWORK_NAME := $(PREFIX)-network
 NETWORK_EXISTS := $(shell docker network inspect ${NETWORK_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
@@ -59,9 +60,16 @@ ifeq ($(SSH_VOLUME_EXISTS),no)
 endif
 
 PHONY += --up
+--up: PWD := $(shell pwd)
 --up:
 	$(call step,Start Stonehenge...)
-	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+	@docker run --name ${CONTAINER_NAME} --restart=unless-stopped --pull=always --detach \
+		-p 127.0.0.1:80:80/tcp -p 127.0.0.1:443:443/tcp -p 127.0.0.1:1025:1025/tcp --network=${NETWORK_NAME} \
+		-v /var/run/docker.sock:/var/run/docker.sock -v $(PWD)/certs:/ssl -v $(PWD)/traefik/dynamic:/configuration \
+		-v ${SSH_VOLUME_NAME}:/tmp/druid_ssh-agent/ \
+		--env MAILHOG_HOST=mailhog.${DOCKER_DOMAIN} --env TRAEFIK_HOST=traefik.${DOCKER_DOMAIN} \
+		--add-host=host.docker.internal:host-gateway \
+		${STONEHENGE_IMAGE}:${STONEHENGE_TAG} --providers.docker.network="${PREFIX}-network"
 
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
@@ -83,7 +91,7 @@ PHONY += --down-title
 
 PHONY += --down
 --down:
-	@${DOCKER_COMPOSE_CMD} down -v --remove-orphans --rmi all
+	@docker stop ${CONTAINER_NAME} && docker rm ${CONTAINER_NAME} && echo "Stonehenge stopped" || echo "Stonehenge not running"
 
 PHONY += --down-remove-network
 --down-remove-network:
@@ -113,44 +121,35 @@ $(SSH_KEYS):
 
 PHONY += addkey
 addkey: KEY := $(shell echo $$HOME)/.ssh/id_rsa
-addkey: IMAGE := druidfi/stonehenge:$(STONEHENGE_TAG)
 addkey: ## Add SSH key
 	@test -f $(KEY) && docker run --rm -it -u druid \
 		--volume=$(KEY):$(KEY) \
-		--volumes-from=stonehenge \
+		--volumes-from=${CONTAINER_NAME} \
 		--name=${PREFIX}-ssh-agent-add-key \
-		$(IMAGE) ssh-add $(KEY) || echo "No SSH key found"
+		${STONEHENGE_IMAGE}:$(STONEHENGE_TAG) ssh-add $(KEY) || echo "No SSH key found"
 
 #
 # Commands
 #
 
-PHONY += config
-config: ## Show Stonehenge container config
-	$(call step,Show Stonehenge container config on $(OS)...)
-	@${DOCKER_COMPOSE_CMD} config
-
 PHONY += keys
 keys: ## List SSH keys added
 	$(call step,SSH keys added)
-	@${DOCKER_COMPOSE_CMD} exec ssh-agent ssh-add -l
-
-PHONY += restart
-restart: ## Restart Stonehenge
-	$(call step,Restarting Stonehenge containers...)
-	@${DOCKER_COMPOSE_CMD} restart
-	$(call success,Restarted!)
+	@docker exec ${CONTAINER_NAME} ssh-add -l
 
 PHONY += status
 status: ## Show Stonehenge status
 	$(call step,Stonehenge status)
-	@${DOCKER_COMPOSE_CMD} ps
+	@docker ps -f name=${CONTAINER_NAME}
 	@make keys
+
+PHONY += ps
+ps: status ## Show Stonehenge status
 
 PHONY += stop
 stop: ## Stop Stonehenge
 	$(call step,Stopping Stonehenge containers...)
-	@${DOCKER_COMPOSE_CMD} stop
+	@docker stop ${CONTAINER_NAME}
 	$(call success,Stopped!)
 
 PHONY += update
@@ -181,14 +180,6 @@ include $(PROJECT_DIR)/make/docker.mk
 
 ifeq ($(DOCKER_BIN),no)
 $(error docker is required)
-endif
-
-ifeq ($(DOCKER_BIN),no)
-$(error docker is required)
-endif
-
-ifeq ($(DOCKER_COMPOSE_BIN),no)
-$(error docker compose is required)
 endif
 
 ifeq ($(DOCKER_DOMAIN),)
