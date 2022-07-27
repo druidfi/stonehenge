@@ -16,8 +16,7 @@ http:
       middlewares: redirect-to-https@file
     traefik:
       entryPoints: https
-      #rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
-      rule: Host(`{{ env "TRAEFIK_HOST" }}`) || (PathPrefix(`/api`))
+      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       service: api@internal
       tls: true
 
