@@ -10,7 +10,7 @@ endif
 
 DOCKER_BIN := $(shell command -v docker || echo no)
 STONEHENGE_IMAGE := druidfi/stonehenge
-
+STONEHENGE_EXISTS := $(shell docker inspect stonehenge > /dev/null 2>&1 && echo "yes" || echo "no")
 CONTAINER_NAME := stonehenge
 
 NETWORK_NAME := $(PREFIX)-network
@@ -19,11 +19,11 @@ SSH_VOLUME_NAME := $(PREFIX)-ssh
 SSH_VOLUME_EXISTS := $(shell docker volume inspect ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")
 SSH_KEYS := id_ed25519 id_rsa
 
-UP_TARGETS := --up-pre-actions --up --up-post-actions
+UP_TARGETS := --up-pre-actions start --up-post-actions
 UP_PRE_TARGETS := --up-title --up-create-network --up-create-volume
 UP_POST_TARGETS := addkeys
-DOWN_TARGETS := --down-title --down --down-post-actions
-POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume certs-uninstall
+DOWN_TARGETS := --down-title remove --down-post-actions
+POST_DOWN_ACTIONS := --down-remove-network --down-remove-volume
 
 #
 # Include plugins
@@ -49,27 +49,35 @@ PHONY += --up-create-network
 --up-create-network:
 ifeq ($(NETWORK_EXISTS),no)
 	$(call step,Create network ${NETWORK_NAME}...)
-	@docker network create ${NETWORK_NAME} && echo "- Network created"
+	@docker network create ${NETWORK_NAME} > /dev/null 2>&1 && echo "Network created"
 endif
 
 PHONY += --up-create-volume
 --up-create-volume:
 ifeq ($(SSH_VOLUME_EXISTS),no)
 	$(call step,Create volume ${SSH_VOLUME_NAME}...)
-	@docker volume create ${SSH_VOLUME_NAME} && echo "SSH volume created"
+	@docker volume create ${SSH_VOLUME_NAME} > /dev/null 2>&1 && echo "Volume created"
 endif
 
-PHONY += --up
---up: PWD := $(shell pwd)
---up:
+PHONY += start
+start: PWD := $(shell pwd)
+start:
 	$(call step,Start Stonehenge...)
+ifeq ($(STONEHENGE_EXISTS),no)
 	@docker run --name ${CONTAINER_NAME} --restart=unless-stopped --pull=always --detach \
 		-p 127.0.0.1:80:80/tcp -p 127.0.0.1:443:443/tcp -p 127.0.0.1:1025:1025/tcp --network=${NETWORK_NAME} \
 		-v /var/run/docker.sock:/var/run/docker.sock -v $(PWD)/certs:/ssl -v $(PWD)/traefik/dynamic:/configuration \
 		-v ${SSH_VOLUME_NAME}:/tmp/druid_ssh-agent/ \
 		--env MAILHOG_HOST=mailhog.${DOCKER_DOMAIN} --env TRAEFIK_HOST=traefik.${DOCKER_DOMAIN} \
 		--add-host=host.docker.internal:host-gateway \
-		${STONEHENGE_IMAGE}:${STONEHENGE_TAG} --providers.docker.network="${PREFIX}-network"
+		${STONEHENGE_IMAGE}:${STONEHENGE_TAG} --providers.docker.network="${PREFIX}-network" > /dev/null 2>&1 && \
+		echo "Stonehenge started"
+else
+	@[ "$(shell docker inspect ${CONTAINER_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")" == yes ] && \
+		([ "$(shell docker inspect -f='{{.State.Running}}' ${CONTAINER_NAME})" == true ] && echo "Stonehenge is already running" \
+			|| \
+		 (docker start ${CONTAINER_NAME} > /dev/null 2>&1 && echo "Stonehenge started" && make addkeys))
+endif
 
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
@@ -148,9 +156,13 @@ ps: status ## Show Stonehenge status
 
 PHONY += stop
 stop: ## Stop Stonehenge
-	$(call step,Stopping Stonehenge containers...)
-	@docker stop ${CONTAINER_NAME}
-	$(call success,Stopped!)
+	$(call step,Stopping Stonehenge container...)
+	@docker stop ${CONTAINER_NAME} > /dev/null 2>&1 && echo "Stonehenge stopped" || echo "Stonehenge not running"
+
+PHONY += remove
+remove: stop ## Stop and remove Stonehenge
+	$(call step,Stopping and removing Stonehenge container...)
+	@docker rm ${CONTAINER_NAME} > /dev/null 2>&1 && echo "Stonehenge removed" || echo "Stonehenge not running"
 
 PHONY += update
 update: ## Update Stonehenge

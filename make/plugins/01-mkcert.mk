@@ -6,6 +6,7 @@ MKCERT_REQS_DEBIAN := libnss3-tools
 MKCERT_VERSION := v1.4.4
 
 UP_PRE_TARGETS += mkcert-install certs
+POST_DOWN_ACTIONS += certs-uninstall
 
 ifeq ($(OS_ID_LIKE),darwin)
 	MKCERT_SOURCE := ${MKCERT_REPO}/releases/download/${MKCERT_VERSION}/mkcert-${MKCERT_VERSION}-darwin-$(CURRENT_ARCH)
