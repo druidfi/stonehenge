@@ -11,12 +11,12 @@ http:
 
     traefik_http:
       entryPoints: http
-      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/`))
       service: api@internal
       middlewares: redirect-to-https@file
     traefik:
       entryPoints: https
-      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/`))
       service: api@internal
       tls: true
 
