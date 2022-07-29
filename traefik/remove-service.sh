@@ -3,9 +3,9 @@
 if [ $# -lt 2 ]
 then
     printf "Missing options!\n\n"
-    printf "docker exec stonehenge-traefik remove-service name domain\n\n"
+    printf "docker exec stonehenge remove-service name domain\n\n"
     printf "Example:\n"
-    printf "docker exec stonehenge-traefik remove-service foobar mydomain.com\n"
+    printf "docker exec stonehenge remove-service foobar mydomain.com\n"
     exit 0
 fi
 

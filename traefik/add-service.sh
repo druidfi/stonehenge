@@ -3,9 +3,9 @@
 if [ $# -lt 2 ]
 then
     printf "Missing options!\n\n"
-    printf "docker exec stonehenge-traefik add-service name domain [port]\n\n"
+    printf "docker exec stonehenge add-service name domain [port]\n\n"
     printf "Example:\n"
-    printf "docker exec stonehenge-traefik add-service foobar mydomain.com 3003\n"
+    printf "docker exec stonehenge add-service foobar mydomain.com 3003\n"
     printf "This will route https://foobar.mydomain.com to port 3003 of the host\n\n"
     printf "NOTE! foobar.mydomain.com must point to 127.0.0.1\n"
     exit 0
