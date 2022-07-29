@@ -166,9 +166,11 @@ remove: stop ## Stop and remove Stonehenge
 
 PHONY += update
 update: ## Update Stonehenge
-	$(call step,Update Stonehenge\n\n- Pull the latest code...)
+	$(call step,Pull the latest Stonehenge code...)
 	@git pull
-	@make up
+	$(call step,Pull the latest Stonehenge image...)
+	@docker pull ${STONEHENGE_IMAGE}:${STONEHENGE_TAG}
+	@make remove start
 
 PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
