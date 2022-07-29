@@ -1,5 +1,14 @@
 # Stonehenge
 
+## Note: New 4.x version is available!
+
+Switching to 4.x version of Stonehenge with:
+
+```
+git pull
+make switch-to-4
+```
+
 ![Stonehenge logo](logos/stonehenge_logo_wide.svg)
 
 Local development environment toolset on Docker supporting multiple projects.
