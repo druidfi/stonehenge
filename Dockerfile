@@ -1,5 +1,19 @@
-ARG TRAEFIK_VERSION=2.8.1
+ARG TRAEFIK_VERSION=2.8.3
 
+#
+# MailHog
+#
+FROM golang:alpine as mailhog-builder
+
+ARG MAILHOG_VERSION=1.0.1
+WORKDIR /go/src/github.com/mailhog/MailHog
+ADD https://github.com/mailhog/MailHog/archive/v${MAILHOG_VERSION}.tar.gz .
+RUN tar --strip-components=1 -zxf v${MAILHOG_VERSION}.tar.gz -C .
+RUN GO111MODULE=off CGO_ENABLED=0 go install -ldflags='-s -w'
+
+#
+# Traefik
+#
 FROM traefik:${TRAEFIK_VERSION}
 
 LABEL org.opencontainers.image.authors="Druid".fi maintainer="Druid.fi"
@@ -35,7 +49,7 @@ COPY traefik/add-service.sh /usr/local/bin/add-service
 COPY traefik/remove-service.sh /usr/local/bin/remove-service
 
 # Copy Mailhog binary
-COPY --from=druidfi/mailhog:1.0.1 /bin/MailHog /usr/local/bin/
+COPY --from=mailhog-builder /go/bin/MailHog /usr/local/bin/
 
 # Copy Catch-all confs
 COPY catchall/nginx.conf /etc/nginx/http.d/default.conf
