@@ -20,6 +20,12 @@ FILENAME="/configuration/$HOST.yml"
 ROUTER="$HOST_DASHED-router"
 SERVICE="$HOST_DASHED-service"
 CERT="/ssl/$DOMAIN"
+RESOLVED_IP=$(dig +short $HOST | tail -n1)
+
+if [ "$RESOLVED_IP" != "127.0.0.1" ]; then
+    printf "Error: Host $HOST does not point to localhost (127.0.0.1)!"
+    exit 1
+fi
 
 printf "Creating configuration for local service: https://$HOST --> localhost:$PORT\n\n"
 
