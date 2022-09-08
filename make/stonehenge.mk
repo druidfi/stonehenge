@@ -64,7 +64,7 @@ start: PWD := $(shell pwd)
 start:
 	$(call step,Start Stonehenge...)
 ifeq ($(STONEHENGE_EXISTS),no)
-	@docker run --name ${CONTAINER_NAME} --restart=unless-stopped --pull=always --detach \
+	@docker run --name ${CONTAINER_NAME} --restart=unless-stopped --detach \
 		-p 127.0.0.1:80:80/tcp -p 127.0.0.1:443:443/tcp -p 127.0.0.1:1025:1025/tcp --network=${NETWORK_NAME} \
 		-v /var/run/docker.sock:/var/run/docker.sock -v $(PWD)/certs:/ssl -v $(PWD)/traefik/dynamic:/configuration \
 		-v ${SSH_VOLUME_NAME}:/tmp/druid_ssh-agent/ \

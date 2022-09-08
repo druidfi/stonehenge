@@ -1,3 +1,8 @@
+PHONY += docker-print
+docker-print: ## Print bake plan for Stonehenge Docker image
+	$(call step,Print bake plan for Stonehenge Docker image...)
+	@docker buildx bake -f docker-bake.hcl --print
+
 PHONY += docker-build
 docker-build: ## Build Stonehenge Docker image locally
 	$(call step,Build Stonehenge Docker image locally...)
