@@ -18,7 +18,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - Latest macOS, Ubuntu LTS or Windows 10/11 with WSL2 - [Read more](#supported-operating-systems)
 - Make
-- Docker 20+
+- Docker 20.10+
 - No other services listening port 80 or 443
 
 ## Requirements for a project
