@@ -49,14 +49,14 @@ PHONY += --up-create-network
 --up-create-network:
 ifeq ($(NETWORK_EXISTS),no)
 	$(call step,Create network ${NETWORK_NAME}...)
-	@docker network create ${NETWORK_NAME} && echo "Network created"
+	@docker network create ${NETWORK_NAME} > /dev/null && echo "Network created"
 endif
 
 PHONY += --up-create-volume
 --up-create-volume:
 ifeq ($(SSH_VOLUME_EXISTS),no)
 	$(call step,Create volume ${SSH_VOLUME_NAME}...)
-	@docker volume create ${SSH_VOLUME_NAME} && echo "Volume created"
+	@docker volume create ${SSH_VOLUME_NAME} > /dev/null && echo "Volume created"
 endif
 
 PHONY += start
@@ -70,13 +70,13 @@ ifeq ($(STONEHENGE_EXISTS),no)
 		-v ${SSH_VOLUME_NAME}:/tmp/druid_ssh-agent/ \
 		--env MAILHOG_HOST=mailhog.${DOCKER_DOMAIN} --env TRAEFIK_HOST=traefik.${DOCKER_DOMAIN} \
 		--add-host=host.docker.internal:host-gateway \
-		${STONEHENGE_IMAGE}:${STONEHENGE_TAG} --providers.docker.network="${PREFIX}-network"&& \
+		${STONEHENGE_IMAGE}:${STONEHENGE_TAG} --providers.docker.network="${PREFIX}-network" > /dev/null && \
 		echo "Stonehenge started"
 else
 	@[ "$(shell docker inspect ${CONTAINER_NAME} > /dev/null 2>&1 && echo "yes" || echo "no")" == yes ] && \
 		([ "$(shell docker inspect -f='{{.State.Running}}' ${CONTAINER_NAME})" == true ] && echo "Stonehenge is already running" \
 			|| \
-		 (docker start ${CONTAINER_NAME} && echo "Stonehenge started" && make addkeys))
+		 (docker start ${CONTAINER_NAME} > /dev/null && echo "Stonehenge started" && make addkeys))
 endif
 
 PHONY += --up-post-actions
