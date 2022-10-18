@@ -1,0 +1,37 @@
+# Keep this for now to work with some Linux distros
+version: '3.7'
+
+services:
+
+  stonehenge:
+    image: druidfi/stonehenge:${STONEHENGE_TAG}
+    container_name: stonehenge
+    restart: unless-stopped
+    #    security_opt:
+    #      - no-new-privileges:true
+    command: |-
+      --providers.docker.network="${PREFIX}-network"
+    environment:
+      MAILHOG_HOST: mailhog.${DOCKER_DOMAIN}
+      TRAEFIK_HOST: traefik.${DOCKER_DOMAIN}
+    ports:
+      - "443:443"
+      - "80:80"
+      - "1025:1025"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./certs:/ssl # mkcert certs
+      - ./traefik/dynamic:/configuration
+      - ssh:/tmp/druid_ssh-agent/
+
+networks:
+  default:
+    name: ${PREFIX}-network
+    external: true
+
+volumes:
+  ssh:
+    name: ${PREFIX}-ssh
+    external: true
