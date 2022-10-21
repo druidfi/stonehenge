@@ -151,7 +151,7 @@ update: ## Update Stonehenge
 	@git pull
 	$(call step,Pull the latest Stonehenge image...)
 	@docker pull ${STONEHENGE_IMAGE}:${STONEHENGE_TAG}
-	@make remove start
+	@make up
 
 PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
