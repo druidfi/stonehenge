@@ -15,13 +15,19 @@ jobs:
 
     steps:
 
-      - name: Apt update
+      - name: Create dummy SSH keys
+        run: |
+          mkdir $GITHUB_WORKSPACE/.ssh
+          ssh-keygen -q -t rsa -N '' -f $GITHUB_WORKSPACE/.ssh/id_rsa
+          ssh-keygen -q -t ed25519 -N '' -f $GITHUB_WORKSPACE/.ssh/id_ed25519
+
+      - name: Setup Linux requirements
         run: |
           sudo apt update --yes
           sudo apt install libnss3-tools
         if: runner.os == 'Linux'
 
-      - name: Start up Colima as container runtime
+      - name: Setup macOS requirements
         run: |
           brew install docker mkcert
           colima start
@@ -32,11 +38,10 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Show debug info and prepare dummy SSH key
+      - name: Show debug info
         run: |
           make debug
           make ping
-          ssh-keygen -q -t ed25519 -N '' -f $GITHUB_WORKSPACE/.ssh/id_ed25519
 
       - name: Start up Stonehenge
         run: make up
