@@ -26,8 +26,6 @@ jobs:
           brew install docker docker-compose mkcert nss
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-          docker --version
-          docker compose version
           colima start
           sudo security authorizationdb write com.apple.trust-settings.admin allow
         if: runner.os == 'macOS'
