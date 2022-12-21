@@ -16,10 +16,12 @@ jobs:
     steps:
 
       - name: Apt update
-        run: sudo apt update --yes
+        run: |
+          sudo apt update --yes
+          sudo apt install libnss3-tools
         if: runner.os == 'Linux'
 
-      - name: Start Colima
+      - name: Start up Colima as container runtime
         run: |
           brew install docker mkcert
           colima start
@@ -30,15 +32,14 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Show debug info
+      - name: Show debug info and prepare dummy SSH key
         run: |
           make debug
           make ping
+          ssh-keygen -q -t ed25519 -N '' -C "your_email@example.com"
 
       - name: Start up Stonehenge
         run: make up
-        env:
-          CURL_CA_BUNDLE: /etc/ssl/cert.pem
 
       - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
