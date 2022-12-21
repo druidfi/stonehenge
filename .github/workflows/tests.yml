@@ -22,7 +22,6 @@ jobs:
       - name: Start Colima
         run: |
           brew install docker mkcert
-          colima delete
           colima start
         if: runner.os == 'macOS'
 
@@ -38,6 +37,8 @@ jobs:
 
       - name: Start up Stonehenge
         run: make up
+        env:
+          CURL_CA_BUNDLE: /etc/ssl/cert.pem
 
       - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
