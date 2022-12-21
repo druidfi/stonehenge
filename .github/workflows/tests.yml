@@ -9,21 +9,31 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos image does not have Docker in it
-        #os: [ ubuntu-18.04, ubuntu-20.04, macos-latest ]
-        os: [ ubuntu-18.04, ubuntu-20.04, ubuntu-22.04 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, macos-12 ]
 
     runs-on: ${{ matrix.os }}
 
     steps:
 
+      - name: Setup Linux requirements
+        run: |
+          sudo apt update --yes
+          sudo apt install libnss3-tools
+        if: runner.os == 'Linux'
+
+      - name: Setup macOS requirements
+        run: |
+          brew install docker docker-compose mkcert nss
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+          colima start
+          sudo security authorizationdb write com.apple.trust-settings.admin allow
+        if: runner.os == 'macOS'
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
-
-      - name: Apt update
-        run: sudo apt update --yes
 
       - name: Show debug info
         run: |
