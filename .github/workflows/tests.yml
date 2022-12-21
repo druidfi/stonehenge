@@ -36,10 +36,12 @@ jobs:
         run: |
           make debug
           make ping
-          ssh-keygen -q -t ed25519 -N '' -f ~/.ssh/id_ed25519 -C "your_email@example.com"
+          ssh-keygen -q -t ed25519 -N '' -f $GITHUB_WORKSPACE/.ssh/id_ed25519
 
       - name: Start up Stonehenge
         run: make up
+        env:
+          HOME: $GITHUB_WORKSPACE
 
       - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
