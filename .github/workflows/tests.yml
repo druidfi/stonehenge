@@ -9,9 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # macos image does not have Docker in it
-        #os: [ ubuntu-18.04, ubuntu-20.04, macos-latest ]
-        os: [ ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, macos-12 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, macos-12 ]
 
     runs-on: ${{ matrix.os }}
 
