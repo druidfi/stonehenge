@@ -15,11 +15,6 @@ jobs:
 
     steps:
 
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-
       - name: Apt update
         run: sudo apt update --yes
         if: runner.os == 'Linux'
@@ -27,8 +22,14 @@ jobs:
       - name: Start Colima
         run: |
           brew install docker mkcert
+          colima delete
           colima start
         if: runner.os == 'macOS'
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Show debug info
         run: |
