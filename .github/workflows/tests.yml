@@ -32,7 +32,6 @@ jobs:
       - name: Setup macOS requirements
         run: |
           brew install docker docker-compose mkcert nss
-          sudo curl -L $DOCKER_COMPOSE -o "/usr/local/lib/docker/cli-plugins/docker-compose"
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
           docker --version
