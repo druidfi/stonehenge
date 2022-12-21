@@ -17,6 +17,7 @@ jobs:
 
       - name: Create dummy SSH keys
         run: |
+          mkdir /Users/runner/.ssh
           ssh-keygen -q -t rsa -N '' -f /Users/runner/.ssh/id_rsa
           ssh-keygen -q -t ed25519 -N '' -f /Users/runner/.ssh/id_ed25519
 
