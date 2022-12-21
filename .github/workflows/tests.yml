@@ -15,11 +15,13 @@ jobs:
 
     steps:
 
-      - name: Create dummy SSH keys
-        run: |
-          mkdir -p /Users/runner/.ssh
-          ssh-keygen -q -t rsa -N '' -f /Users/runner/.ssh/id_rsa
-          ssh-keygen -q -t ed25519 -N '' -f /Users/runner/.ssh/id_ed25519
+#      - name: Create dummy SSH keys
+#        run: |
+#          sudo mkdir -p /Users/runner/.ssh
+#          ssh-keygen -q -t rsa -N '' -f /Users/runner/.ssh/id_rsa
+#          ssh-keygen -q -t ed25519 -N '' -f /Users/runner/.ssh/id_ed25519
+#        env:
+#          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
       - name: Setup Linux requirements
         run: |
@@ -31,6 +33,7 @@ jobs:
         run: |
           brew install docker mkcert
           colima start
+          sudo security authorizationdb write com.apple.trust-settings.admin allow
         if: runner.os == 'macOS'
 
       - name: Checkout code
@@ -45,6 +48,8 @@ jobs:
 
       - name: Start up Stonehenge
         run: make up
+        #env:
+        #  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
       - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
