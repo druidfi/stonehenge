@@ -15,14 +15,6 @@ jobs:
 
     steps:
 
-#      - name: Create dummy SSH keys
-#        run: |
-#          sudo mkdir -p /Users/runner/.ssh
-#          ssh-keygen -q -t rsa -N '' -f /Users/runner/.ssh/id_rsa
-#          ssh-keygen -q -t ed25519 -N '' -f /Users/runner/.ssh/id_ed25519
-#        env:
-#          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-
       - name: Setup Linux requirements
         run: |
           sudo apt update --yes
@@ -52,8 +44,6 @@ jobs:
 
       - name: Start up Stonehenge
         run: make up
-        #env:
-        #  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
 
       - name: Ping docker.so should resolve to 127.0.0.1 now
         run: make ping
