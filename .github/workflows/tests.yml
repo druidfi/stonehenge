@@ -31,7 +31,7 @@ jobs:
 
       - name: Setup macOS requirements
         run: |
-          brew install docker mkcert
+          brew install docker docker-compose mkcert nss
           colima start
           sudo security authorizationdb write com.apple.trust-settings.admin allow
         if: runner.os == 'macOS'
