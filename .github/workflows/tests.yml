@@ -22,6 +22,11 @@ jobs:
 
       - name: Apt update
         run: sudo apt update --yes
+        if: runner.os == 'Linux'
+
+      - name: Start Colima
+        run: colima start
+        if: runner.os == 'macOS'
 
       - name: Show debug info
         run: |
