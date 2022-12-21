@@ -33,13 +33,13 @@ jobs:
         run: |
           brew install docker docker-compose mkcert nss
           sudo curl -L $DOCKER_COMPOSE -o "/usr/local/lib/docker/cli-plugins/docker-compose"
+          mkdir -p ~/.docker/cli-plugins
+          ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
           docker --version
           docker compose version
           colima start
           sudo security authorizationdb write com.apple.trust-settings.admin allow
         if: runner.os == 'macOS'
-        env:
-          DOCKER_COMPOSE: https://github.com/docker/compose/releases/download/v2.14.2/docker-compose-darwin-x86_64
 
       - name: Checkout code
         uses: actions/checkout@v3
