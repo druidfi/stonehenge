@@ -26,7 +26,7 @@ jobs:
 
       - name: Start Colima
         run: |
-          brew install docker
+          brew install docker mkcert
           colima start
         if: runner.os == 'macOS'
 
