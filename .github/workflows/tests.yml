@@ -17,8 +17,8 @@ jobs:
 
       - name: Create dummy SSH keys
         run: |
-          ssh-keygen -q -t rsa -N ''
-          ssh-keygen -q -t ed25519 -N ''
+          ssh-keygen -q -t rsa -N '' -f /Users/runner/.ssh/id_rsa
+          ssh-keygen -q -t ed25519 -N '' -f /Users/runner/.ssh/id_ed25519
 
       - name: Setup Linux requirements
         run: |
