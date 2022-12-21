@@ -19,6 +19,7 @@ FROM traefik:${TRAEFIK_VERSION}
 LABEL org.opencontainers.image.authors="Druid".fi maintainer="Druid.fi"
 LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
 
+ARG TRAEFIK_VERSION
 ARG TARGETARCH
 ARG USER=druid
 ARG UID=1000
@@ -27,6 +28,7 @@ ENV CAROOT=/ssl
 ENV SOCKET_DIR=/tmp/${USER}_ssh-agent
 ENV SSH_AUTH_SOCK=${SOCKET_DIR}/socket
 ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
+ENV TRAEFIK_VERSION=${TRAEFIK_VERSION}
 
 RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
 
