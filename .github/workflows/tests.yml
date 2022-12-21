@@ -25,7 +25,9 @@ jobs:
         if: runner.os == 'Linux'
 
       - name: Start Colima
-        run: colima start
+        run: |
+          brew install docker
+          colima start
         if: runner.os == 'macOS'
 
       - name: Show debug info
