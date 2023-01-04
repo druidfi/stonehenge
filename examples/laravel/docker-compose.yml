@@ -1,9 +1,7 @@
-version: '3.7'
-
 services:
 
   app:
-    image: nginx:1.21-alpine
+    image: nginx:1.23-alpine
     container_name: laravel-example-app
     depends_on:
       - php-fpm
@@ -19,19 +17,15 @@ services:
       traefik.http.routers.symfony-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
   php-fpm:
-    image: php:8.1-fpm-alpine
+    image: php:8.2-fpm-alpine
     container_name: symfony-example-php-fpm
     volumes:
       - ./app:/app
-    networks:
-      - internal
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true
