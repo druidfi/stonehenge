@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
 
   app:
@@ -18,7 +16,7 @@ services:
       traefik.http.routers.wordpress-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
   db:
@@ -29,11 +27,7 @@ services:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
-    networks:
-      - internal
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true
