@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
 
   app:
@@ -21,11 +19,9 @@ services:
       traefik.http.services.ghost-example-app.loadbalancer.server.port: 1313
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true
