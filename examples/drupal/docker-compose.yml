@@ -1,36 +1,30 @@
-version: '3.7'
-
 services:
 
   app:
-    hostname: "drupal9.docker.so"
-    container_name: "drupal9-example-app"
-    image: "druidfi/drupal-test:php-8.0"
+    hostname: "drupal.docker.so"
+    container_name: "drupal-example-app"
+    image: "druidfi/drupal-test:php-8.2"
     depends_on:
       - db
     environment:
       APP_ENV: "prod"
-      DRUPAL_ROUTES: "https://drupal9.docker.so"
+      DRUPAL_ROUTES: "https://drupal.docker.so"
       PHP_SENDMAIL_PATH: "/usr/sbin/sendmail -S stonehenge-mailhog:1025"
     labels:
       traefik.enable: "true"
-      traefik.http.routers.drupal9-example-app.entrypoints: https
-      traefik.http.routers.drupal9-example-app.rule: Host(`drupal9.docker.so`)
-      traefik.http.routers.drupal9-example-app.tls: "true"
-      traefik.http.services.drupal9-example-app.loadbalancer.server.port: 8080
+      traefik.http.routers.drupal-example-app.entrypoints: https
+      traefik.http.routers.drupal-example-app.rule: Host(`drupal.docker.so`)
+      traefik.http.routers.drupal-example-app.tls: "true"
+      traefik.http.services.drupal-example-app.loadbalancer.server.port: 8080
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
   db:
-    container_name: "drupal9-example-db"
-    image: druidfi/mariadb:10.5-drupal
-    networks:
-      - internal
+    container_name: "drupal-example-db"
+    image: druidfi/mariadb:10.7-drupal
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true

@@ -1,4 +1,4 @@
-# Drupal 9 example
+# Drupal example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Drupal 9 application with Composer:
+Install Drupal application with Composer:
 
 ```
 cd examples/drupal
@@ -15,7 +15,7 @@ make up
 
 Wait. It takes some time to load all the files etc.
 
-Access the site in https://drupal9.docker.so/
+Access the site in https://drupal.docker.so/
 
 ## CLI
 
