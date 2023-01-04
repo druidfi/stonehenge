@@ -17,7 +17,7 @@ services:
       traefik.http.routers.symfony-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
   php-fpm:
@@ -25,11 +25,7 @@ services:
     container_name: symfony-example-php-fpm
     volumes:
       - ./app:/app
-    networks:
-      - internal
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true
