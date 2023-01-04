@@ -1,9 +1,7 @@
-version: '3.7'
-
 services:
 
   app:
-    image: ghost:4-alpine
+    image: ghost:5-alpine
     container_name: ghost-example-app
     depends_on:
       - db
@@ -15,6 +13,8 @@ services:
       database__connection__password: ghost
       database__connection__database: ghost
       url: https://ghost.docker.so
+      # contrary to the default mentioned in the linked documentation, this image defaults to NODE_ENV=production (so development mode needs to be explicitly specified if desired)
+      NODE_ENV: development
     labels:
       traefik.enable: "true"
       traefik.http.routers.ghost-example-app.entrypoints: https
@@ -23,22 +23,18 @@ services:
       traefik.http.services.ghost-example-app.loadbalancer.server.port: 2368
       traefik.docker.network: stonehenge-network
     networks:
-      - internal
+      - default
       - stonehenge-network
 
   db:
-    image: mysql:5.7
+    image: mysql:8.0
     container_name: ghost-example-db
     environment:
       MYSQL_ROOT_PASSWORD: someghost
       MYSQL_DATABASE: ghost
       MYSQL_USER: ghost
       MYSQL_PASSWORD: ghost
-    networks:
-      - internal
 
 networks:
-  internal:
-    external: false
   stonehenge-network:
     external: true
