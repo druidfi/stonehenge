@@ -4,7 +4,7 @@ include ../utils.mk
 
 app:
 	$(call step,Create Symfony project to app folder)
-	@docker run --rm -it -v $(shell pwd):/app composer create-project symfony/website-skeleton app
+	@docker run --rm -it -v $(shell pwd):/app composer create-project symfony/symfony-demo app
 
 PHONY += up
 up: app ## Launch example Symfony application
