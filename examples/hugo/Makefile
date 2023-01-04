@@ -15,7 +15,7 @@ endif
 PHONY += up
 up: site ## Launch example Hugo site
 	$(call step,Start Hugo example site...)
-	@docker-compose up -d
+	@docker compose up -d
 	$(call step,DONE! Check https://hugo.docker.so ...)
 
 PHONY += site
@@ -30,7 +30,7 @@ site: ## Create Hugo quickstart site
 
 PHONY += down
 down: ## Tear down example Hugo site
-	@docker-compose down -v
+	@docker compose down -v
 	@rm -rf output site
 
 hugo: ## Hugo CLI: Create a new content file

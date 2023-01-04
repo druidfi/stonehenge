@@ -22,7 +22,7 @@ Access the site in https://drupal9.docker.so/
 Login to container:
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 ```
 
 Then you can use e.g. Drush

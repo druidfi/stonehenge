@@ -3,12 +3,12 @@
 include ../utils.mk
 
 DRUPAL_SITENAME := Drupal 9 example
-EXECUTE := docker-compose exec app
+EXECUTE := docker compose exec app
 
 PHONY += up
 up: ## Launch example
 	$(call step,Start $(DRUPAL_SITENAME) application...)
-	@docker-compose up -d
+	@docker compose up -d
 	$(call step,Install $(DRUPAL_SITENAME) with Drush...)
 	@$(EXECUTE) sudo chmod -R 0777 /app/public/sites/default/files
 	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
@@ -17,4 +17,4 @@ up: ## Launch example
 
 PHONY += down
 down: ## Tear down example
-	@docker-compose down -v
+	@docker compose down -v
