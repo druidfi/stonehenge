@@ -104,8 +104,8 @@ make addkey KEY=/path/to/mykey
 
 ## Examples
 
-- [Drupal 9](https://github.com/druidfi/stonehenge/tree/4.x/examples/drupal)
-- [Ghost 4](https://github.com/druidfi/stonehenge/tree/4.x/examples/ghost)
+- [Drupal 10](https://github.com/druidfi/stonehenge/tree/4.x/examples/drupal)
+- [Ghost 5](https://github.com/druidfi/stonehenge/tree/4.x/examples/ghost)
 - [Hugo](https://github.com/druidfi/stonehenge/tree/4.x/examples/hugo)
 - [Laravel 9](https://github.com/druidfi/stonehenge/tree/4.x/examples/laravel)
 - [Symfony 6](https://github.com/druidfi/stonehenge/tree/4.x/examples/symfony)
