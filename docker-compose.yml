@@ -15,9 +15,9 @@ services:
       MAILHOG_HOST: mailhog.${DOCKER_DOMAIN}
       TRAEFIK_HOST: traefik.${DOCKER_DOMAIN}
     ports:
-      - "443:443"
-      - "80:80"
-      - "1025:1025"
+      - "${HTTPS_PORT:-443}:443"
+      - "${HTTP_PORT:-80}:80"
+      - "${SMTP_PORT:-1025}:1025"
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:

@@ -68,8 +68,13 @@ start:
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
 	$(call step,You can now access Stonehenge services with these URLs:)
+ifdef HTTPS_PORT
+	$(call item,- https://traefik.${DOCKER_DOMAIN}:$(HTTPS_PORT))
+	$(call item,- https://mailhog.${DOCKER_DOMAIN}:$(HTTPS_PORT))
+else
 	$(call item,- https://traefik.${DOCKER_DOMAIN})
 	$(call item,- https://mailhog.${DOCKER_DOMAIN})
+endif
 	$(call success,SUCCESS! Happy Developing!)
 
 #
