@@ -18,7 +18,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - Latest macOS, Ubuntu LTS or Windows 10/11 with WSL2 - [Read more](#supported-operating-systems)
 - Make
-- Docker 20.10+ or Colima 0.5.0+
+- Docker 20.10+, Colima 0.5.0+ or OrbStack 0.6.2+
 - Docker Compose V2
 - No other services listening port 80 or 443
 
