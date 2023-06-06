@@ -68,7 +68,7 @@ Note: Stonehenge will be started on boot by default if not stopped before.
 
 To stop Stonehenge:
 
-```
+```shell
 make stop
 ```
 
@@ -121,6 +121,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Supported operating systems
 
+- macOS Sonoma 14 (M1)
 - macOS Ventura 13 (Intel and M1)
 - macOS Monterey 12 (Intel and M1)
 - macOS Big Sur 11 (Intel and M1)

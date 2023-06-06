@@ -16,7 +16,7 @@ RUN GO111MODULE=off CGO_ENABLED=0 go install -ldflags='-s -w'
 #
 FROM traefik:${TRAEFIK_VERSION}
 
-LABEL org.opencontainers.image.authors="Druid".fi maintainer="Druid.fi"
+LABEL org.opencontainers.image.authors="Druid.fi" maintainer="Druid.fi"
 LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
 
 ARG TRAEFIK_VERSION
