@@ -12,7 +12,7 @@ services:
     command: |-
       --providers.docker.network="${PREFIX}-network"
     environment:
-      MAILHOG_HOST: mailhog.${DOCKER_DOMAIN}
+      MAILPIT_HOST: mailpit.${DOCKER_DOMAIN}
       TRAEFIK_HOST: traefik.${DOCKER_DOMAIN}
     ports:
       - "${HTTPS_PORT:-443}:443"

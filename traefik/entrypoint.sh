@@ -25,14 +25,14 @@ start_nginx(){
     exec nginx -g 'daemon off;'
 }
 
-start_mailhog(){
-    echo "Start up MailHog..."
-    exec MailHog &
+start_mailpit(){
+    echo "Start up Mailpit..."
+    exec mailpit --verbose &
 }
 
 create_ssh_proxy &
 start_nginx &
-start_mailhog &
+start_mailpit &
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then

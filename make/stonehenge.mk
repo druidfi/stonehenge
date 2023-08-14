@@ -70,10 +70,10 @@ PHONY += --up-post-actions
 	$(call step,You can now access Stonehenge services with these URLs:)
 ifdef HTTPS_PORT
 	$(call item,- https://traefik.${DOCKER_DOMAIN}:$(HTTPS_PORT))
-	$(call item,- https://mailhog.${DOCKER_DOMAIN}:$(HTTPS_PORT))
+	$(call item,- https://mailpit.${DOCKER_DOMAIN}:$(HTTPS_PORT))
 else
 	$(call item,- https://traefik.${DOCKER_DOMAIN})
-	$(call item,- https://mailhog.${DOCKER_DOMAIN})
+	$(call item,- https://mailpit.${DOCKER_DOMAIN})
 endif
 	$(call success,SUCCESS! Happy Developing!)
 

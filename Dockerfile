@@ -1,20 +1,25 @@
 ARG TRAEFIK_VERSION
 
 #
-# MailHog
+# Mailpit binary
 #
-FROM golang:alpine as mailhog-builder
+FROM golang:alpine as mailpit-builder
 
-ARG MAILHOG_VERSION=1.0.1
-WORKDIR /go/src/github.com/mailhog/MailHog
-ADD https://github.com/mailhog/MailHog/archive/v${MAILHOG_VERSION}.tar.gz .
-RUN tar --strip-components=1 -zxf v${MAILHOG_VERSION}.tar.gz -C .
-RUN GO111MODULE=off CGO_ENABLED=0 go install -ldflags='-s -w'
+ARG MAILPIT_VERSION=1.8.1
+
+WORKDIR /app
+
+ADD https://github.com/axllent/mailpit/archive/refs/tags/v${MAILPIT_VERSION}.tar.gz .
+
+RUN apk add --no-cache git npm
+RUN tar --strip-components=1 -zxf v${MAILPIT_VERSION}.tar.gz -C .
+RUN npm install && npm run package
+RUN CGO_ENABLED=0 go build -ldflags "-s -w -X github.com/axllent/mailpit/config.Version=${MAILPIT_VERSION}" -o /mailpit
 
 #
-# Traefik
+# Stonehenge
 #
-FROM traefik:${TRAEFIK_VERSION}
+FROM traefik:${TRAEFIK_VERSION} as stonehenge
 
 LABEL org.opencontainers.image.authors="Druid.fi" maintainer="Druid.fi"
 LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
@@ -50,8 +55,8 @@ COPY traefik/dynamic/traefik.dynamic.yml /configuration/traefik.dynamic.yml
 COPY traefik/add-service.sh /usr/local/bin/add-service
 COPY traefik/remove-service.sh /usr/local/bin/remove-service
 
-# Copy Mailhog binary
-COPY --from=mailhog-builder /go/bin/MailHog /usr/local/bin/
+# Copy Mailpit binary
+COPY --from=mailpit-builder /mailpit /usr/local/bin/
 
 # Copy Catch-all confs
 COPY catchall/nginx.conf /etc/nginx/http.d/default.conf

@@ -1,15 +1,15 @@
 services:
 
   app:
-    hostname: "drupal.docker.so"
-    container_name: "drupal-example-app"
-    image: "druidfi/drupal-test:php-8.2"
+    hostname: drupal.docker.so
+    container_name: drupal-example-app
+    image: druidfi/drupal-test:php-8.2
     depends_on:
       - db
     environment:
-      APP_ENV: "prod"
-      DRUPAL_ROUTES: "https://drupal.docker.so"
-      PHP_SENDMAIL_PATH: "/usr/sbin/sendmail -S stonehenge-mailhog:1025"
+      APP_ENV: prod
+      DRUPAL_ROUTES: https://drupal.docker.so
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -S stonehenge:1025
     labels:
       traefik.enable: "true"
       traefik.http.routers.drupal-example-app.entrypoints: https
@@ -22,8 +22,8 @@ services:
       - stonehenge-network
 
   db:
-    container_name: "drupal-example-db"
-    image: druidfi/mariadb:10.7-drupal
+    container_name: drupal-example-db
+    image: druidfi/mariadb:10.11-drupal-lts
 
 networks:
   stonehenge-network:
