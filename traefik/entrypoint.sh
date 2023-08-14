@@ -27,7 +27,7 @@ start_nginx(){
 
 start_mailpit(){
     echo "Start up Mailpit..."
-    exec mailpit --verbose &
+    exec mailpit --verbose --smtp-auth-accept-any --smtp-auth-allow-insecure
 }
 
 create_ssh_proxy &
