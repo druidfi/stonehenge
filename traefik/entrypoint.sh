@@ -27,7 +27,7 @@ start_nginx(){
 
 start_mailpit(){
     echo "Start up Mailpit ${MAILPIT_VERSION}..."
-    exec mailpit --verbose --smtp=0.0.0.0:1025
+    exec mailpit --verbose
 }
 
 create_ssh_proxy &
