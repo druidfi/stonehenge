@@ -1,24 +1,30 @@
 ARG TRAEFIK_VERSION
+ARG MAILPIT_VERSION=1.8.2
 
 #
-# MailHog
+# Mailpit binary
 #
-FROM golang:alpine as mailhog-builder
+FROM golang:alpine as mailpit-builder
 
-ARG MAILHOG_VERSION=1.0.1
-WORKDIR /go/src/github.com/mailhog/MailHog
-ADD https://github.com/mailhog/MailHog/archive/v${MAILHOG_VERSION}.tar.gz .
-RUN tar --strip-components=1 -zxf v${MAILHOG_VERSION}.tar.gz -C .
-RUN GO111MODULE=off CGO_ENABLED=0 go install -ldflags='-s -w'
+ARG MAILPIT_VERSION
+WORKDIR /app
+
+ADD https://github.com/axllent/mailpit/archive/refs/tags/v${MAILPIT_VERSION}.tar.gz .
+
+RUN apk add --no-cache git npm
+RUN tar --strip-components=1 -zxf v${MAILPIT_VERSION}.tar.gz -C .
+RUN npm install && npm run package
+RUN CGO_ENABLED=0 go build -ldflags "-s -w -X github.com/axllent/mailpit/config.Version=${MAILPIT_VERSION}" -o /mailpit
 
 #
-# Traefik
+# Stonehenge
 #
-FROM traefik:${TRAEFIK_VERSION}
+FROM traefik:${TRAEFIK_VERSION} as stonehenge
 
 LABEL org.opencontainers.image.authors="Druid.fi" maintainer="Druid.fi"
 LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
 
+ARG MAILPIT_VERSION
 ARG TRAEFIK_VERSION
 ARG TARGETARCH
 ARG USER=druid
@@ -28,11 +34,12 @@ ENV CAROOT=/ssl
 ENV SOCKET_DIR=/tmp/${USER}_ssh-agent
 ENV SSH_AUTH_SOCK=${SOCKET_DIR}/socket
 ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
+ENV MAILPIT_VERSION=${MAILPIT_VERSION}
 ENV TRAEFIK_VERSION=${TRAEFIK_VERSION}
 
 RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
 
-RUN apk --update --no-cache add bind-tools nginx openssh socat sudo && \
+RUN apk --update --no-cache add bind-tools nginx openssh socat sudo tzdata && \
     adduser -D -u ${UID} ${USER} && \
     mkdir ${SOCKET_DIR} && chown ${USER} ${SOCKET_DIR} && \
     chmod +x /usr/local/bin/mkcert && \
@@ -50,14 +57,14 @@ COPY traefik/dynamic/traefik.dynamic.yml /configuration/traefik.dynamic.yml
 COPY traefik/add-service.sh /usr/local/bin/add-service
 COPY traefik/remove-service.sh /usr/local/bin/remove-service
 
-# Copy Mailhog binary
-COPY --from=mailhog-builder /go/bin/MailHog /usr/local/bin/
+# Copy Mailpit binary
+COPY --from=mailpit-builder /mailpit /usr/local/bin/
 
 # Copy Catch-all confs
 COPY catchall/nginx.conf /etc/nginx/http.d/default.conf
 COPY catchall/index.html /usr/share/nginx/html/index.html
 
-# Expose the SMTP and HTTP ports used by default by MailHog:
-EXPOSE 1025 8025
+# Expose the SMTP and HTTP ports used by default by Mailpit:
+EXPOSE 1025/tcp 8025/tcp
 
 VOLUME ${SOCKET_DIR}

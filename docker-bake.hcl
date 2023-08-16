@@ -3,7 +3,7 @@ variable "REPO_NAME" {
 }
 
 variable "TRAEFIK_VERSION" {
-    default = "2.10.3"
+    default = "2.10.4"
 }
 
 group "default" {
@@ -24,5 +24,5 @@ target "traefik" {
     args = {
         TRAEFIK_VERSION = "${TRAEFIK_VERSION}"
     }
-    tags = ["${REPO_NAME}:4", "${REPO_NAME}:4.0", "${REPO_NAME}:latest"]
+    tags = ["${REPO_NAME}:4", "${REPO_NAME}:4.1", "${REPO_NAME}:latest"]
 }

@@ -30,7 +30,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 - [Traefik](https://traefik.io/traefik/) in [traefik.docker.so](https://traefik.docker.so) to handle all traffic to containers
 - [mkcert](https://github.com/FiloSottile/mkcert) generated wildcard SSL certificate
-- [MailHog](https://github.com/mailhog/MailHog) in [mailhog.docker.so](https://mailhog.docker.so) to catch emails
+- [Mailpit](https://github.com/axllent/mailpit) in [mailpit.docker.so](https://mailpit.docker.so) to catch emails
 
 ## Setup
 
@@ -162,7 +162,7 @@ make debug
 
 ## References
 
-- [https://github.com/mailhog/MailHog](https://github.com/mailhog/MailHog)
+- [https://github.com/axllent/mailpit](https://github.com/axllent/mailpit)
 - [https://github.com/FiloSottile/mkcert](https://github.com/FiloSottile/mkcert)
 - [https://traefik.io/](https://traefik.io/)
 

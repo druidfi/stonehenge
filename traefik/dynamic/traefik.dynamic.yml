@@ -20,15 +20,15 @@ http:
       service: api@internal
       tls: true
 
-    mailhog_http:
+    mailpit_http:
       entryPoints: http
-      rule: Host(`{{ env "MAILHOG_HOST" }}`)
-      service: mailhog@file
+      rule: Host(`{{ env "MAILPIT_HOST" }}`)
+      service: mailpit@file
       middlewares: redirect-to-https@file
-    mailhog:
+    mailpit:
       entryPoints: https
-      rule: Host(`{{ env "MAILHOG_HOST" }}`)
-      service: mailhog@file
+      rule: Host(`{{ env "MAILPIT_HOST" }}`)
+      service: mailpit@file
       tls: true
 
     catchall_http:
@@ -51,7 +51,7 @@ http:
         servers:
           - url: "http://stonehenge:8080"
 
-    mailhog:
+    mailpit:
       loadBalancer:
         servers:
           - url: "http://stonehenge:8025"
