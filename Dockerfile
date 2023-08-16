@@ -1,12 +1,12 @@
 ARG TRAEFIK_VERSION
+ARG MAILPIT_VERSION=1.8.2
 
 #
 # Mailpit binary
 #
 FROM golang:alpine as mailpit-builder
 
-ARG MAILPIT_VERSION=1.8.1
-
+ARG MAILPIT_VERSION
 WORKDIR /app
 
 ADD https://github.com/axllent/mailpit/archive/refs/tags/v${MAILPIT_VERSION}.tar.gz .
@@ -24,6 +24,7 @@ FROM traefik:${TRAEFIK_VERSION} as stonehenge
 LABEL org.opencontainers.image.authors="Druid.fi" maintainer="Druid.fi"
 LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
 
+ARG MAILPIT_VERSION
 ARG TRAEFIK_VERSION
 ARG TARGETARCH
 ARG USER=druid
@@ -33,11 +34,12 @@ ENV CAROOT=/ssl
 ENV SOCKET_DIR=/tmp/${USER}_ssh-agent
 ENV SSH_AUTH_SOCK=${SOCKET_DIR}/socket
 ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
+ENV MAILPIT_VERSION=${MAILPIT_VERSION}
 ENV TRAEFIK_VERSION=${TRAEFIK_VERSION}
 
 RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
 
-RUN apk --update --no-cache add bind-tools nginx openssh socat sudo && \
+RUN apk --update --no-cache add bind-tools nginx openssh socat sudo tzdata && \
     adduser -D -u ${UID} ${USER} && \
     mkdir ${SOCKET_DIR} && chown ${USER} ${SOCKET_DIR} && \
     chmod +x /usr/local/bin/mkcert && \
@@ -62,7 +64,7 @@ COPY --from=mailpit-builder /mailpit /usr/local/bin/
 COPY catchall/nginx.conf /etc/nginx/http.d/default.conf
 COPY catchall/index.html /usr/share/nginx/html/index.html
 
-# Expose the SMTP and HTTP ports used by default by MailHog:
-EXPOSE 1025 8025
+# Expose the SMTP and HTTP ports used by default by Mailpit:
+EXPOSE 1025/tcp 8025/tcp
 
 VOLUME ${SOCKET_DIR}
