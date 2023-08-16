@@ -9,7 +9,7 @@ services:
     environment:
       APP_ENV: prod
       DRUPAL_ROUTES: https://drupal.docker.so
-      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -S stonehenge:1025
+      PHP_SENDMAIL_PATH: /usr/sbin/sendmail -S stonehenge:1025 -t
     labels:
       traefik.enable: "true"
       traefik.http.routers.drupal-example-app.entrypoints: https
