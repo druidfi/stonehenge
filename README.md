@@ -40,13 +40,13 @@ If on Windows, check these [general install instructions](https://github.com/dru
 
 ### Oneliner
 
-```shell
+```console
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/4.x/install.sh)"
 ```
 
 ### Or manually with Git
 
-```shell
+```console
 git clone -b 4.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 cd ~/stonehenge
 make up
@@ -56,7 +56,7 @@ make up
 
 You can also use custom domain instead of `docker.so`:
 
-```shell
+```console
 make up DOCKER_DOMAIN=docker.druid.fi
 ```
 
@@ -68,13 +68,13 @@ Note: Stonehenge will be started on boot by default if not stopped before.
 
 To stop Stonehenge:
 
-```shell
+```console
 make stop
 ```
 
 Or totally to stop and remove Stonehenge:
 
-```shell
+```console
 make down
 ```
 
@@ -82,13 +82,13 @@ make down
 
 Add this line to your shell (bash, zsh, fish):
 
-```shell
+```console
 alias stonehenge='make -C ~/stonehenge'
 ```
 
 Now you can run make targets from anywhere with the alias:
 
-```shell
+```console
 stonehenge up
 ```
 
@@ -98,7 +98,7 @@ By default Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_r
 
 You can add additional SSH keys with:
 
-```shell
+```console
 make addkey KEY=/path/to/mykey
 ```
 
@@ -106,7 +106,7 @@ make addkey KEY=/path/to/mykey
 
 You can change `https`, `http` and `smtp` ports by using ENV variables:
 
-```shell
+```console
 HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 ```
 
@@ -150,7 +150,7 @@ To brand the toolset for your organization:
 
 Use following command to see what data is detected:
 
-```shell
+```console
 make debug
 ```
 
