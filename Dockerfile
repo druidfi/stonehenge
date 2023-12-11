@@ -1,5 +1,5 @@
 ARG TRAEFIK_VERSION
-ARG MAILPIT_VERSION=1.8.2
+ARG MAILPIT_VERSION=1.10.4
 
 #
 # Mailpit binary
@@ -20,9 +20,6 @@ RUN CGO_ENABLED=0 go build -ldflags "-s -w -X github.com/axllent/mailpit/config.
 # Stonehenge
 #
 FROM traefik:${TRAEFIK_VERSION} as stonehenge
-
-LABEL org.opencontainers.image.authors="Druid.fi" maintainer="Druid.fi"
-LABEL org.opencontainers.image.source="https://github.com/druidfi/stonehenge" repository="https://github.com/druidfi/stonehenge"
 
 ARG MAILPIT_VERSION
 ARG TRAEFIK_VERSION

@@ -3,7 +3,7 @@ variable "REPO_NAME" {
 }
 
 variable "TRAEFIK_VERSION" {
-    default = "2.10.5"
+    default = "2.10.7"
 }
 
 group "default" {
@@ -12,6 +12,13 @@ group "default" {
 
 target "common" {
     platforms = ["linux/amd64", "linux/arm64"]
+    labels = {
+        "org.opencontainers.image.url" = "https://github.com/druidfi/stonehenge"
+        "org.opencontainers.image.source" = "https://github.com/druidfi/stonehenge"
+        "org.opencontainers.image.licenses" = "MIT"
+        "org.opencontainers.image.vendor" = "Druid Oy"
+        "org.opencontainers.image.created" = "${timestamp()}"
+    }
 }
 
 #
