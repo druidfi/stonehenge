@@ -14,6 +14,7 @@ api:
   dashboard: true
   debug: true
   insecure: false
+  disabledashboardad: true
 
 entryPoints:
   http:
