@@ -121,13 +121,14 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Supported operating systems
 
-- macOS Sonoma 14 (M1)
+- macOS Sonoma 14 (M1/M2/M3)
 - macOS Ventura 13 (Intel and M1)
 - macOS Monterey 12 (Intel and M1)
 - macOS Big Sur 11 (Intel and M1)
 - Ubuntu 22.04 LTS
 - Ubuntu 20.04 LTS
 - [Windows 10/11 + WSL2](https://github.com/druidfi/stonehenge/blob/4.x/WSL2.md) (Debian or Ubuntu LTS)
+- [Fedora Asahi Remix 39](https://asahilinux.org/fedora/) (M1/M2/M3)
 
 Also tested with at some point:
 
