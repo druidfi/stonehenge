@@ -9,34 +9,18 @@ http:
 
   routers:
 
-    traefik_http:
-      entryPoints: http
-      rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/`))
-      service: api@internal
-      middlewares: redirect-to-https@file
     traefik:
       entryPoints: https
       rule: Host(`{{ env "TRAEFIK_HOST" }}`) && (PathPrefix(`/api`) || PathPrefix(`/`))
       service: api@internal
       tls: true
 
-    mailpit_http:
-      entryPoints: http
-      rule: Host(`{{ env "MAILPIT_HOST" }}`)
-      service: mailpit@file
-      middlewares: redirect-to-https@file
     mailpit:
       entryPoints: https
       rule: Host(`{{ env "MAILPIT_HOST" }}`)
       service: mailpit@file
       tls: true
 
-    catchall_http:
-      entryPoints: http
-      rule: HostRegexp(`{host:.+}`)
-      service: errors@file
-      priority: 1
-      middlewares: redirect-to-https@file
     catchall:
       entryPoints: https
       rule: HostRegexp(`{host:.+}`)
@@ -62,11 +46,6 @@ http:
           - url: "http://stonehenge:8181"
 
   middlewares:
-
-    redirect-to-https:
-      redirectScheme:
-        scheme: https
-        permanent: false
 
     error-page:
       errors:
