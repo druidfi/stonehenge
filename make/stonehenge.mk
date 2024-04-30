@@ -168,6 +168,12 @@ rollback: down ## Switch back to Stonehenge 3
 	@git checkout 3.x && git pull
 	@$(MAKE) up
 
+PHONY += switch-to-5
+switch-to-5: down ## Switch to Stonehenge 5
+	$(call step,Change to Stonehenge v5...)
+	@git checkout 5.x && git pull
+	@$(MAKE) up
+
 #
 # Includes
 #

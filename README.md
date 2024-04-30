@@ -1,5 +1,15 @@
 # Stonehenge
 
+> [!NOTE]
+> Note: New 5.x version is available!
+>
+> Switching to 5.x version of Stonehenge with:
+>
+> ```console
+> git pull
+> make switch-to-5
+> ```
+
 ![Stonehenge logo](https://github.com/druidfi/stonehenge/raw/4.x/logos/stonehenge_logo_wide.svg)
 
 Local development environment toolset on Docker supporting multiple projects.
