@@ -1,9 +1,7 @@
 # Stonehenge
 
 > [!NOTE]
-> Note: New 5.x version is available!
->
-> Switching to 5.x version of Stonehenge with:
+> New 5.x version is available! Switch to 5.x version of Stonehenge with:
 >
 > ```console
 > git pull
