@@ -23,7 +23,7 @@ http:
 
     catchall:
       entryPoints: http,https
-      rule: HostRegexp(`^.+.{{ env "DOCKER_DOMAIN" }}$`)
+      rule: HostRegexp(`{host:.+}`)
       service: catchall@file
       tls: true
       priority: 1
