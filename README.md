@@ -94,7 +94,7 @@ stonehenge up
 
 ## SSH keys
 
-By default Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`.
+By default, Stonehenge tries to add key from `~/.ssh/id_ed25519` and `~/.ssh/id_rsa`.
 
 You can add additional SSH keys with:
 
@@ -115,8 +115,8 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 - [Drupal 10](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal)
 - [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
 - [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
-- [Laravel 9](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
-- [Symfony 6](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
+- [Laravel 11](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
+- [Symfony 7](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
 - [Wordpress](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress)
 
 ## Supported operating systems

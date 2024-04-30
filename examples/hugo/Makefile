@@ -15,7 +15,7 @@ endif
 PHONY += up
 up: site ## Launch example Hugo site
 	$(call step,Start Hugo example site...)
-	@docker compose up -d
+	@docker compose up --wait
 	$(call step,DONE! Check https://hugo.docker.so ...)
 
 PHONY += site

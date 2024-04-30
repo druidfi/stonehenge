@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: nginx:1.23-alpine
+    image: nginx:1.26-alpine
     container_name: laravel-example-app
     depends_on:
       - php-fpm
@@ -21,7 +21,7 @@ services:
       - stonehenge-network
 
   php-fpm:
-    image: php:8.2-fpm-alpine
+    image: php:8.3-fpm-alpine
     container_name: symfony-example-php-fpm
     volumes:
       - ./app:/app

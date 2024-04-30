@@ -4,7 +4,8 @@ services:
     image: ghost:5-alpine
     container_name: ghost-example-app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       # see https://docs.ghost.org/docs/config#section-running-ghost-with-config-env-variables
       database__client: mysql
@@ -30,10 +31,15 @@ services:
     image: mysql:8.0
     container_name: ghost-example-db
     environment:
-      MYSQL_ROOT_PASSWORD: someghost
+      MYSQL_ROOT_PASSWORD: ghost
       MYSQL_DATABASE: ghost
       MYSQL_USER: ghost
       MYSQL_PASSWORD: ghost
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-pghost" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
 
 networks:
   stonehenge-network:

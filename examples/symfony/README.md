@@ -8,7 +8,7 @@
 
 Install Symfony 6 application with Composer:
 
-```
+```console
 cd examples/symfony
 make up
 ```
@@ -19,9 +19,9 @@ Access the site in https://symfony.docker.so/
 
 ## Teardown
 
-You can teardown the whole example by:
+You can tear down the whole example by:
 
-```
+```console
 make down
 ```
 

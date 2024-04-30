@@ -9,7 +9,7 @@ app:
 PHONY += up
 up: app ## Launch example Laravel application
 	$(call colorecho,Start Laravel example application...)
-	@docker compose up -d
+	@docker compose up --wait
 	$(call step,DONE! Check https://laravel.docker.so ...)
 
 PHONY += down

@@ -8,10 +8,9 @@ EXECUTE := docker compose exec app
 PHONY += up
 up: ## Launch example
 	$(call step,Start $(DRUPAL_SITENAME) application...)
-	@docker compose up -d
+	@docker compose up --wait
 	$(call step,Install $(DRUPAL_SITENAME) with Drush...)
 	@$(EXECUTE) sudo chmod -R 0777 /app/public/sites/default/files
-	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
 	@$(EXECUTE) drush -y site:install demo_umami --account-name="admin" --site-name="$(DRUPAL_SITENAME)"
 	$(call step,DONE! Open https://drupal.docker.so ... Also check for admin credentials ^^)
 

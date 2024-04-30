@@ -8,7 +8,7 @@
 
 Install Laravel 9 application with Composer:
 
-```
+```console
 cd examples/laravel
 make up
 ```
@@ -21,7 +21,7 @@ Access the site in https://laravel.docker.so/
 
 You can teardown the whole example by:
 
-```
+```console
 make down
 ```
 

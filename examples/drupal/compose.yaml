@@ -1,11 +1,12 @@
 services:
 
   app:
-    hostname: drupal.docker.so
+    hostname: ${COMPOSE_PROJECT_NAME}
     container_name: drupal-example-app
-    image: druidfi/drupal-test:php-8.2
+    image: druidfi/drupal-test:php-8.3
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       APP_ENV: prod
       DRUPAL_ROUTES: https://drupal.docker.so
@@ -23,7 +24,17 @@ services:
 
   db:
     container_name: drupal-example-db
-    image: druidfi/mariadb:10.11-drupal-lts
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: drupal
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-pdrupal" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
 
 networks:
   stonehenge-network:

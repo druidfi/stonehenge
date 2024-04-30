@@ -8,7 +8,7 @@
 
 Install Drupal application with Composer:
 
-```
+```console
 cd examples/drupal
 make up
 ```
@@ -21,7 +21,7 @@ Access the site in https://drupal.docker.so/
 
 Login to container:
 
-```
+```console
 docker compose exec app bash
 ```
 
@@ -29,9 +29,9 @@ Then you can use e.g. Drush
 
 ## Teardown
 
-You can teardown the whole example by:
+You can tear down the whole example by:
 
-```
+```console
 make down
 ```
 

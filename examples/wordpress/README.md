@@ -1,4 +1,4 @@
-# Wordpress example
+# WordPress example
 
 ## Requirements
 
@@ -6,9 +6,9 @@
 
 ## Setup
 
-Install Wordpress site:
+Install WordPress site:
 
-```
+```console
 cd examples/wordpress
 make up
 ```
@@ -17,9 +17,9 @@ Access the site in https://wordpress.docker.so/
 
 ## Teardown
 
-You can teardown the whole example by:
+You can tear down the whole example by:
 
-```
+```console
 make down
 ```
 

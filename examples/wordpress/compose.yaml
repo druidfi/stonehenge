@@ -4,7 +4,8 @@ services:
     image: wordpress:latest
     container_name: "wordpress-example-app"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
@@ -23,10 +24,15 @@ services:
     image: mysql:8.0
     container_name: "wordpress-example-db"
     environment:
-      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_ROOT_PASSWORD: wordpress
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-pwordpress" ]
+      interval: 5s
+      timeout: 5s
+      retries: 3
 
 networks:
   stonehenge-network:

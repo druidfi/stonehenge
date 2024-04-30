@@ -4,12 +4,12 @@ include ../utils.mk
 
 app:
 	$(call step,Create Symfony project to app folder)
-	@docker run --rm -it -v $(shell pwd):/app composer create-project symfony/symfony-demo app
+	@docker run --rm -it -v $(shell pwd):/app composer create-project symfony/skeleton:"7.0.*" app
 
 PHONY += up
 up: app ## Launch example Symfony application
 	$(call colorecho,Start Symfony example application...)
-	@docker compose up -d
+	@docker compose up --wait
 	$(call step,DONE! Check https://symfony.docker.so ...)
 
 PHONY += down
