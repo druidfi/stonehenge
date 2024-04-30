@@ -12,6 +12,7 @@ services:
     command: |-
       --providers.docker.network="${PREFIX}-network"
     environment:
+      DOCKER_DOMAIN: ${DOCKER_DOMAIN}
       MAILPIT_HOST: mailpit.${DOCKER_DOMAIN}
       TRAEFIK_HOST: traefik.${DOCKER_DOMAIN}
     ports:
