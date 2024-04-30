@@ -1,6 +1,3 @@
-# Keep this for now to work with some Linux distros
-version: '3.7'
-
 services:
 
   stonehenge:
