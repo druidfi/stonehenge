@@ -162,10 +162,10 @@ PHONY += upgrade
 upgrade: down update ## Upgrade Stonehenge (tear down the current first)
 
 PHONY += rollback
-rollback: down ## Switch back to Stonehenge 3
-	$(call step,Change to Stonehenge v3...)
+rollback: down ## Switch back to Stonehenge 4
+	$(call step,Change to Stonehenge v4...)
 	@echo "Pull the latest code..."
-	@git checkout 3.x && git pull
+	@git checkout 4.x && git pull
 	@$(MAKE) up
 
 #

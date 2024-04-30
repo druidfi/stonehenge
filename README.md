@@ -1,6 +1,6 @@
 # Stonehenge
 
-![Stonehenge logo](https://github.com/druidfi/stonehenge/raw/4.x/logos/stonehenge_logo_wide.svg)
+![Stonehenge logo](https://github.com/druidfi/stonehenge/raw/5.x/logos/stonehenge_logo_wide.svg)
 
 Local development environment toolset on Docker supporting multiple projects.
 
@@ -36,18 +36,18 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 Note: in some systems setup will prompt once for your password as it will setup DNS.
 
-If on Windows, check these [general install instructions](https://github.com/druidfi/stonehenge/blob/4.x/WSL2.md) if you don't have WSL2 yet.
+If on Windows, check these [general install instructions](https://github.com/druidfi/stonehenge/blob/5.x/WSL2.md) if you don't have WSL2 yet.
 
 ### Oneliner
 
 ```console
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/4.x/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/druidfi/stonehenge/5.x/install.sh)"
 ```
 
 ### Or manually with Git
 
 ```console
-git clone -b 4.x https://github.com/druidfi/stonehenge.git ~/stonehenge
+git clone -b 5.x https://github.com/druidfi/stonehenge.git ~/stonehenge
 cd ~/stonehenge
 make up
 ```
@@ -112,12 +112,12 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Examples
 
-- [Drupal 10](https://github.com/druidfi/stonehenge/tree/4.x/examples/drupal)
-- [Ghost 5](https://github.com/druidfi/stonehenge/tree/4.x/examples/ghost)
-- [Hugo](https://github.com/druidfi/stonehenge/tree/4.x/examples/hugo)
-- [Laravel 9](https://github.com/druidfi/stonehenge/tree/4.x/examples/laravel)
-- [Symfony 6](https://github.com/druidfi/stonehenge/tree/4.x/examples/symfony)
-- [Wordpress](https://github.com/druidfi/stonehenge/tree/4.x/examples/wordpress)
+- [Drupal 10](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal)
+- [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
+- [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
+- [Laravel 9](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
+- [Symfony 6](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
+- [Wordpress](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress)
 
 ## Supported operating systems
 
@@ -127,7 +127,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 - macOS Big Sur 11 (Intel and M1)
 - Ubuntu 22.04 LTS
 - Ubuntu 20.04 LTS
-- [Windows 10/11 + WSL2](https://github.com/druidfi/stonehenge/blob/4.x/WSL2.md) (Debian or Ubuntu LTS)
+- [Windows 10/11 + WSL2](https://github.com/druidfi/stonehenge/blob/5.x/WSL2.md) (Debian or Ubuntu LTS)
 - [Fedora Asahi Remix 39](https://asahilinux.org/fedora/) (M1/M2/M3)
 
 Also tested with at some point:
@@ -169,4 +169,4 @@ make debug
 
 ## License
 
-The files in this archive are released under the MIT license. You can find a copy of this license in [LICENSE](https://github.com/druidfi/stonehenge/raw/4.x/LICENSE).
+The files in this archive are released under the MIT license. You can find a copy of this license in [LICENSE](https://github.com/druidfi/stonehenge/raw/5.x/LICENSE).
