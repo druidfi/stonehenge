@@ -24,7 +24,7 @@ domains for your projects as well as SSL certificates for those domains out of t
 
 ## Requirements for a project
 
-- `docker-compose.yml` file(s) - see [examples](#examples) how to use Stonehenge
+- `compose.yaml` file(s) - see [examples](#examples) how to use Stonehenge
 
 ## Stonehenge building blocks
 
