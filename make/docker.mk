@@ -12,3 +12,6 @@ PHONY += docker-release
 docker-release: ## Build and push Stonehenge Docker image
 	$(call step,Build and push Stonehenge Docker image...)
 	@docker buildx bake -f docker-bake.hcl --pull --no-cache --push
+
+PHONY += docker-test
+docker-test: docker-build up ## Build and start new Stonehenge Docker container
