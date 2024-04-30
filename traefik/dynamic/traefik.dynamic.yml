@@ -22,11 +22,13 @@ http:
       tls: true
 
     catchall:
-      entryPoints: https
-      rule: HostRegexp(`{host:.+}`)
-      service: errors@file
+      entryPoints: http,https
+      rule: HostRegexp(`^.+.{{ env "DOCKER_DOMAIN" }}$`)
+      service: catchall@file
       tls: true
       priority: 1
+      middlewares:
+        - error-page@file
 
   services:
 
@@ -40,7 +42,7 @@ http:
         servers:
           - url: "http://stonehenge:8025"
 
-    errors:
+    catchall:
       loadBalancer:
         servers:
           - url: "http://stonehenge:8181"
@@ -51,5 +53,5 @@ http:
       errors:
         status:
           - "400-599"
-        service: errors@file
-        query: "/usr/share/nginx/html/index.html"
+        service: catchall@file
+        query: "/index.html"
