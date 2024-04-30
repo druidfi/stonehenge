@@ -31,5 +31,5 @@ target "traefik" {
     args = {
         TRAEFIK_VERSION = "${TRAEFIK_VERSION}"
     }
-    tags = ["${REPO_NAME}:4", "${REPO_NAME}:4.1", "${REPO_NAME}:latest"]
+    tags = ["${REPO_NAME}:4", "${REPO_NAME}:4.1"]
 }
