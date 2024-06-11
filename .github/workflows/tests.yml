@@ -9,26 +9,29 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-20.04, ubuntu-22.04, macos-13 ]
+        os: [ ubuntu-20.04, ubuntu-22.04, ubuntu-24.04, macos-12, macos-13, macos-14 ]
 
     runs-on: ${{ matrix.os }}
 
     steps:
 
       - name: Setup Linux requirements
+        if: runner.os == 'Linux'
         run: |
           sudo apt update --yes
           sudo apt install libnss3-tools
-        if: runner.os == 'Linux'
 
       - name: Setup macOS requirements
+        if: runner.os == 'macOS'
         run: |
-          brew install docker docker-compose mkcert nss
+          brew install colima docker docker-compose mkcert nss
           mkdir -p ~/.docker/cli-plugins
           ln -sfn /usr/local/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
           colima start
           sudo security authorizationdb write com.apple.trust-settings.admin allow
-        if: runner.os == 'macOS'
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: "1"
 
       - name: Checkout code
         uses: actions/checkout@v4
