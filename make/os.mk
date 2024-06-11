@@ -11,20 +11,14 @@ ifeq ($(UNAME),darwin)
 	OS_ID := macos
 	OS_VERSION_MAJOR := $(shell sw_vers -productVersion | cut -c1-2)
 	OS_VERSION := $(shell sw_vers -productVersion | cut -c1-6)
-ifeq ($(OS_VERSION_MAJOR),14)
+ifeq ($(OS_VERSION_MAJOR),15)
+	OS := macOS Sequoia
+else ifeq ($(OS_VERSION_MAJOR),14)
 	OS := macOS Sonoma
 else ifeq ($(OS_VERSION_MAJOR),13)
 	OS := macOS Ventura
 else ifeq ($(OS_VERSION_MAJOR),12)
 	OS := macOS Monterey
-else ifeq ($(OS_VERSION_MAJOR),11)
-	OS := macOS Big Sur
-else ifeq ($(OS_VERSION),10.15)
-	OS := macOS Catalina
-else ifeq ($(OS_VERSION),10.14)
-	OS := macOS Mojave
-else ifeq ($(OS_VERSION),10.13)
-	OS := macOS High Sierra
 else
 	OS := macOS $(OS_VERSION)
 	OS_ID := UNKNOWN
