@@ -3,7 +3,7 @@ variable "REPO_NAME" {
 }
 
 variable "TRAEFIK_VERSION" {
-    default = "3.0.1"
+    default = "3.0.2"
 }
 
 group "default" {
