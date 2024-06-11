@@ -63,7 +63,7 @@ endif
 PHONY += start
 start:
 	$(call step,Start Stonehenge...)
-	@${DOCKER_COMPOSE_CMD} up -d --force-recreate --remove-orphans
+	@${DOCKER_COMPOSE_CMD} up --wait --quiet-pull --force-recreate --remove-orphans
 
 PHONY += --up-post-actions
 --up-post-actions: $(UP_POST_TARGETS)
