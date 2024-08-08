@@ -1,10 +1,9 @@
-ARG TRAEFIK_VERSION
-ARG MAILPIT_VERSION=1.17.1
+ARG MAILPIT_VERSION=1.20.0
 
 #
 # Mailpit binary
 #
-FROM golang:alpine as mailpit-builder
+FROM golang:alpine AS mailpit-builder
 
 ARG MAILPIT_VERSION
 WORKDIR /app
@@ -19,10 +18,9 @@ RUN CGO_ENABLED=0 go build -ldflags "-s -w -X github.com/axllent/mailpit/config.
 #
 # Stonehenge
 #
-FROM traefik:${TRAEFIK_VERSION} as stonehenge
+FROM traefik:3.1.2 AS stonehenge
 
 ARG MAILPIT_VERSION
-ARG TRAEFIK_VERSION
 ARG TARGETARCH
 ARG USER=druid
 ARG UID=1000
@@ -32,7 +30,6 @@ ENV SOCKET_DIR=/tmp/${USER}_ssh-agent
 ENV SSH_AUTH_SOCK=${SOCKET_DIR}/socket
 ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
 ENV MAILPIT_VERSION=${MAILPIT_VERSION}
-ENV TRAEFIK_VERSION=${TRAEFIK_VERSION}
 
 RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
 
