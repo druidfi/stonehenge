@@ -18,7 +18,7 @@ RUN CGO_ENABLED=0 go build -ldflags "-s -w -X github.com/axllent/mailpit/config.
 #
 # Stonehenge
 #
-FROM traefik:v3.1.5 AS stonehenge
+FROM traefik:v3.1.6 AS stonehenge
 
 ARG MAILPIT_VERSION
 ARG TARGETARCH
