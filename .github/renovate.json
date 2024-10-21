@@ -8,7 +8,8 @@
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["ENV MAILPIT_VERSION=(?<currentValue>.*?)\n"],
       "depNameTemplate": "axllent/mailpit",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^{{{depName}}}\/(?<version>.*)$"
     }
   ]
 }

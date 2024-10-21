@@ -1,4 +1,4 @@
-ARG MAILPIT_VERSION=v1.20.0
+ARG MAILPIT_VERSION=1.20.0
 
 #
 # Mailpit binary
@@ -8,7 +8,7 @@ FROM golang:alpine AS mailpit-builder
 ARG MAILPIT_VERSION
 WORKDIR /app
 
-ADD https://github.com/axllent/mailpit/archive/refs/tags/${MAILPIT_VERSION}.tar.gz .
+ADD https://github.com/axllent/mailpit/archive/refs/tags/v${MAILPIT_VERSION}.tar.gz .
 
 RUN apk add --no-cache git npm
 RUN tar --strip-components=1 -zxf v${MAILPIT_VERSION}.tar.gz -C .
