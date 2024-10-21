@@ -36,7 +36,7 @@ jobs:
         run: |
           set -x
           sudo chmod ugo+w /usr/local/bin
-          brew install -q orbstack
+          brew install -q orbstack@1.51
           orb
 
       - name: Checkout code
