@@ -13,7 +13,7 @@ jobs:
           - os: ubuntu-20.04
           - os: ubuntu-22.04
           - os: ubuntu-24.04
-          - os: macos-13
+          #- os: macos-13
           - os: macos-14
           - os: macos-15
 
@@ -27,26 +27,15 @@ jobs:
           sudo apt update --yes
           sudo apt install libnss3-tools
 
-      - name: Set up Homebrew
+      - name: Set up macOS requirements
         if: runner.os == 'macOS'
         uses: Homebrew/actions/setup-homebrew@master
 
-      - name: Install homebrew dependencies
+      - name: Install and start Orbstack
         if: runner.os == 'macOS'
         run: |
-          set -x
-          sudo chmod ugo+w /usr/local/bin
-          brew install -q docker docker-compose lima mkcert nss
-
-      - name: Install and start Colima
-        if: runner.os == 'macOS'
-        run: |
-          brew install -q colima
-          colima version
-          colima start --cpu 3 --memory 6 --disk 100 --mount-type=sshfs --dns=1.1.1.1
-          sudo security authorizationdb write com.apple.trust-settings.admin allow
-        env:
-          HOMEBREW_NO_AUTO_UPDATE: "1"
+          brew install --cask orbstack
+          echo "Starting orbstack" && (nohup orb start &)
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,9 +65,9 @@ jobs:
       - name: Tear down Stonehenge
         run: make down
 
-      - name: Turn off colima
+      - name: Turn off Orbstack
         if: runner.os == 'macOS'
-        run: colima stop
+        run: echo "Stopping orbstack" && (nohup orb stop &)
 
       - name: Clean up Homebrew
         if: runner.os == 'macOS'
