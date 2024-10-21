@@ -3,29 +3,14 @@
   "extends": [
     "config:recommended",
     ":separateMultipleMajorReleases",
-    ":separatePatchReleases",
-    "helpers:pinGitHubActionDigests",
-    "helpers:pinGitHubActionDigestsToSemver"
+    ":separatePatchReleases"
   ],
   "regexManagers": [
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["ENV MAILPIT_VERSION=(?<currentValue>.*?)\n"],
+      "matchStrings": ["ARG MAILPIT_VERSION=(?<currentValue>.*?)\n"],
       "depNameTemplate": "axllent/mailpit",
       "datasourceTemplate": "github-releases"
-    }
-  ],
-  "packageRules": [
-    {
-      "enabled": true,
-      "matchDatasources": [
-        "github-releases",
-        "github-tags"
-      ],
-      "matchPackageNames": [
-        "axllent/mailpit"
-      ],
-      "extractVersion": "^v(?<version>.*)$"
     }
   ]
 }
