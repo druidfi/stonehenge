@@ -27,16 +27,14 @@ jobs:
           sudo apt update --yes
           sudo apt install libnss3-tools
 
-      - name: Set up Homebrew
+      - name: Set up macOS requirements
         if: runner.os == 'macOS'
         uses: Homebrew/actions/setup-homebrew@master
 
       - name: Install and start Orbstack
         if: runner.os == 'macOS'
         run: |
-          set -x
-          sudo chmod ugo+w /usr/local/bin
-          brew install -q orbstack@1.51
+          brew install --cask orbstack@1.51
           orb
 
       - name: Checkout code
