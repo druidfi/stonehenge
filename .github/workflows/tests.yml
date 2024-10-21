@@ -34,7 +34,7 @@ jobs:
       - name: Install and start Orbstack
         if: runner.os == 'macOS'
         run: |
-          brew install --cask orbstack@1.5.1
+          brew install --cask https://github.com/Homebrew/homebrew-cask/blob/65da904d37b45eb3f0644e6419ebde37ef927f20/Casks/o/orbstack.rb
           orb
 
       - name: Checkout code
