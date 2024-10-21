@@ -1,15 +1,31 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    ":separateMultipleMajorReleases",
+    ":separatePatchReleases",
+    "helpers:pinGitHubActionDigests",
+    "helpers:pinGitHubActionDigestsToSemver"
   ],
   "regexManagers": [
     {
       "fileMatch": ["(^|/|\\.)Dockerfile$"],
       "matchStrings": ["ENV MAILPIT_VERSION=(?<currentValue>.*?)\n"],
       "depNameTemplate": "axllent/mailpit",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^{{{depName}}}\/(?<version>.*)$"
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+  "packageRules": [
+    {
+      "enabled": true,
+      "matchDatasources": [
+        "github-releases",
+        "github-tags"
+      ],
+      "matchPackageNames": [
+        "axllent/mailpit"
+      ],
+      "extractVersion": "^v(?<version>.*)$"
     }
   ]
 }
