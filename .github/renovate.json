@@ -5,10 +5,15 @@
     ":separateMultipleMajorReleases",
     ":separatePatchReleases"
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["(^|/|\\.)Dockerfile$"],
-      "matchStrings": ["ARG MAILPIT_VERSION=(?<currentValue>.*?)\n"],
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/|\\.)Dockerfile$"
+      ],
+      "matchStrings": [
+        "ARG MAILPIT_VERSION=(?<currentValue>.*?)\n"
+      ],
       "depNameTemplate": "axllent/mailpit",
       "datasourceTemplate": "github-releases"
     }
