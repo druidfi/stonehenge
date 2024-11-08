@@ -1,4 +1,4 @@
-ARG MAILPIT_VERSION=1.21.1
+ARG MAILPIT_VERSION=1.21.2
 
 #
 # Mailpit binary
