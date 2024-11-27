@@ -112,6 +112,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Examples
 
+- [API Platform](https://github.com/druidfi/api-platform/pull/4/files)
 - [Drupal 10](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal)
 - [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
 - [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
@@ -121,7 +122,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Supported operating systems
 
-- macOS Sequoia 15 Beta (M1/M2/M3/M4)
+- macOS Sequoia 15 (M1/M2/M3/M4)
 - macOS Sonoma 14 (M1/M2/M3/M4)
 - macOS Ventura 13 (Intel and M1)
 - macOS Monterey 12 (Intel and M1)
