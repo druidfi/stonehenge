@@ -24,5 +24,5 @@ target "common" {
 target "traefik" {
     inherits = ["common"]
     context = "."
-    tags = ["${REPO_NAME}:5", "${REPO_NAME}:5.0", "${REPO_NAME}:latest"]
+    tags = ["${REPO_NAME}:5", "${REPO_NAME}:5.1", "${REPO_NAME}:latest"]
 }
