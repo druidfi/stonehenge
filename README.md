@@ -123,6 +123,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Supported operating systems
 
+- macOS Tahoe 26 (M1/M2/M3/M4)
 - macOS Sequoia 15 (M1/M2/M3/M4)
 - macOS Sonoma 14 (M1/M2/M3/M4)
 - macOS Ventura 13 (Intel and M1)

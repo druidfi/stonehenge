@@ -11,7 +11,9 @@ ifeq ($(UNAME),darwin)
 	OS_ID := macos
 	OS_VERSION_MAJOR := $(shell sw_vers -productVersion | cut -c1-2)
 	OS_VERSION := $(shell sw_vers -productVersion | cut -c1-6)
-ifeq ($(OS_VERSION_MAJOR),15)
+ifeq ($(OS_VERSION_MAJOR),26)
+	OS := macOS Tahoe
+else ifeq ($(OS_VERSION_MAJOR),15)
 	OS := macOS Sequoia
 else ifeq ($(OS_VERSION_MAJOR),14)
 	OS := macOS Sonoma
