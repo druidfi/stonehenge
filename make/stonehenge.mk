@@ -10,7 +10,6 @@ endif
 
 DOCKER_BIN := $(shell command -v docker || echo no)
 DOCKER_COMPOSE_CMD := docker compose
-STONEHENGE_IMAGE := druidfi/stonehenge
 STONEHENGE_EXISTS := $(shell docker inspect stonehenge > /dev/null 2>&1 && echo "yes" || echo "no")
 CONTAINER_NAME := stonehenge
 
