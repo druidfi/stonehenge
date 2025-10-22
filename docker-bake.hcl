@@ -1,5 +1,7 @@
 variable "REPO_NAME" {
-    default = "druidfi/stonehenge"
+    # Default to GitHub Container Registry within the same repository
+    # Override with: REPO_NAME=ghcr.io/<owner>/<repo>
+    default = "ghcr.io/druidfi/stonehenge"
 }
 
 group "default" {

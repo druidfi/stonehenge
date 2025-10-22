@@ -1,7 +1,7 @@
 services:
 
   stonehenge:
-    image: druidfi/stonehenge:${STONEHENGE_TAG}
+    image: ${STONEHENGE_IMAGE:-ghcr.io/druidfi/stonehenge}:${STONEHENGE_TAG}
     container_name: stonehenge
     restart: unless-stopped
     #    security_opt:
