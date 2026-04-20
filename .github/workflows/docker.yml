@@ -44,11 +44,12 @@ jobs:
 
       - name: Bake and Push images to GHCR
         uses: docker/bake-action@v7
+        env:
+          REPO_NAME: ghcr.io/${{ github.repository }}
         with:
           files: |
             docker-bake.hcl
           set: |
-            REPO_NAME=ghcr.io/${{ github.repository }}
             *.platform=linux/amd64,linux/arm64
           push: true
 
