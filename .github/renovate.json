@@ -8,8 +8,8 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "(^|/|\\.)Dockerfile$"
+      "managerFilePatterns": [
+        "/(^|/|\\.)Dockerfile$/"
       ],
       "matchStrings": [
         "ARG MAILPIT_VERSION=(?<currentValue>.*?)\n"
