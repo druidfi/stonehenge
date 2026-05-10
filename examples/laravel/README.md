@@ -1,4 +1,4 @@
-# Laravel 9 example
+# Laravel 13 example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Laravel 9 application with Composer:
+Install Laravel 13 application with Composer:
 
 ```console
 cd examples/laravel

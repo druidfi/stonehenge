@@ -117,7 +117,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 - [FrankenPHP with Drupal](https://github.com/druidfi/frankenphp-drupal/pull/1/files)
 - [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
 - [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
-- [Laravel 11](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
+- [Laravel 13](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
 - [Symfony 8](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
 - [Wordpress](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress)
 

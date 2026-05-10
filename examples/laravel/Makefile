@@ -4,7 +4,7 @@ include ../utils.mk
 
 app:
 	$(call step,Create Laravel project folder with Composer...)
-	@docker run --rm -it -v $(shell pwd):/app composer create-project laravel/laravel app
+	@docker run --rm -v $(shell pwd):/app composer create-project laravel/laravel app
 
 PHONY += up
 up: app ## Launch example Laravel application
