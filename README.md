@@ -118,7 +118,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 - [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
 - [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
 - [Laravel 11](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
-- [Symfony 7](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
+- [Symfony 8](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
 - [Wordpress](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress)
 
 ## Supported operating systems

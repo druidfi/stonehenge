@@ -1,4 +1,4 @@
-# Symfony 6 example
+# Symfony 8 example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Symfony 6 application with Composer:
+Install Symfony 8 application with Composer:
 
 ```console
 cd examples/symfony
