@@ -1,3 +1,9 @@
+ifeq ($(shell uname -m),arm64)
+	CURRENT_ARCH := arm64
+else
+	CURRENT_ARCH := amd64
+endif
+
 OS_RELEASE_FILE := /etc/os-release
 OS_RELEASE_FILE_EXISTS := $(shell test -f $(OS_RELEASE_FILE) && echo yes || echo no)
 UNAME := $(shell uname | tr A-Z a-z)
