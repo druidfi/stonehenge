@@ -31,9 +31,8 @@ ENV SSH_AUTH_SOCK=${SOCKET_DIR}/socket
 ENV SSH_AUTH_PROXY_SOCK=${SOCKET_DIR}/proxy-socket
 ENV MAILPIT_VERSION=${MAILPIT_VERSION}
 
-RUN wget -O /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}"
-
-RUN apk --update --no-cache add bind-tools nginx openssh socat sudo tzdata && \
+RUN apk --update --no-cache add bind-tools curl nginx openssh socat sudo tzdata && \
+    curl -fsSL -o /usr/local/bin/mkcert "https://dl.filippo.io/mkcert/latest?for=linux/${TARGETARCH}" && \
     adduser -D -u ${UID} ${USER} && \
     mkdir ${SOCKET_DIR} && chown ${USER} ${SOCKET_DIR} && \
     chmod +x /usr/local/bin/mkcert && \
