@@ -1,6 +1,11 @@
 #!/bin/sh
 set -e
 
+# Traefik 3.7+ respects HTTP_PROXY env vars for backend connections. Unset them
+# so Traefik connects directly to Docker network IPs instead of routing through
+# any host-injected proxy (e.g. OrbStack's transparent proxy).
+unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy ALL_PROXY all_proxy
+
 if [ "$1" = "ssh-add" ]; then
 
     exec "$@"
