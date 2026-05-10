@@ -5,6 +5,7 @@
     ":separateMultipleMajorReleases",
     ":separatePatchReleases"
   ],
+  "prBodyMaxLineCount": 500,
   "customManagers": [
     {
       "customType": "regex",
