@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: nginx:1.26-alpine
+    image: nginx:1.30-alpine
     container_name: laravel-example-app
     depends_on:
       - php-fpm
@@ -12,17 +12,17 @@ services:
       - ./app:/app
     labels:
       traefik.enable: "true"
-      traefik.http.routers.symfony-example-app.entrypoints: https
-      traefik.http.routers.symfony-example-app.rule: Host(`laravel.docker.so`)
-      traefik.http.routers.symfony-example-app.tls: "true"
+      traefik.http.routers.laravel-example-app.entrypoints: https
+      traefik.http.routers.laravel-example-app.rule: Host(`laravel.docker.so`)
+      traefik.http.routers.laravel-example-app.tls: "true"
       traefik.docker.network: stonehenge-network
     networks:
       - default
       - stonehenge-network
 
   php-fpm:
-    image: php:8.3-fpm-alpine
-    container_name: symfony-example-php-fpm
+    image: php:8.4-fpm-alpine
+    container_name: laravel-example-php-fpm
     volumes:
       - ./app:/app
 

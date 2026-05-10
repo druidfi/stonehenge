@@ -1,4 +1,4 @@
-# Ghost example
+# Hugo example
 
 ## Requirements
 

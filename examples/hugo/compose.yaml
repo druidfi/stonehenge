@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: klakegg/hugo:latest
+    image: ghcr.io/gohugoio/hugo:latest-ext
     container_name: hugo-example-hugo
     command: server --appendPort=false --baseUrl=hugo.docker.so -D
     volumes:
@@ -13,10 +13,10 @@ services:
       HUGO_ENV: DEV
     labels:
       traefik.enable: "true"
-      traefik.http.routers.ghost-example-app.entrypoints: https
-      traefik.http.routers.ghost-example-app.rule: Host(`hugo.docker.so`)
-      traefik.http.routers.ghost-example-app.tls: "true"
-      traefik.http.services.ghost-example-app.loadbalancer.server.port: 1313
+      traefik.http.routers.hugo-example-app.entrypoints: https
+      traefik.http.routers.hugo-example-app.rule: Host(`hugo.docker.so`)
+      traefik.http.routers.hugo-example-app.tls: "true"
+      traefik.http.services.hugo-example-app.loadbalancer.server.port: 1313
       traefik.docker.network: stonehenge-network
     networks:
       - default
