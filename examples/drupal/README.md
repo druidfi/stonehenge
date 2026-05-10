@@ -1,4 +1,4 @@
-# Drupal example
+# Drupal 11 example
 
 ## Requirements
 
@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install Drupal application with Composer:
+Install Drupal 11 application:
 
 ```console
 cd examples/drupal

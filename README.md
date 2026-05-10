@@ -113,7 +113,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 ## Examples
 
 - [API Platform](https://api-platform.com) ([example](https://github.com/druidfi/api-platform/pull/4/files))
-- [Drupal 10](https://www.drupal.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal))
+- [Drupal 11](https://www.drupal.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal))
 - [FrankenPHP](https://frankenphp.dev) with Drupal ([example](https://github.com/druidfi/frankenphp-drupal/pull/1/files))
 - [Ghost 5](https://ghost.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost))
 - [Hugo](https://gohugo.io) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo))
