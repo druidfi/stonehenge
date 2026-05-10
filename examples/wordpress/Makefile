@@ -8,7 +8,6 @@ PHONY += up
 up: ## Launch example Wordpress site
 	$(call step,Start Wordpress example site...)
 	@docker compose up --wait
-	@echo "Wait for 5 seconds so database gets ready..." && sleep 5
 	$(call step,DONE! Check https://wordpress.docker.so ...)
 
 PHONY += down
