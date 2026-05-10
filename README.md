@@ -112,14 +112,14 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Examples
 
-- [API Platform](https://github.com/druidfi/api-platform/pull/4/files)
-- [Drupal 10](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal)
-- [FrankenPHP with Drupal](https://github.com/druidfi/frankenphp-drupal/pull/1/files)
-- [Ghost 5](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost)
-- [Hugo](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo)
-- [Laravel 13](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel)
-- [Symfony 8](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony)
-- [Wordpress](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress)
+- [API Platform](https://api-platform.com) ([example](https://github.com/druidfi/api-platform/pull/4/files))
+- [Drupal 10](https://www.drupal.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/drupal))
+- [FrankenPHP](https://frankenphp.dev) with Drupal ([example](https://github.com/druidfi/frankenphp-drupal/pull/1/files))
+- [Ghost 5](https://ghost.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/ghost))
+- [Hugo](https://gohugo.io) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo))
+- [Laravel 13](https://laravel.com) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel))
+- [Symfony 8](https://symfony.com) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony))
+- [WordPress](https://wordpress.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress))
 
 ## Supported operating systems
 
