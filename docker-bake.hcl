@@ -15,7 +15,7 @@ target "common" {
         "org.opencontainers.image.source" = "https://github.com/druidfi/stonehenge"
         "org.opencontainers.image.licenses" = "MIT"
         "org.opencontainers.image.vendor" = "Druid Oy"
-        "org.opencontainers.image.created" = "${timestamp()}"
+        "org.opencontainers.image.created" = timestamp()
     }
 }
 
