@@ -1,0 +1,62 @@
+services:
+
+  app:
+    image: nginx:1.30-alpine
+    container_name: typo3-example-app
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./nginx/includes/cache.conf:/etc/nginx/includes/cache.conf
+      - ./nginx/includes/php.conf:/etc/nginx/includes/php.conf
+      - ./nginx/app.conf:/etc/nginx/conf.d/app.conf
+      - ./app:/app
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.typo3-example-app.entrypoints: https
+      traefik.http.routers.typo3-example-app.rule: Host(`typo3.docker.so`)
+      traefik.http.routers.typo3-example-app.tls: "true"
+      traefik.docker.network: stonehenge-network
+    networks:
+      - default
+      - stonehenge-network
+
+  php-fpm:
+    build: ./php
+    container_name: typo3-example-php-fpm
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      TYPO3_DB_DRIVER: pdoMysql
+      TYPO3_DB_HOST: db
+      TYPO3_DB_PORT: "3306"
+      TYPO3_DB_DBNAME: typo3
+      TYPO3_DB_USERNAME: typo3
+      TYPO3_DB_PASSWORD: typo3
+      TYPO3_SETUP_ADMIN_USERNAME: admin
+      TYPO3_SETUP_ADMIN_PASSWORD: "Admin1234!"
+      TYPO3_SETUP_ADMIN_EMAIL: admin@example.com
+      TYPO3_PROJECT_NAME: "TYPO3 example"
+      TYPO3_SERVER_TYPE: other
+    volumes:
+      - ./app:/app
+      - ./config/additional.php:/app/config/system/additional.php:ro
+    working_dir: /app
+
+  db:
+    image: mysql:8.4
+    container_name: typo3-example-db
+    environment:
+      MYSQL_ROOT_PASSWORD: typo3
+      MYSQL_DATABASE: typo3
+      MYSQL_USER: typo3
+      MYSQL_PASSWORD: typo3
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptypo3"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+networks:
+  stonehenge-network:
+    external: true

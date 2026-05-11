@@ -119,6 +119,7 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 - [Hugo](https://gohugo.io) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/hugo))
 - [Laravel 13](https://laravel.com) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/laravel))
 - [Symfony 8](https://symfony.com) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/symfony))
+- [TYPO3 13](https://typo3.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/typo3))
 - [WordPress](https://wordpress.org) ([example](https://github.com/druidfi/stonehenge/tree/5.x/examples/wordpress))
 
 ## Supported operating systems
