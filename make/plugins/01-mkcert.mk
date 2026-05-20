@@ -96,3 +96,10 @@ create-custom-certs:
 	$(call step,Create $(DOMAIN).crt & $(DOMAIN).crt to ./$(DOMAIN) folder...)
 	@test -f $(CERT).crt && echo "Certificates already exist 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.$(DOMAIN)"
+
+PHONY += create-new-certs
+create-new-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
+create-new-certs:
+	@$(MAKE) create-custom-certs DOMAIN=$(DOMAIN)
+	$(call step,Create TLS dynamic file ./$(TLS_DYNAMIC_FILE)...)
+	@printf "tls:\n  certificates:\n    - certFile: /ssl/$(DOMAIN).crt\n      keyFile: /ssl/$(DOMAIN).key\n" > $(TLS_DYNAMIC_FILE)
