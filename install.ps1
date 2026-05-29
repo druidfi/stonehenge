@@ -1,8 +1,9 @@
-$REPO_FOLDER=~/stonehenge
-$REPO_URL=https://github.com/druidfi/stonehenge.git
-$REPO_BRANCH=5.x
 $WSL_NAME = $(wsl sh -c 'echo $WSL_DISTRO_NAME')
 $WSL_USER = $(wsl whoami)
+$REPO_FOLDER="/home/$WSL_USER/stonehenge"
+$REPO_URL="https://github.com/druidfi/stonehenge.git"
+$REPO_BRANCH="5.x"
+
 
 # Install needed packages to WSL
 wsl sh -c "sudo apt update && sudo apt upgrade && sudo apt install build-essential"
@@ -11,7 +12,7 @@ wsl sh -c "sudo apt update && sudo apt upgrade && sudo apt install build-essenti
 wsl git clone -b $REPO_BRANCH $REPO_URL $REPO_FOLDER
 
 # Start Stonehenge
-wsl make -s -C ~/stonehenge up
+wsl make -s -C $REPO_FOLDER up
 
 # Import Stonehenge certificate
 Import-Certificate -Filepath \\wsl$\$WSL_NAME\home\$WSL_USER\stonehenge\certs\rootCA.pem -CertStoreLocation cert:\CurrentUser\Root
