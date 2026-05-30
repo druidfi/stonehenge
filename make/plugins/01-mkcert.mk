@@ -97,9 +97,25 @@ create-custom-certs:
 	@test -f $(CERT).crt && echo "Certificates already exist 👍" || \
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.$(DOMAIN)"
 
-PHONY += create-new-certs
-create-new-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
-create-new-certs:
-	@$(MAKE) create-custom-certs DOMAIN=$(DOMAIN)
+PHONY += setup-domain-certs
+setup-domain-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
+setup-domain-certs: $(if $(DOMAIN),create-custom-certs,$(error DOMAIN is required, e.g. make setup-domain-certs DOMAIN=myproject.test))
 	$(call step,Create TLS dynamic file ./$(TLS_DYNAMIC_FILE)...)
-	@printf "tls:\n  certificates:\n    - certFile: /ssl/$(DOMAIN).crt\n      keyFile: /ssl/$(DOMAIN).key\n" > $(TLS_DYNAMIC_FILE)
+	@if [ -f $(TLS_DYNAMIC_FILE) ]; then \
+		grep -qF "certFile: /ssl/$(DOMAIN).crt" $(TLS_DYNAMIC_FILE) && \
+		grep -qF "keyFile: /ssl/$(DOMAIN).key" $(TLS_DYNAMIC_FILE) && \
+		echo "TLS config already exists 👍" || \
+		{ echo "Error: $(TLS_DYNAMIC_FILE) exists but does not match the expected Traefik TLS config. Delete it and rerun setup-domain-certs." >&2; exit 1; }; \
+	else \
+		printf "tls:\n  certificates:\n    - certFile: /ssl/$(DOMAIN).crt\n      keyFile: /ssl/$(DOMAIN).key\n" > $(TLS_DYNAMIC_FILE); \
+	fi
+
+PHONY += teardown-domain-certs
+teardown-domain-certs: CERT := $(SH_CERTS_PATH)/$(DOMAIN)
+teardown-domain-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
+teardown-domain-certs: $(if $(DOMAIN),,$(error DOMAIN is required, e.g. make teardown-domain-certs DOMAIN=myproject.test))
+	$(call step,Remove $(DOMAIN).crt & $(DOMAIN).key from ./$(SH_CERTS_PATH) folder...)
+	@test -f $(CERT).crt && rm -f $(CERT).crt && echo "Certificate removed: $(CERT).crt 👍" || echo "Certificate already absent, skipped: $(CERT).crt"
+	@test -f $(CERT).key && rm -f $(CERT).key && echo "Key removed: $(CERT).key 👍" || echo "Key already absent, skipped: $(CERT).key"
+	$(call step,Remove TLS dynamic file ./$(TLS_DYNAMIC_FILE)...)
+	@test -f $(TLS_DYNAMIC_FILE) && rm -f $(TLS_DYNAMIC_FILE) && echo "TLS config removed: $(TLS_DYNAMIC_FILE) 👍" || echo "TLS config already absent, skipped: $(TLS_DYNAMIC_FILE)"
