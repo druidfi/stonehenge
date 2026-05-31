@@ -98,8 +98,12 @@ create-custom-certs:
 		mkcert -cert-file $(CERT).crt -key-file $(CERT).key "*.$(DOMAIN)"
 
 PHONY += setup-domain-certs
+PHONY += --require-domain
+--require-domain:
+	$(if $(DOMAIN),,$(error DOMAIN is required, e.g. make setup-domain-certs DOMAIN=myproject.test))
+
 setup-domain-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
-setup-domain-certs: $(if $(DOMAIN),create-custom-certs,$(error DOMAIN is required, e.g. make setup-domain-certs DOMAIN=myproject.test))
+setup-domain-certs: --require-domain create-custom-certs
 	$(call step,Create TLS dynamic file ./$(TLS_DYNAMIC_FILE)...)
 	@if [ -f $(TLS_DYNAMIC_FILE) ]; then \
 		grep -qF "certFile: /ssl/$(DOMAIN).crt" $(TLS_DYNAMIC_FILE) && \
@@ -113,7 +117,7 @@ setup-domain-certs: $(if $(DOMAIN),create-custom-certs,$(error DOMAIN is require
 PHONY += teardown-domain-certs
 teardown-domain-certs: CERT := $(SH_CERTS_PATH)/$(DOMAIN)
 teardown-domain-certs: TLS_DYNAMIC_FILE := traefik/dynamic/$(DOMAIN).ssl.yml
-teardown-domain-certs: $(if $(DOMAIN),,$(error DOMAIN is required, e.g. make teardown-domain-certs DOMAIN=myproject.test))
+teardown-domain-certs: --require-domain
 	$(call step,Remove $(DOMAIN).crt & $(DOMAIN).key from ./$(SH_CERTS_PATH) folder...)
 	@test -f $(CERT).crt && rm -f $(CERT).crt && echo "Certificate removed: $(CERT).crt 👍" || echo "Certificate already absent, skipped: $(CERT).crt"
 	@test -f $(CERT).key && rm -f $(CERT).key && echo "Key removed: $(CERT).key 👍" || echo "Key already absent, skipped: $(CERT).key"
