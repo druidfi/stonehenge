@@ -124,11 +124,10 @@ HTTPS_PORT=8443 HTTP_PORT=8080 SMTP_PORT=25 make up
 
 ## Supported operating systems
 
-- macOS Tahoe 26 (M1/M2/M3/M4)
-- macOS Sequoia 15 (M1/M2/M3/M4)
-- macOS Sonoma 14 (M1/M2/M3/M4)
-- macOS Ventura 13 (Intel and M1)
-- macOS Monterey 12 (Intel and M1)
+- macOS 27 Golden Gate (M1/M2/M3/M4)
+- macOS 26 Tahoe (M1/M2/M3/M4)
+- macOS 15 Sequoia (M1/M2/M3/M4)
+- macOS 14 Sonoma (M1/M2/M3/M4)
 - Ubuntu 22.04 LTS
 - Ubuntu 20.04 LTS
 - [Windows 10/11 + WSL2](https://github.com/druidfi/stonehenge/blob/5.x/WSL2.md) (Debian or Ubuntu LTS)
