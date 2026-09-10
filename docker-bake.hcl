@@ -4,6 +4,10 @@ variable "REPO_NAME" {
     default = "ghcr.io/druidfi/stonehenge"
 }
 
+variable "STONEHENGE_TAG" {
+    default = 5.3
+}
+
 group "default" {
     targets = ["traefik"]
 }
@@ -26,5 +30,5 @@ target "common" {
 target "traefik" {
     inherits = ["common"]
     context = "."
-    tags = ["${REPO_NAME}:5", "${REPO_NAME}:5.2", "${REPO_NAME}:latest"]
+    tags = ["${REPO_NAME}:5", "${REPO_NAME}:${STONEHENGE_TAG}", "${REPO_NAME}:latest"]
 }
